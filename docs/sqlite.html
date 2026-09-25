@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Examples · Strut</title>
+<title>SQLite · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -137,35 +137,38 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Examples</h1>
-    <p>Small examples are kept deliberately ordinary. The point is to show how Strut reads in real code rather than compress every language feature into one demonstration.</p>
-    <h2>Hello world</h2>
-    <pre><code class="language-strut">function main() -> void {
-    print("hello, world!");
-    return;
-}</code></pre>
-    <h2>Collections</h2>
-    <pre><code class="language-strut">function main() -> void {
-    int[] values := [1, 2, 3, 4];
-    squares := values.map((x) => x * x);
+    <h1>SQLite</h1>
+    <p>The official SQLite package surface uses the system/native SQLite library rather than embedding SQLite into the Strut compiler or runtime. Connections are deterministic resources and close automatically when their last handle is released, or explicitly with <code>close()</code>.</p>
+    <h2>Open a database</h2>
+    <pre><code class="language-strut">db := sqlite_open("app.db");
+</code></pre>
+    <h2>Execute statements</h2>
+    <p>Parameter arrays are bound through SQLite prepared statements. Prefer parameters over constructing SQL strings manually.</p>
+    <pre><code class="language-strut">db.exec("CREATE TABLE IF NOT EXISTS users(id INTEGER, name TEXT)");
 
-    for (value : squares) {
-        print(value);
-    }
+db.exec(
+    "INSERT INTO users VALUES (?, ?)",
+    json.parse("[1,\"Nick\"]")
+);
+</code></pre>
+    <h2>Query rows</h2>
+    <p><code>query()</code> currently returns a JSON array of row objects, giving a useful dynamic mapping while typed row mapping continues to evolve.</p>
+    <pre><code class="language-strut">rows := db.query(
+    "SELECT id, name FROM users WHERE id = ?",
+    json.parse("[1]")
+);
 
-    return;
-}</code></pre>
-    <h2>JSON configuration</h2>
-    <pre><code class="language-strut">config := {
-    "host": "127.0.0.1",
-    "port": 8080
-};
-
-print(json.pretty(config));</code></pre>
-    <h2>Safe pointers</h2>
-    <pre><code class="language-strut">ptr&lt;int&gt; value := ptr(7);
-ptr&lt;int&gt; copy := value;
-print(*copy);</code></pre>
+print(json.stringify(rows));
+</code></pre>
+    <h2>Transactions</h2>
+    <p>The scoped transaction helper commits when the callback succeeds and rolls back if it throws.</p>
+    <pre><code class="language-strut">db.transaction(() =&gt; {
+    db.exec("UPDATE accounts SET balance = balance - 10 WHERE id = 1");
+    db.exec("UPDATE accounts SET balance = balance + 10 WHERE id = 2");
+});
+</code></pre>
+    <h2>Blocking policy</h2>
+    <p>SQLite calls are blocking. Put database work inside an async task when it should run away from the caller; Strut does not pretend SQLite itself is natively asynchronous.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

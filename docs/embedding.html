@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Examples · Strut</title>
+<title>Embedded Resources · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -137,35 +137,26 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Examples</h1>
-    <p>Small examples are kept deliberately ordinary. The point is to show how Strut reads in real code rather than compress every language feature into one demonstration.</p>
-    <h2>Hello world</h2>
-    <pre><code class="language-strut">function main() -> void {
-    print("hello, world!");
-    return;
-}</code></pre>
-    <h2>Collections</h2>
-    <pre><code class="language-strut">function main() -> void {
-    int[] values := [1, 2, 3, 4];
-    squares := values.map((x) => x * x);
+    <h1>Embedded resources</h1>
+    <p>Strut can compile files and directories into the generated executable. Literal embed paths are read at compile time, so the deployed program does not need the original asset files.</p>
+    <h2>Embed one file</h2>
+    <pre><code class="language-strut">page := embed_file("public/index.html");
+</code></pre>
+    <h2>Embed a directory</h2>
+    <p><code>embed_dir()</code> returns a map from relative paths to embedded byte strings. Files are enumerated in deterministic path order during compilation.</p>
+    <pre><code class="language-strut">assets := embed_dir("public");
+print(assets["app.js"]);
+</code></pre>
+    <h2>Serve embedded assets</h2>
+    <p>The HTTP server can serve an embedded asset map directly. Paths are normalized defensively, traversal attempts are rejected, common MIME types are detected, and responses receive ETag and cache headers.</p>
+    <pre><code class="language-strut">assets := embed_dir("public");
 
-    for (value : squares) {
-        print(value);
-    }
-
-    return;
-}</code></pre>
-    <h2>JSON configuration</h2>
-    <pre><code class="language-strut">config := {
-    "host": "127.0.0.1",
-    "port": 8080
-};
-
-print(json.pretty(config));</code></pre>
-    <h2>Safe pointers</h2>
-    <pre><code class="language-strut">ptr&lt;int&gt; value := ptr(7);
-ptr&lt;int&gt; copy := value;
-print(*copy);</code></pre>
+http_server app := http_server();
+app.static("/", assets, "index.html");
+app.listen("127.0.0.1", 8080);
+</code></pre>
+    <h2>Incremental builds</h2>
+    <p>Embedded files are build dependencies. The planned persistent object build system records them in per-object <code>.strut</code> metadata so changing an embedded asset recompiles only affected objects.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

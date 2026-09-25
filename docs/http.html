@@ -67,7 +67,9 @@
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
-            <a href="./http.html">HTTP client</a>
+            <a href="./http.html">HTTP</a>
+            <a href="./sqlite.html">SQLite</a>
+            <a href="./embedding.html">Embedded resources</a>
             <a href="./linking.html">Linking & FFI</a>
             <a href="./packages.html">Packages</a>
           </div>
@@ -118,7 +120,9 @@
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
-          <a href="./http.html">HTTP client</a>
+          <a href="./http.html">HTTP</a>
+          <a href="./sqlite.html">SQLite</a>
+          <a href="./embedding.html">Embedded resources</a>
           <a href="./linking.html">Linking & FFI</a>
           <a href="./packages.html">Packages</a>
         </div>
@@ -163,7 +167,28 @@ response := await pending;</code></pre>
     <h2>Streaming policy</h2>
     <p>CP76 buffers response bodies. A public streaming response API is deliberately deferred rather than exposing libcurl callbacks as language API prematurely.</p>
     <h2>TLS server note</h2>
-    <p>Client TLS is backed by libcurl. HTTPS server support is not yet implemented because Strut will not silently add another embedded TLS dependency; server-side TLS needs an explicitly approved backend.</p>
+    <p>Client TLS is backed by libcurl. OpenSSL is approved as Strut's server-side TLS backend, but HTTPS server support is not implemented yet; the plain HTTP server remains the current CP77 surface.</p>
+    <h2>HTTP server</h2>
+    <p>Strut's server API is built on the cross-platform TCP substrate. Routes support path parameters, query values, headers, request bodies, JSON parsing, and synchronous or async handlers.</p>
+    <pre><code class="language-strut">function main() -&gt; void : NetworkError {
+    http_server app := http_server();
+
+    app.get("/hello/:name", (http_request req) =&gt; {
+        name := req.params["name"];
+        return http_text("hello " + name);
+    });
+
+    app.listen("127.0.0.1", 8080);
+    return;
+}</code></pre>
+    <h2>Async handlers</h2>
+    <p>Use <code>get_async</code> or <code>post_async</code> when a handler performs async work. The server awaits the returned Strut future before writing the response.</p>
+    <pre><code class="language-strut">app.get_async("/api/items", async (http_request req) =&gt; {
+    data := await load_items();
+    return http_json_response(data);
+});</code></pre>
+    <h2>Request data</h2>
+    <p><code>http_request</code> exposes <code>method</code>, <code>path</code>, <code>headers</code>, <code>query</code>, <code>params</code>, and <code>body</code>. <code>req.json()</code> parses the request body with JSONIC.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
