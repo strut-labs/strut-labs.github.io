@@ -128,19 +128,21 @@
   </aside>
   <article class="docs-content">
     <h1>Structs</h1>
-    <p>Fields, construction, inline methods and out-of-struct method definitions are implemented.</p>
-    <pre><code>struct User {
-    int id;
+    <p>Fields, construction, inline methods, out-of-struct method definitions, abstract contracts and restricted inheritance are implemented.</p>
+    <pre><code>struct Printable {
+    function text() -&gt; string;
+}
+
+struct Named {
     string name;
-    function display_name() -&gt; string;
 }
 
-function User::display_name() -&gt; string {
-    return name;
-}
-
-user := User { id: 7, name: "Nick" };</code></pre>
-    <p>Fields and methods are public by default and field layout follows source declaration order. Abstract contracts and inheritance remain later design/implementation work.</p>
+struct User : Named, Printable {
+    function text() -&gt; string {
+        return name;
+    }
+}</code></pre>
+    <p>A struct with unsatisfied method declarations is abstract and cannot be instantiated. Strut currently permits one data-bearing base plus additional contract-style bases; multiple data-bearing bases are rejected to avoid C++-style diamond/layout complexity.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

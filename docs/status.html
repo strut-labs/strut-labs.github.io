@@ -129,21 +129,20 @@
   <article class="docs-content">
     <h1>Implementation status</h1>
     <p>The docs distinguish the Strut language contract from compiler support. Planned syntax is useful for design review, but it must not be mistaken for a feature that already compiles.</p>
-    <h2>Implemented through CP39</h2>
+    <h2>Implemented through CP49</h2>
     <ul>
       <li>Portable C++17/CMake bootstrap with GCC and Clang warnings-as-errors certification; Linux, macOS and Windows remain first-class architectural targets.</li>
       <li>Lexer, parser, semantic analysis, typed source-mapped IR and native executable generation through a backend boundary.</li>
       <li><code>strut file.p</code>, deterministic output naming, <code>-o</code>, <code>--check</code> and token dumping.</li>
       <li>Primitive width types and aliases, <code>:=</code> inference, explicit typing, <code>const</code>, arrays, maps, strings, JSONIC-backed <code>json</code> and structs.</li>
-      <li>Nullable <code>T?</code>, <code>?.</code>, <code>??</code> and flow narrowing after null checks.</li>
-      <li>First-class named functions, typed function values, generic lambdas and escaping closures with value captures.</li>
-      <li>Higher-order collection helpers including map/filter/reduce/find/count/sort plus <code>count_by</code>, <code>index_by</code> and <code>partition</code>.</li>
-      <li>No-GC memory prototype: reference-counted <code>ptr&lt;T&gt;</code>, independent referent/binding constness, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code> and cycle warnings.</li>
-      <li><code>unsafe</code> and unmanaged <code>raw_ptr&lt;T&gt;</code>, with raw dereference/arithmetic prohibited outside unsafe blocks.</li>
+      <li>First-class named functions, lambdas/closures, higher-order collection helpers, generic functions and generic structs.</li>
+      <li>No-GC memory model prototype with reference-counted <code>ptr&lt;T&gt;</code>, <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, <code>unsafe</code> and <code>raw_ptr&lt;T&gt;</code>; sanitizer builds are supported.</li>
+      <li>Semantic local includes, package-include syntax, abstract struct contracts and one concrete/data-bearing base plus multiple contract bases.</li>
+      <li>Integer-backed enums with explicit values, non-fallthrough <code>switch</code>, exhaustive enum <code>match</code>, checked error signatures and checked throw propagation.</li>
       <li>Independent black-box regression suite exercises compiler failures and generated native programs.</li>
     </ul>
     <h2>Next</h2>
-    <p>CP40 is the first dedicated memory-safety certification pass: hostile lifetime cases, weak upgrades, double-destruction attempts, iterator invalidation and sanitizer/Valgrind checks.</p>
+    <p>CP50 adds <code>try</code>/<code>catch</code>, including typed catches and a final catch-all arm that discharges checked errors within the protected region.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

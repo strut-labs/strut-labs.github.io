@@ -127,9 +127,12 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Packages</h1><p>The standard library should stay focused. A curated <code>strut-packages</code> GitHub organisation is planned for capabilities such as HTTP, TLS, SQLite, PostgreSQL and WebSockets.</p><pre><code>include &lt;http&gt;
-include &lt;sqlite&gt;
-include "auth.h"</code></pre><p>Package inclusion uses modern module semantics rather than C preprocessor text substitution.</p>
+    <h1>Includes and packages</h1>
+    <p>Local source dependencies use quoted semantic includes. They are loaded once and are not textual preprocessor substitution.</p>
+    <pre><code>include "user.h";</code></pre>
+    <p>Package includes use angle brackets:</p>
+    <pre><code>include &lt;http&gt;;</code></pre>
+    <p>The syntax and namespace distinction are implemented. Package manifests, fetching, caches and the dedicated package ecosystem arrive in later checkpoints; package includes do not silently fetch or vendor dependencies today.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
