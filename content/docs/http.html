@@ -1,0 +1,31 @@
+<h1>HTTP client</h1>
+<p>The official HTTP client uses libcurl, keeps TLS certificate and hostname verification enabled, follows redirects by default, and integrates with Strut's JSON and async facilities.</p>
+<h2>GET request</h2>
+<pre><code class="language-strut">function main() -&gt; void : HttpError {
+    response := http_get("https://example.com/api/status");
+    print(response.status);
+    print(response.body);
+    return;
+}</code></pre>
+<h2>JSON response</h2>
+<pre><code class="language-strut">function main() -&gt; void : HttpError {
+    body := http_get_json("https://example.com/api/user");
+    print(body["name"]);
+    return;
+}</code></pre>
+<h2>Custom requests</h2>
+<p><code>http_request</code> accepts a method, URL, and JSON options object for headers, request bodies, timeouts, and redirect policy.</p>
+<pre><code class="language-strut">options := {
+    "headers": {"Authorization": "Bearer token"},
+    "body": {"name": "Nick"},
+    "timeout_ms": 5000,
+    "follow_redirects": true
+};
+response := http_request("POST", "https://example.com/api/users", options);</code></pre>
+<h2>Async requests</h2>
+<pre><code class="language-strut">pending := http_get_async("https://example.com/api/status");
+response := await pending;</code></pre>
+<h2>Streaming policy</h2>
+<p>CP76 buffers response bodies. A public streaming response API is deliberately deferred rather than exposing libcurl callbacks as language API prematurely.</p>
+<h2>TLS server note</h2>
+<p>Client TLS is backed by libcurl. HTTPS server support is not yet implemented because Strut will not silently add another embedded TLS dependency; server-side TLS needs an explicitly approved backend.</p>

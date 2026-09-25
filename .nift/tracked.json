@@ -116,6 +116,16 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/networking",
+      "title": "Networking",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/http",
+      "title": "HTTP Client",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "404",
       "title": "Page Not Found",
       "template": "templates/404.html"
