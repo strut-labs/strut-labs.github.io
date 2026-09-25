@@ -128,17 +128,21 @@
   <article class="docs-content">
     <h1>Implementation status</h1>
     <p>The docs distinguish the Strut language contract from compiler support. Planned syntax is useful for design review, but it must not be mistaken for a feature that already compiles.</p>
-    <h2>Implemented</h2>
+    <h2>Implemented through CP19</h2>
     <ul>
-      <li>Portable C++20/CMake bootstrap project.</li>
-      <li><code>strut --help</code> and <code>strut --version</code>, including JSONIC-backed machine-readable version metadata.</li>
-      <li>Independent black-box regression harness with self-certification.</li>
-      <li>Cross-platform architecture contract for Linux, macOS, and Windows.</li>
-      <li><code>.p</code>/<code>.h</code> source loading, source spans, comments, identifiers, keywords, punctuation and the fixed lexical operator spellings.</li>
-      <li>Primitive lexer support for decimal integers, floating/exponent literals, escaped strings, booleans and <code>null</code>, with malformed-literal diagnostics.</li>
+      <li>Portable C++20/CMake bootstrap project with Linux, macOS and Windows kept as architectural targets.</li>
+      <li><code>strut --help</code>, <code>--version</code>, token dumping and parse/semantic <code>--check</code> workflow.</li>
+      <li>JSONIC-backed machine-readable compiler metadata.</li>
+      <li>Independent black-box regression harness.</li>
+      <li><code>.p</code>/<code>.h</code> source loading, source spans, comments, identifiers, keywords, operators and primitive literals.</li>
+      <li>Declarations, assignment, mandatory semicolons, expression precedence, member/index syntax, compound assignment and increment/decrement parsing.</li>
+      <li><code>if</code>/<code>else</code>, <code>while</code>, C-style <code>for</code>, and <code>for (item : items)</code>.</li>
+      <li>Named functions, explicit return types, out-of-struct method definitions, <code>[T]</code> generic declarations, lambdas and function-value types.</li>
+      <li>Stable source-located diagnostics, lexical scopes, duplicate-definition checks and separate value/function/type namespaces.</li>
+      <li><code>int_*</code>, <code>uint_*</code>, <code>double_*</code>, ordinary type aliases including <code>int</code>/<code>uint</code>/<code>double</code>, primitive type inference, compatibility checking and <code>const</code> enforcement.</li>
     </ul>
     <h2>Next</h2>
-    <p>CP10 is complete: the parser now accepts inferred and typed <code>:=</code> declarations, ordinary <code>=</code> assignment, <code>const</code> declarations, and mandatory semicolons. CP11 adds the full expression/operator grammar. CP12 now also parses <code>if</code>/<code>else</code>, <code>while</code>, C-style <code>for</code>, and <code>for (item : items)</code>. CP17–CP18 add the explicit-width numeric family and type aliases, including <code>int</code>/<code>uint</code>/<code>double</code> as ordinary aliases. Later language pages currently describe planned behaviour.</p>
+    <p>CP20 introduces the typed IR and a documented backend contract. Later language pages describe the current design contract and remain planned until their implementation checkpoints are completed.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
