@@ -1,5 +1,5 @@
 <h1>Async</h1>
-<p>Strut supports async functions, futures, <code>await</code>, and async lambdas. The current bootstrap uses native asynchronous tasks; the dedicated multithreaded Strut executor is the next concurrency checkpoint.</p>
+<p>Strut supports async functions, futures, <code>await</code>, and async lambdas. Async functions and async lambdas run on Strut's shared multithreaded executor. Independent ready tasks can execute concurrently across worker threads.</p>
 <h2>Async functions</h2>
 <p>Prefix a function declaration with <code>async</code>. Calling it returns a future for the declared result type.</p>
 <pre><code class="language-strut">async function answer() -> int {
@@ -22,3 +22,7 @@
 };</code></pre>
 <h2>Error propagation</h2>
 <p>Errors raised by asynchronous work are retained by the future and surface when the result is awaited.</p>
+
+<h2>Executor behaviour</h2>
+<p>The executor owns a pool of native worker threads and wakes workers as tasks become ready. <code>await</code> retrieves a future result and rethrows asynchronous failures on the awaiting thread.</p>
+<p>Long-running blocking work can occupy an executor worker, so explicitly blocking workloads should use Strut's thread/process facilities or dedicated blocking APIs rather than relying on async as a disguise for blocking work.</p>
