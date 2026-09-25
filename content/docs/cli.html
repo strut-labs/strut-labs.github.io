@@ -8,6 +8,9 @@
 <pre><code class="language-bash">strut --check hello.p</code></pre>
 <h2>Inspect tokens</h2>
 <pre><code class="language-bash">strut --tokens hello.p</code></pre>
+<h2>Initialise project build state</h2>
+<p><code>strut init</code> creates <code>.strut/config.json</code> without replacing an existing configuration. The file contains machine/project build settings such as the entrypoint, output path, target, build mode, linking default, and incremental mode. Generated object and dependency metadata elsewhere under <code>.strut/</code> should not be source-controlled.</p>
+<pre><code class="language-bash">strut init</code></pre>
 <h2>Project compilation</h2>
 <p>The project-level workflow is planned around <code>strut make</code>, keeping the single-file path short while still supporting packages, linking modes, and cross-platform builds.</p>
 <pre><code class="language-bash">strut make</code></pre>
