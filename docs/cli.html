@@ -138,29 +138,89 @@
   </aside>
   <article class="docs-content">
     <h1>CLI</h1>
-    <p>The primary single-file workflow is intentionally direct: pass a Strut source file to <code>strut</code> and receive a native executable.</p>
+    <p>Strut keeps the common path short: compile one file by passing it directly to <code>strut</code>, or initialise a project when you want persistent configuration, incremental object builds, tests, packages, and formatter workflows.</p>
+    
     <h2>Compile one file</h2>
+    <p>The source filename is enough for the ordinary case. Strut writes a native executable beside the source using the source stem as its name.</p>
     <pre><code class="language-bash">strut hello.p</code></pre>
-    <h2>Choose output path</h2>
-    <pre><code class="language-bash">strut hello.p -o hello</code></pre>
-    <h2>Check without producing an executable</h2>
+    
+    <h3>Choose the output path</h3>
+    <pre><code class="language-bash">strut hello.p -o bin/hello</code></pre>
+    
+    <h3>Explicit compile command</h3>
+    <p><code>compile</code> is available when a command-shaped invocation is clearer in scripts, but it does not represent a separate compilation mode.</p>
+    <pre><code class="language-bash">strut compile hello.p -o bin/hello</code></pre>
+    
+    <h2>Check source without linking</h2>
+    <p><code>--check</code> runs the front end and semantic checks without generating a native executable.</p>
     <pre><code class="language-bash">strut --check hello.p</code></pre>
-    <h2>Inspect tokens</h2>
-    <pre><code class="language-bash">strut --tokens hello.p</code></pre>
-    <h2>Initialise project build state</h2>
-    <p><code>strut init</code> creates <code>.strut/config.json</code> without replacing an existing configuration. The file contains machine/project build settings such as the entrypoint, output path, target, build mode, linking default, and incremental mode. Generated object and dependency metadata elsewhere under <code>.strut/</code> should not be source-controlled.</p>
+    
+    <h2>Inspect lexer output</h2>
+    <pre><code class="language-bash">strut --dump-tokens hello.p</code></pre>
+    
+    <h2>Initialise a project</h2>
+    <p><code>strut init</code> creates <code>.strut/config.json</code> without replacing an existing configuration. It records the entrypoint, output, target, default build mode, linking mode, and incremental strategy.</p>
     <pre><code class="language-bash">strut init</code></pre>
-    <h2>Persistent native objects</h2>
-    <p>When a source file is the configured project entrypoint, Strut separates native compilation from linking and stores the native object under <code>.strut/obj/&lt;target&gt;/&lt;mode&gt;/</code>. Generated C++ used by the bootstrap backend is kept under <code>.strut/gen/</code> for diagnostics. Removing these directories is always a safe clean rebuild path.</p>
-    <h2>Dependency metadata</h2>
-    <p>After a successful object build, Strut writes <code>.strut/info/&lt;target&gt;/&lt;mode&gt;/&lt;unit&gt;.info.json</code>. It records the source, object, local and package dependencies, compiler version, target, mode, and build fingerprint. Metadata is written only after the corresponding object file succeeds.</p>
-    <h2>Incremental rebuilds</h2>
-    <p>Strut compares each dependency recorded in a unit’s <code>.info.json</code> with the metadata timestamp. Missing objects/metadata, malformed metadata, changed dependency graphs, changed build fingerprints, missing dependencies, and dependency mtimes equal to or newer than the metadata force recompilation. Equal timestamps are deliberately treated as potentially stale, matching Nift’s conservative modified-mode rule.</p>
-    <p>Use <code>--verbose</code> to see whether an object is reused or why it is rebuilt.</p>
-    <pre><code class="language-bash">strut src/main.p -o app --verbose</code></pre>
-    <h2>Project compilation</h2>
-    <p>The project-level workflow is planned around <code>strut make</code>, keeping the single-file path short while still supporting packages, linking modes, and cross-platform builds.</p>
+    
+    <h3>Example configuration</h3>
+    <pre><code class="language-json">{
+  "entrypoint": "src/main.p",
+  "output": "app",
+  "target": "native",
+  "mode": "debug",
+  "linking": "dynamic",
+  "incremental": "modified"
+}</code></pre>
+    
+    <h2>Build a project</h2>
+    <p><code>strut make</code> discovers the project root, loads <code>.strut/config.json</code>, builds the configured entrypoint and semantic dependencies, and reuses current native objects.</p>
     <pre><code class="language-bash">strut make</code></pre>
+    
+    <h3>Release project build</h3>
+    <pre><code class="language-bash">strut make --release</code></pre>
+    
+    <h3>Explain rebuild decisions</h3>
+    <pre><code class="language-bash">strut make --verbose</code></pre>
+    
+    <h2>Incremental native objects</h2>
+    <p>Objects live under <code>.strut/obj/&lt;target&gt;/&lt;mode&gt;/</code>. Generated bootstrap C++ is kept separately under <code>.strut/gen/</code>, while <code>.strut/info/</code> stores one JSON metadata file per object.</p>
+    <p>The metadata records the source, object, local/package dependencies, embedded resources, compiler version, target, mode, and build fingerprint. A unit is rebuilt when an object or metadata file is missing, metadata is invalid, its dependency graph changes, its build fingerprint changes, or a dependency timestamp is equal to or newer than the metadata timestamp. Equal timestamps are deliberately conservative so coarse filesystems do not hide edits.</p>
+    
+    <h2>Run tests</h2>
+    <p>The first native test convention is deliberately small: Strut discovers <code>tests/**/*_test.p</code>, builds each test as a normal native Strut program, and considers exit code zero a pass. Tests run in deterministic path order and sequentially by default.</p>
+    <pre><code class="language-bash">strut test</code></pre>
+    
+    <h3>Filter tests</h3>
+    <p>The optional filter is a substring matched against each discovered test path.</p>
+    <pre><code class="language-bash">strut test parser</code></pre>
+    
+    <h2>Format source</h2>
+    <p><code>strut fmt</code> applies Strut's canonical indentation and type spelling while preserving comments. The formatter only accepts syntactically valid source; it does not silently repair missing mandatory semicolons.</p>
+    <pre><code class="language-bash">strut fmt</code></pre>
+    
+    <h3>Format one path</h3>
+    <pre><code class="language-bash">strut fmt src/main.p</code></pre>
+    
+    <h3>Check formatting without writing</h3>
+    <pre><code class="language-bash">strut fmt --check</code></pre>
+    
+    <h2>Packages</h2>
+    <pre><code class="language-bash">strut add ../my-package
+strut list
+strut install
+strut remove my-package</code></pre>
+    
+    <h2>Command help</h2>
+    <pre><code class="language-bash">strut help
+strut help make
+strut test --help</code></pre>
+    
+    <h2>Exit codes</h2>
+    <table><thead><tr><th>Code</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><code>0</code></td><td>The requested command completed successfully.</td></tr>
+    <tr><td><code>1</code></td><td>Compilation, build, formatting check, or test execution failed.</td></tr>
+    <tr><td><code>2</code></td><td>The command line or project configuration was invalid.</td></tr>
+    </tbody></table>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

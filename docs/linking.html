@@ -151,7 +151,7 @@
 macOS:   libexample.a / libexample.dylib
 Windows: example.lib / example.dll</code></pre>
     <p>On platforms where a linker cannot force static selection by library name, pass the exact static archive path instead. Strut does not silently substitute a different link mode.</p>
-    <p class="status-note">Only JSONIC and libcurl are pre-approved embedded third-party dependencies. Additional vendored libraries require an explicit design decision.</p>
+    <p class="status-note">JSONIC, libcurl, and OpenSSL are the currently approved embedded third-party dependencies. Additional vendored libraries require an explicit design decision.</p>
     <h2>C ABI declarations</h2>
     <p>Declare a C ABI function with <code>extern "C"</code>. Primitive values, Strut structs with ABI-compatible layouts, and <code>raw_ptr&lt;T&gt;</code> map directly onto native C-compatible representations.</p>
     <pre><code class="language-strut">extern "C" function c_add(int a, int b) -> int;
