@@ -24,3 +24,15 @@ function main() -> void {
     return;
 }</code></pre>
 <p>The compiler rejects calls to an <code>extern "C"</code> function outside an <code>unsafe</code> block so native code cannot silently bypass Strut's safety model.</p>
+
+<h2>Final executable mode</h2>
+<p>Choose whether the final executable should use the platform's normal dynamic runtime model or request a fully static link where the operating system/toolchain supports one.</p>
+<pre><code class="language-bash">strut app.p --dynamic
+strut app.p --static</code></pre>
+<p>Linux toolchains can commonly produce fully static executables when all required static libraries are installed. The default macOS toolchain does not provide a fully static system executable model, so Strut reports that request instead of silently producing something else. On MSVC, the static/dynamic final mode selects the corresponding C/C++ runtime linkage.</p>
+<h2>Release linking</h2>
+<p><code>--release</code> enables optimisation and asks the platform linker to discard unreachable sections and strip nonessential symbols where supported.</p>
+<pre><code class="language-bash">strut app.p --release --dynamic
+strut app.p --release --static-lib core --dynamic-lib plugin</code></pre>
+<h2>Runtime library lookup</h2>
+<p>Dynamically linked libraries are located by the operating system loader. Use the platform's normal install names/search paths (for example rpath/install-name configuration or system/package installation) rather than assuming Strut bundles arbitrary shared libraries automatically.</p>
