@@ -159,6 +159,16 @@
       "name": "docs/performance",
       "title": "Performance",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/security",
+      "title": "Security",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/compatibility",
+      "title": "Compatibility",
+      "template": "templates/docs.html"
     }
   ]
 }

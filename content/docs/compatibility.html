@@ -1,0 +1,10 @@
+<h1>Compatibility & versioning</h1>
+<p>Strut uses semantic versioning for compiler releases. The language is still pre-1.0, so deliberate source changes may occur while the design is being hardened; they must be documented and covered by regressions.</p>
+<h2>After 1.0</h2>
+<ul><li>patch releases do not intentionally break valid source or package contracts;</li><li>minor releases add backwards-compatible features;</li><li>major releases are required for deliberate backwards-incompatible language changes.</li></ul>
+<h2>Deprecation</h2>
+<p>After 1.0, public behaviour should normally receive a deprecation period with a clear diagnostic before removal in a later major release. Security defects may require faster changes and must be documented.</p>
+<h2>Packages and locks</h2>
+<p>Packages use semantic versions. Lockfiles record exact versions/revisions/checksums so locked builds do not silently change dependency contents.</p>
+<h2>Build metadata</h2>
+<p><code>.strut</code> object metadata is a cache format rather than a permanent interchange format. An incompatible compiler may invalidate it and perform a clean rebuild.</p>
