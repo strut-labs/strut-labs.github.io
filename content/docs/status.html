@@ -1,10 +1,10 @@
 <h1>Implementation status</h1>
 <p>The docs distinguish the Strut language contract from compiler support. Planned syntax is useful for design review, but it must not be mistaken for a feature that already compiles.</p>
-<h2>Implemented through CP29</h2>
+<h2>Implemented through CP30</h2>
 <ul>
-  <li>Portable C++20/CMake bootstrap with GCC and Clang warnings-as-errors certification; Linux, macOS and Windows remain first-class architectural targets.</li>
+  <li>Portable C++17/CMake bootstrap with GCC and Clang warnings-as-errors certification; Linux, macOS and Windows remain first-class architectural targets.</li>
   <li>Lexer, parser, semantic analysis, typed source-mapped IR, and a backend boundary separated from syntax.</li>
-  <li>Native executable generation via the C++20 backend, including calls, returns, arithmetic, control flow and <code>print(...)</code>.</li>
+  <li>Native executable generation via the C++17 backend, including calls, returns, arithmetic, control flow and <code>print(...)</code>.</li>
   <li><code>strut file.p</code> compilation, deterministic output naming, <code>-o</code>, plus <code>--check</code> and token-dump workflows.</li>
   <li>Primitive width types and aliases, <code>:=</code> inference, explicit typing, widening checks and <code>const</code>.</li>
   <li>Dynamic <code>T[]</code> and fixed <code>T[n]</code> arrays with bounds-safe indexing and iteration.</li>
@@ -13,6 +13,7 @@
   <li>Built-in <code>json</code> backed by JSONIC: object/array values, navigation, structural equality, parse, stringify, pretty output and encode groundwork.</li>
   <li>Struct fields, <code>Type { field: value }</code> construction, inline methods and <code>Type::method</code> definitions.</li>
   <li>Independent black-box regression suite covering compiler failures and generated native programs.</li>
+<li>Nullable <code>T?</code> values, <code>?.</code>, <code>??</code>, null-check flow narrowing and unsafe nullable-member diagnostics.</li>
 </ul>
 <h2>Next</h2>
-<p>CP30 begins nullability: <code>T?</code>, nullable assignment rules, safe access, defaulting, flow narrowing and safe dereference diagnostics.</p>
+<p>CP31 begins first-class named functions.</p>

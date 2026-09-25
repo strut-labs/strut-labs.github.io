@@ -1,3 +1,4 @@
 <h1>Types</h1><p>Default numeric names are ordinary aliases rather than privileged compiler-only spellings.</p><pre><code>type int := int_32;
 type uint := uint_32;
 type double := double_32;</code></pre><p>Explicit widths include <code>int_8</code> through <code>int_64</code>, unsigned equivalents, and <code>double_32</code>/<code>double_64</code>.</p><p>Dynamic arrays use <code>T[]</code>; fixed arrays use <code>T[n]</code>. Maps use <code>map&lt;K,V&gt;</code>, <code>json</code> is a built-in type, and user structs are now compiled types.</p><p><code>:=</code> performs type inference, explicit numeric annotations are compatibility-checked, widening conversions are supported, and <code>const</code> assignment is rejected.</p>
+<h2>Nullability</h2><p>Nullable values use <code>T?</code>. Safe member access uses <code>?.</code>, fallback/defaulting uses <code>??</code>, and a successful <code>value != null</code> check narrows the value inside the guarded branch.</p>
