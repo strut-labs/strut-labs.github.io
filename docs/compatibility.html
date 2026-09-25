@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Packages · Strut</title>
+<title>Compatibility · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -147,51 +147,16 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Packages</h1>
-    <p>Strut aims for a deliberately small standard library and a curated package ecosystem. Package includes use angle brackets; local project headers use quotes.</p>
-    <h2>Package include</h2>
-    <pre><code class="language-strut">include &lt;http&gt;;
-include &lt;sqlite&gt;;</code></pre>
-    <h2>Local include</h2>
-    <pre><code class="language-strut">include "auth.h";
-include "models/user.h";</code></pre>
-    <h2>Package direction</h2>
-    <p>Official packages are intended to live under a dedicated Strut packages organisation. HTTP, SQLite, PostgreSQL, TLS, and WebSocket support are examples of functionality that can evolve independently from the language runtime.</p>
-    <p>Core facilities that directly define the language experience—such as strings, collections, JSON, basic IO, process execution, and concurrency primitives—remain available without turning every small program into a dependency-management exercise.</p>
-    <h2>Project manifest</h2>
-    <p>Strut projects and packages use a JSON <code>strut.json</code> manifest. JSONIC is used by the bootstrap compiler to parse and validate the format.</p>
-    <pre><code class="language-json">{
-  "name": "todo-service",
-  "version": "0.1.0",
-  "entry": "src/main.p",
-  "dependencies": {
-    "http": "^0.2.0",
-    "sqlite": "~0.3.1"
-  }
-}</code></pre>
-    <h2>Version requirements</h2>
-    <p>Initial requirements deliberately stay small: exact <code>1.2.3</code>, compatible <code>^1.2.3</code>, patch-compatible <code>~1.2.3</code>, and <code>*</code>. Floating labels such as <code>latest</code> are not part of the reproducible package contract.</p>
-    <h2>Lockfile</h2>
-    <p><code>strut.lock.json</code> records exact versions, immutable source revisions, content checksums, and transitive dependency edges. Normal builds consume the lock without silently upgrading dependencies.</p>
-    <h2>Shared cache</h2>
-    <p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
-    
-    <h2>Package CLI</h2>
-    <p>The current package CLI supports deterministic local/cache workflows. Strut now has an HTTP client, but remote package fetching is intentionally still separate from the package resolver until its registry/security contract is designed.</p>
-    <pre><code class="language-bash">strut add ../http
-strut list
-strut install
-strut remove http</code></pre>
-    <p><code>include &lt;name&gt;</code> resolves the package entry declared by the cached version selected from the project manifest. <code>include &lt;name/path.h&gt;</code> resolves an explicit package file.</p>
-    <h2>Authoring a package</h2>
-    <p>An official-style package has a <code>strut.json</code> manifest, a declared entry header, source/header files, tests, and documentation. Package paths are validated so metadata cannot escape the package root.</p>
-    <pre><code class="language-json">{
-  "name": "example",
-  "version": "0.1.0",
-  "include": "include/example.h"
-}</code></pre>
-    <h3>Dogfood workflow</h3>
-    <p>The repository includes clean-environment package dogfood fixtures. They initialise a fresh project, add local packages, install them into an isolated shared cache, resolve <code>include &lt;package&gt;</code>, compile the application, and execute it.</p>
+    <h1>Compatibility & versioning</h1>
+    <p>Strut uses semantic versioning for compiler releases. The language is still pre-1.0, so deliberate source changes may occur while the design is being hardened; they must be documented and covered by regressions.</p>
+    <h2>After 1.0</h2>
+    <ul><li>patch releases do not intentionally break valid source or package contracts;</li><li>minor releases add backwards-compatible features;</li><li>major releases are required for deliberate backwards-incompatible language changes.</li></ul>
+    <h2>Deprecation</h2>
+    <p>After 1.0, public behaviour should normally receive a deprecation period with a clear diagnostic before removal in a later major release. Security defects may require faster changes and must be documented.</p>
+    <h2>Packages and locks</h2>
+    <p>Packages use semantic versions. Lockfiles record exact versions/revisions/checksums so locked builds do not silently change dependency contents.</p>
+    <h2>Build metadata</h2>
+    <p><code>.strut</code> object metadata is a cache format rather than a permanent interchange format. An incompatible compiler may invalidate it and perform a clean rebuild.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
