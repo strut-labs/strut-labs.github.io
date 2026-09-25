@@ -1,13 +1,10 @@
-<h1>Errors</h1><p>Thrown error types are part of a function's visible signature.</p><pre><code>function load(string path) -&gt; Config : (IOError, ParseError) {
-    ...
+<h1>Errors</h1>
+<p>Checked error signatures and <code>throw</code> are implemented. A function lists the checked errors it may propagate after its return type.</p>
+<pre><code>function load(string path) -&gt; Config : IOError {
+    throw IOError("failed to read config");
 }
 
-try {
-    config := load(path);
-}
-catch (IOError err) {
-    ...
-}
-catch {
-    ...
+function parse(string path) -&gt; Config : (IOError, ParseError) {
+    return load(path);
 }</code></pre>
+<p>Calling a function that may throw a checked error requires the current function to declare that error until it is handled. Typed <code>try</code>/<code>catch</code> handling is the next checkpoint.</p>
