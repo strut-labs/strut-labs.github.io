@@ -130,19 +130,29 @@
   </aside>
   <article class="docs-content">
     <h1>Async</h1>
-    <p>Async/await is intended to provide structured asynchronous code backed by a genuinely multithreaded runtime where useful.</p>
+    <p>Strut supports async functions, futures, <code>await</code>, and async lambdas. The current bootstrap uses native asynchronous tasks; the dedicated multithreaded Strut executor is the next concurrency checkpoint.</p>
     <h2>Async functions</h2>
-    <pre><code class="language-strut">async function fetch_user(int id) -> User {
-    response := await http.get("/users/" + to_string(id));
-    return await response.json&lt;User&gt;();
+    <p>Prefix a function declaration with <code>async</code>. Calling it returns a future for the declared result type.</p>
+    <pre><code class="language-strut">async function answer() -> int {
+    return 42;
+}</code></pre>
+    <h2>Awaiting a result</h2>
+    <pre><code class="language-strut">function main() -> void {
+    pending := answer();
+    value := await pending;
+    print(value);
+    return;
 }</code></pre>
     <h2>Async lambdas</h2>
-    <pre><code class="language-strut">handler := async (request) => {
-    return await process(request);
+    <p>Async lambdas use the same lambda syntax with an <code>async</code> prefix.</p>
+    <pre><code class="language-strut">add := async (int x, int y) => x + y;</code></pre>
+    <h2>Async block lambdas</h2>
+    <pre><code class="language-strut">load := async (string path) => {
+    print("loading " + path);
+    return path;
 };</code></pre>
-    <h2>Single-expression async lambda</h2>
-    <pre><code class="language-strut">load := async (url) => await http.get(url);</code></pre>
-    <p class="status-note">The parser recognises async lambda syntax, while the runtime executor arrives in a later concurrency phase.</p>
+    <h2>Error propagation</h2>
+    <p>Errors raised by asynchronous work are retained by the future and surface when the result is awaited.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
