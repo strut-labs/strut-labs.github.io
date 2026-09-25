@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Streams · Strut</title>
+<title>Editor & LSP · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -143,50 +143,16 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Streams</h1>
-    <p>Strut keeps the useful C++ stream model while using clearer standard stream names: <code>in</code>, <code>out</code>, and <code>err</code>. File streams are deterministic resources and support both construction with a path and explicit <code>.open()</code>/<code>.close()</code>.</p>
-    <h2>Standard output</h2>
-    <pre><code class="language-strut">out &lt;&lt; "hello, world!" &lt;&lt; endl;</code></pre>
-    <h2>Standard error</h2>
-    <pre><code class="language-strut">err &lt;&lt; "could not open file" &lt;&lt; endl;</code></pre>
-    <h2>Standard input</h2>
-    <pre><code class="language-strut">string name;
-in >> name;</code></pre>
-    <h2>Output files</h2>
-    <pre><code class="language-strut">ofstream ofs("report.txt");
-ofs &lt;&lt; "hello" &lt;&lt; endl;
-ofs.close();</code></pre>
-    <h3>Open later</h3>
-    <pre><code class="language-strut">ofstream ofs;
-ofs.open("report.txt");
-ofs &lt;&lt; "ready" &lt;&lt; endl;
-ofs.close();</code></pre>
-    <h2>Input files</h2>
-    <pre><code class="language-strut">ifstream ifs("data.txt");
-string value;
-ifs >> value;
-ifs.close();</code></pre>
-    <h2>String streams</h2>
-    <pre><code class="language-strut">sstream ss;
-ss &lt;&lt; "count=" &lt;&lt; count;
-text := ss.str();</code></pre>
-    <h2>Convenience functions</h2>
-    <p>Streams do not replace the short common-case helpers.</p>
-    <pre><code class="language-strut">print("hello");
-name := input();
-input(name);</code></pre>
-    <h2>User-defined stream insertion</h2>
-    <p><code>&lt;&lt;</code> and <code>&gt;&gt;</code> use Strut's ordinary operator-overload machinery. A type can therefore define how it is written to a stream without adding special formatting hooks.</p>
-    <pre><code class="language-strut">struct Point {
-    int x;
-}
-
-operator &lt;&lt;(ref&lt;ostream&gt; stream, ref&lt;const Point&gt; point) -> ref&lt;ostream&gt; {
-    stream &lt;&lt; point.x;
-    return stream;
-}</code></pre>
-    <h2>File lifetime</h2>
-    <p>File streams close their underlying handle when the object is destroyed, but explicit <code>.close()</code> is useful when the program needs errors reported immediately or wants to release the file before the surrounding scope ends.</p>
+    <h1>Editor & language server</h1>
+    <p>Strut ships its language server with the compiler. Editors communicate with <code>strut lsp</code> over standard JSON-RPC/LSP on stdin and stdout, so editor support does not depend on a separate language-analysis implementation.</p>
+    <h2>Start the language server</h2>
+    <pre><code class="language-bash">strut lsp</code></pre>
+    <h2>Diagnostics</h2>
+    <p>The language server reuses Strut's lexer, parser, semantic analyser, and source spans. Syntax and type errors therefore match command-line diagnostics rather than being reimplemented by an editor plugin.</p>
+    <h2>Navigation and assistance</h2>
+    <p>The current server provides document diagnostics, go-to-definition, completion, hover/type information, and document formatting. Formatting uses the same canonical formatter as <code>strut fmt</code>.</p>
+    <h2>Editor integration</h2>
+    <p>Configure an editor's generic LSP client to launch <code>strut lsp</code> for <code>.p</code> and <code>.h</code> files. A dedicated editor extension can add convenience later without changing the protocol.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

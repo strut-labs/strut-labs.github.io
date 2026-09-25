@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Streams · Strut</title>
+<title>Cross compilation · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -143,50 +143,23 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Streams</h1>
-    <p>Strut keeps the useful C++ stream model while using clearer standard stream names: <code>in</code>, <code>out</code>, and <code>err</code>. File streams are deterministic resources and support both construction with a path and explicit <code>.open()</code>/<code>.close()</code>.</p>
-    <h2>Standard output</h2>
-    <pre><code class="language-strut">out &lt;&lt; "hello, world!" &lt;&lt; endl;</code></pre>
-    <h2>Standard error</h2>
-    <pre><code class="language-strut">err &lt;&lt; "could not open file" &lt;&lt; endl;</code></pre>
-    <h2>Standard input</h2>
-    <pre><code class="language-strut">string name;
-in >> name;</code></pre>
-    <h2>Output files</h2>
-    <pre><code class="language-strut">ofstream ofs("report.txt");
-ofs &lt;&lt; "hello" &lt;&lt; endl;
-ofs.close();</code></pre>
-    <h3>Open later</h3>
-    <pre><code class="language-strut">ofstream ofs;
-ofs.open("report.txt");
-ofs &lt;&lt; "ready" &lt;&lt; endl;
-ofs.close();</code></pre>
-    <h2>Input files</h2>
-    <pre><code class="language-strut">ifstream ifs("data.txt");
-string value;
-ifs >> value;
-ifs.close();</code></pre>
-    <h2>String streams</h2>
-    <pre><code class="language-strut">sstream ss;
-ss &lt;&lt; "count=" &lt;&lt; count;
-text := ss.str();</code></pre>
-    <h2>Convenience functions</h2>
-    <p>Streams do not replace the short common-case helpers.</p>
-    <pre><code class="language-strut">print("hello");
-name := input();
-input(name);</code></pre>
-    <h2>User-defined stream insertion</h2>
-    <p><code>&lt;&lt;</code> and <code>&gt;&gt;</code> use Strut's ordinary operator-overload machinery. A type can therefore define how it is written to a stream without adding special formatting hooks.</p>
-    <pre><code class="language-strut">struct Point {
-    int x;
-}
-
-operator &lt;&lt;(ref&lt;ostream&gt; stream, ref&lt;const Point&gt; point) -> ref&lt;ostream&gt; {
-    stream &lt;&lt; point.x;
-    return stream;
-}</code></pre>
-    <h2>File lifetime</h2>
-    <p>File streams close their underlying handle when the object is destroyed, but explicit <code>.close()</code> is useful when the program needs errors reported immediately or wants to release the file before the surrounding scope ends.</p>
+    <h1>Cross compilation</h1>
+    <p>Strut keeps target selection explicit. A target names the platform ABI Strut is building for; the bootstrap backend then invokes a compatible native or cross C++ toolchain.</p>
+    <h2>Targets</h2>
+    <table><thead><tr><th>Target</th><th>Purpose</th></tr></thead><tbody>
+    <tr><td><code>native</code></td><td>Build for the current host.</td></tr>
+    <tr><td><code>linux-x64</code></td><td>64-bit x86 Linux.</td></tr>
+    <tr><td><code>linux-arm64</code></td><td>64-bit Arm Linux.</td></tr>
+    <tr><td><code>macos-arm64</code></td><td>Apple silicon macOS.</td></tr>
+    <tr><td><code>macos-x64</code></td><td>Intel macOS.</td></tr>
+    <tr><td><code>windows-x64</code></td><td>64-bit Windows.</td></tr>
+    </tbody></table>
+    <h2>Build for a target</h2>
+    <pre><code class="language-bash">strut app.p --target linux-x64</code></pre>
+    <h2>Project builds</h2>
+    <p>Set <code>target</code> in <code>.strut/config.json</code>, or override it on the command line where supported. Object and metadata caches are partitioned by target and build mode, so incompatible objects are never reused accidentally.</p>
+    <h2>Native dependencies</h2>
+    <p>Packages that link native libraries must provide libraries compatible with the selected target. Strut does not pretend a host library can be linked into a foreign target. Cross builds therefore require an appropriate cross toolchain and target-compatible native dependencies.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
