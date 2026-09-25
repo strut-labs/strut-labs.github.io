@@ -17,10 +17,10 @@ if (!weak.expired()) {
     ptr&lt;User&gt; locked := weak.lock();
 }</code></pre>
 <h2>Unsafe raw pointers</h2>
-<p>Raw pointers exist for FFI and specialised low-level work, but they are restricted to explicit <code>unsafe</code> regions.</p>
+<p>Raw pointers exist for FFI and specialised low-level work, but they are restricted to explicit <code>unsafe</code> regions. Member access supports the familiar <code>raw->member</code> form as well as explicit dereference when needed.</p>
 <pre><code class="language-strut">unsafe {
     raw_ptr&lt;User&gt; raw := raw(user);
-    print((*raw).name);
+    print(raw->name);
 }</code></pre>
 <h2>Reference cycles</h2>
 <p>Reference counting cannot automatically collect strong cycles. Use <code>weak_ptr&lt;T&gt;</code> for back-references. The compiler warns for obvious cycles it can identify statically.</p>
