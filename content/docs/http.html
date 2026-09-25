@@ -28,7 +28,7 @@ response := await pending;</code></pre>
 <h2>Streaming policy</h2>
 <p>CP76 buffers response bodies. A public streaming response API is deliberately deferred rather than exposing libcurl callbacks as language API prematurely.</p>
 <h2>TLS server note</h2>
-<p>Client TLS is backed by libcurl. HTTPS server support is not yet implemented because Strut will not silently add another embedded TLS dependency; server-side TLS needs an explicitly approved backend.</p>
+<p>Client TLS is backed by libcurl. OpenSSL is approved as Strut's server-side TLS backend, but HTTPS server support is not implemented yet; the plain HTTP server remains the current CP77 surface.</p>
 <h2>HTTP server</h2>
 <p>Strut's server API is built on the cross-platform TCP substrate. Routes support path parameters, query values, headers, request bodies, JSON parsing, and synchronous or async handlers.</p>
 <pre><code class="language-strut">function main() -&gt; void : NetworkError {
