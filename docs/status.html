@@ -66,6 +66,8 @@
             <a href="./system.html">Processes & environment</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
+            <a href="./networking.html">Networking</a>
+            <a href="./http.html">HTTP client</a>
             <a href="./linking.html">Linking & FFI</a>
             <a href="./packages.html">Packages</a>
           </div>
@@ -115,6 +117,8 @@
           <a href="./system.html">Processes & environment</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
+          <a href="./networking.html">Networking</a>
+          <a href="./http.html">HTTP client</a>
           <a href="./linking.html">Linking & FFI</a>
           <a href="./packages.html">Packages</a>
         </div>
@@ -131,9 +135,9 @@
   <article class="docs-content">
     <h1>Implementation status</h1>
     <p>The docs describe both the language contract and the compiler as it exists today. This page is the quick reference for what has actually reached the implementation and regression suite.</p>
-    <h2>Implemented through CP71</h2>
+    <h2>Implemented through CP76</h2>
     <ul>
-      <li>Portable C++17/CMake bootstrap, with Linux, macOS, and Windows treated as first-class architectural targets.</li>
+      <li>Portable C++20/CMake bootstrap, with Linux, macOS, and Windows treated as first-class architectural targets.</li>
       <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation through a backend boundary.</li>
       <li>Primitive and fixed-width types, ordinary type aliases, arrays, maps, strings, JSONIC-backed <code>json</code>, structs, generics, enums, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
       <li>First-class functions, generic and inferred lambdas, fixed-precedence operator overloading, lambda operator definitions, and overloadable assignment/initialisation.</li>
@@ -143,11 +147,12 @@
       <li>Native threads, mutexes, typed channels, async functions/lambdas, futures, <code>await</code>, and a shared multithreaded executor.</li>
       <li>C ABI declarations with explicit unsafe calls, plus native static/dynamic library linkage and static, dynamic, or mixed final builds.</li>
       <li>Release builds request platform-appropriate optimisation, dead-code elimination, and symbol stripping.</li>
-      <li><code>strut.json</code> package manifests, initial semantic-version requirement syntax, deterministic lockfile/cache contracts, and JSONIC-backed manifest validation.</li>
+      <li><code>strut.json</code> package manifests, deterministic cache/lock handling, local package CLI workflows, and <code>include &lt;package&gt;</code> resolution.</li>
+      <li>Cross-platform TCP networking substrate, verified client TLS through libcurl, and synchronous/async HTTP client support with JSON integration.</li>
       <li>Independent black-box regression coverage for compiler failures and generated native programs.</li>
     </ul>
     <h2>Next</h2>
-    <p>CP72 defines the dedicated <code>strut-packages</code> ecosystem contract: repository conventions, quality expectations, package metadata, local development workflow, and security/reproducibility rules.</p>
+    <p>CP77 adds the official HTTP server: lifecycle, routing, path/query/header handling, request bodies, responses, and async handlers.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

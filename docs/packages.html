@@ -66,6 +66,8 @@
             <a href="./system.html">Processes & environment</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
+            <a href="./networking.html">Networking</a>
+            <a href="./http.html">HTTP client</a>
             <a href="./linking.html">Linking & FFI</a>
             <a href="./packages.html">Packages</a>
           </div>
@@ -115,6 +117,8 @@
           <a href="./system.html">Processes & environment</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
+          <a href="./networking.html">Networking</a>
+          <a href="./http.html">HTTP client</a>
           <a href="./linking.html">Linking & FFI</a>
           <a href="./packages.html">Packages</a>
         </div>
@@ -157,6 +161,14 @@ include "models/user.h";</code></pre>
     <p><code>strut.lock.json</code> records exact versions, immutable source revisions, content checksums, and transitive dependency edges. Normal builds consume the lock without silently upgrading dependencies.</p>
     <h2>Shared cache</h2>
     <p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
+    
+    <h2>Package CLI</h2>
+    <p>CP73 supports deterministic local/cache package workflows while remote fetching waits for the HTTP package layer.</p>
+    <pre><code class="language-bash">strut add ../http
+strut list
+strut install
+strut remove http</code></pre>
+    <p><code>include &lt;name&gt;</code> resolves the package entry declared by the cached version selected from the project manifest. <code>include &lt;name/path.h&gt;</code> resolves an explicit package file.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
