@@ -1,6 +1,6 @@
 <h1>Implementation status</h1>
 <p>The docs describe both the language contract and the compiler as it exists today. This page is the quick reference for what has actually reached the implementation and regression suite.</p>
-<h2>Implemented through CP59</h2>
+<h2>Implemented through CP66</h2>
 <ul>
   <li>Portable C++17/CMake bootstrap, with Linux, macOS, and Windows treated as first-class architectural targets.</li>
   <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation through a backend boundary.</li>
@@ -11,7 +11,9 @@
   <li>Filesystem operations, <code>istream</code>/<code>ostream</code>/<code;sstream</code>/<code>ifstream</code>/<code>ofstream</code>, <code>in</code>/<code>out</code>/<code>err</code>, <code>&lt;&lt;</code>/<code>&gt;&gt;</code>, and explicit file <code>.open()</code>/<code>.close()</code>.</li>
   <li>Environment access, monotonic and Unix clocks, millisecond sleeping, and safe argv-based external process execution.</li>
   <li><code>exec</code> captures stdout/stderr and exit status, supports inherited stdio, cwd and environment overrides, while <code>exec_shell</code> is the explicitly opt-in shell path.</li>
+  <li>Native threads with join/error handoff, copyable mutex handles with explicit and scoped locking, typed blocking channels, and an explicit data-race safety policy.</li>
+  <li>Async functions, futures, <code>await</code>, and async lambdas are implemented; the dedicated Strut multithreaded executor follows next.</li>
   <li>Independent black-box regression coverage for compiler failures and generated native programs.</li>
 </ul>
 <h2>Next</h2>
-<p>CP60 starts the lower-level child-process and pipe API for long-lived subprocesses, streaming stdin/stdout/stderr, waiting, termination, and shell-free pipe composition.</p>
+<p>CP67 replaces the bootstrap async scheduling with Strut's dedicated multithreaded async executor and defines its scheduling, wakeup, and blocking-operation policy.</p>

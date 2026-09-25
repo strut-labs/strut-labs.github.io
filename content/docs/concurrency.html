@@ -1,16 +1,34 @@
 <h1>Concurrency</h1>
-<p>Strut is designed for real multithreaded concurrency rather than a single-threaded event-loop model. Explicit threads, mutexes, channels, and async execution are staged later in the implementation roadmap.</p>
-<h2>Thread shape</h2>
-<pre><code class="language-strut">worker := thread(work, arg1, arg2);
+<p>Strut uses native threads and explicit synchronization. Safe ownership keeps objects alive across threads, while shared mutable state still needs a mutex or channel.</p>
+<h2>Native threads</h2>
+<p>Pass a named function and arguments, or pass a lambda. <code>join()</code> waits for completion and rethrows worker errors on the joining thread.</p>
+<pre><code class="language-strut">worker := thread(work, value);
 worker.join();</code></pre>
-<h2>Lambda thread</h2>
+<h2>Lambda threads</h2>
 <pre><code class="language-strut">worker := thread(() => {
-    do_work();
-});</code></pre>
-<h2>Mutex locking</h2>
+    print("running on another thread");
+});
+worker.join();</code></pre>
+<h2>Mutexes</h2>
+<p>A <code>mutex</code> supports explicit locking when required.</p>
 <pre><code class="language-strut">mutex mtx;
-
-mtx.lock(() => {
+mtx.lock();
+counter++;
+mtx.unlock();</code></pre>
+<p>The scoped form releases the mutex even if the callable exits with an error.</p>
+<pre><code class="language-strut">mtx.lock(() => {
     counter++;
 });</code></pre>
-<p class="status-note">Concurrency syntax is part of the language design; implementation follows the current IO/runtime checkpoints.</p>
+<h2>Channels</h2>
+<p><code>channel&lt;T&gt;</code> is a typed blocking queue. <code>receive()</code> waits for a value or for the channel to close and returns <code>T?</code>.</p>
+<pre><code class="language-strut">channel&lt;int&gt; jobs;
+
+producer := thread(() => {
+    jobs.send(42);
+    jobs.close();
+});
+
+value := jobs.receive();
+producer.join();</code></pre>
+<h2>Race-safety model</h2>
+<p><code>ptr&lt;T&gt;</code> lifetime accounting is safe across threads, but that does not make arbitrary mutation of the pointed-to object race-free. Synchronize shared mutable state with <code>mutex</code> or <code>channel&lt;T&gt;</code>. Direct <code>ref&lt;T&gt;</code> arguments are rejected at thread boundaries because they are non-owning borrows.</p>
