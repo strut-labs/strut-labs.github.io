@@ -131,23 +131,23 @@
   <article class="docs-content">
     <h1>Implementation status</h1>
     <p>The docs describe both the language contract and the compiler as it exists today. This page is the quick reference for what has actually reached the implementation and regression suite.</p>
-    <h2>Implemented through CP66</h2>
+    <h2>Implemented through CP71</h2>
     <ul>
       <li>Portable C++17/CMake bootstrap, with Linux, macOS, and Windows treated as first-class architectural targets.</li>
       <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation through a backend boundary.</li>
       <li>Primitive and fixed-width types, ordinary type aliases, arrays, maps, strings, JSONIC-backed <code>json</code>, structs, generics, enums, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
       <li>First-class functions, generic and inferred lambdas, fixed-precedence operator overloading, lambda operator definitions, and overloadable assignment/initialisation.</li>
-      <li>No-GC memory model prototype with reference-counted <code>ptr&lt;T&gt;</code>, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>raw_ptr&lt;T&gt;</code>.</li>
+      <li>No-GC memory model prototype with reference-counted <code>ptr&lt;T&gt;</code>, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>raw_ptr&lt;T&gt;</code>; raw pointers support <code>raw-&gt;member</code>.</li>
       <li>Checked error signatures, <code>throw</code>, typed <code>try</code>/<code>catch</code>, and catch-all handling.</li>
-      <li>Filesystem operations, <code>istream</code>/<code>ostream</code>/<code;sstream</code>/<code>ifstream</code>/<code>ofstream</code>, <code>in</code>/<code>out</code>/<code>err</code>, <code>&lt;&lt;</code>/<code>&gt;&gt;</code>, and explicit file <code>.open()</code>/<code>.close()</code>.</li>
-      <li>Environment access, monotonic and Unix clocks, millisecond sleeping, and safe argv-based external process execution.</li>
-      <li><code>exec</code> captures stdout/stderr and exit status, supports inherited stdio, cwd and environment overrides, while <code>exec_shell</code> is the explicitly opt-in shell path.</li>
-      <li>Native threads with join/error handoff, copyable mutex handles with explicit and scoped locking, typed blocking channels, and an explicit data-race safety policy.</li>
-      <li>Async functions, futures, <code>await</code>, and async lambdas are implemented; the dedicated Strut multithreaded executor follows next.</li>
+      <li>Filesystem operations, streams, environment access, clocks, sleeping, argv-safe external process execution, and explicit shell execution.</li>
+      <li>Native threads, mutexes, typed channels, async functions/lambdas, futures, <code>await</code>, and a shared multithreaded executor.</li>
+      <li>C ABI declarations with explicit unsafe calls, plus native static/dynamic library linkage and static, dynamic, or mixed final builds.</li>
+      <li>Release builds request platform-appropriate optimisation, dead-code elimination, and symbol stripping.</li>
+      <li><code>strut.json</code> package manifests, initial semantic-version requirement syntax, deterministic lockfile/cache contracts, and JSONIC-backed manifest validation.</li>
       <li>Independent black-box regression coverage for compiler failures and generated native programs.</li>
     </ul>
     <h2>Next</h2>
-    <p>CP67 replaces the bootstrap async scheduling with Strut's dedicated multithreaded async executor and defines its scheduling, wakeup, and blocking-operation policy.</p>
+    <p>CP72 defines the dedicated <code>strut-packages</code> ecosystem contract: repository conventions, quality expectations, package metadata, local development workflow, and security/reproducibility rules.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
