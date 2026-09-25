@@ -1,0 +1,32 @@
+<h1>SQLite</h1>
+<p>The official SQLite package surface uses the system/native SQLite library rather than embedding SQLite into the Strut compiler or runtime. Connections are deterministic resources and close automatically when their last handle is released, or explicitly with <code>close()</code>.</p>
+<h2>Open a database</h2>
+<pre><code class="language-strut">db := sqlite_open("app.db");
+</code></pre>
+<h2>Execute statements</h2>
+<p>Parameter arrays are bound through SQLite prepared statements. Prefer parameters over constructing SQL strings manually.</p>
+<pre><code class="language-strut">db.exec("CREATE TABLE IF NOT EXISTS users(id INTEGER, name TEXT)");
+
+db.exec(
+    "INSERT INTO users VALUES (?, ?)",
+    json.parse("[1,\"Nick\"]")
+);
+</code></pre>
+<h2>Query rows</h2>
+<p><code>query()</code> currently returns a JSON array of row objects, giving a useful dynamic mapping while typed row mapping continues to evolve.</p>
+<pre><code class="language-strut">rows := db.query(
+    "SELECT id, name FROM users WHERE id = ?",
+    json.parse("[1]")
+);
+
+print(json.stringify(rows));
+</code></pre>
+<h2>Transactions</h2>
+<p>The scoped transaction helper commits when the callback succeeds and rolls back if it throws.</p>
+<pre><code class="language-strut">db.transaction(() =&gt; {
+    db.exec("UPDATE accounts SET balance = balance - 10 WHERE id = 1");
+    db.exec("UPDATE accounts SET balance = balance + 10 WHERE id = 2");
+});
+</code></pre>
+<h2>Blocking policy</h2>
+<p>SQLite calls are blocking. Put database work inside an async task when it should run away from the caller; Strut does not pretend SQLite itself is natively asynchronous.</p>

@@ -134,6 +134,16 @@
       "name": "docs/system",
       "title": "Processes & environment",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/sqlite",
+      "title": "SQLite",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/embedding",
+      "title": "Embedded Resources",
+      "template": "templates/docs.html"
     }
   ]
 }
