@@ -1,0 +1,10 @@
+<h1>Editor & language server</h1>
+<p>Strut ships its language server with the compiler. Editors communicate with <code>strut lsp</code> over standard JSON-RPC/LSP on stdin and stdout, so editor support does not depend on a separate language-analysis implementation.</p>
+<h2>Start the language server</h2>
+<pre><code class="language-bash">strut lsp</code></pre>
+<h2>Diagnostics</h2>
+<p>The language server reuses Strut's lexer, parser, semantic analyser, and source spans. Syntax and type errors therefore match command-line diagnostics rather than being reimplemented by an editor plugin.</p>
+<h2>Navigation and assistance</h2>
+<p>The current server provides document diagnostics, go-to-definition, completion, hover/type information, and document formatting. Formatting uses the same canonical formatter as <code>strut fmt</code>.</p>
+<h2>Editor integration</h2>
+<p>Configure an editor's generic LSP client to launch <code>strut lsp</code> for <code>.p</code> and <code>.h</code> files. A dedicated editor extension can add convenience later without changing the protocol.</p>

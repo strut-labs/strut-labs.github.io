@@ -1,0 +1,10 @@
+<h1>Performance methodology</h1>
+<p>Performance numbers in the Strut project are development baselines until a benchmark explicitly compares equivalent workloads on a controlled machine. The goal is to make regressions visible before making public claims.</p>
+<h2>What is measured</h2>
+<ul><li>cold and incremental compile time;</li><li>stripped executable size;</li><li>cold startup time and idle RSS;</li><li>arithmetic, collections, JSON, pointer, lambda, threading, and async microbenchmarks;</li><li>SQLite and HTTP application workloads;</li><li>static versus dynamic linking where the comparison is meaningful.</li></ul>
+<h2>Build modes</h2>
+<p>Debug and release results are kept separate. Release builds currently use optimisation, LTO where supported, dead-code elimination, and symbol stripping where appropriate.</p>
+<h2>Reproducibility</h2>
+<p>Raw benchmark output belongs with the benchmark scripts. Machine, compiler, target, build mode, dependency versions, and benchmark parameters should be recorded so later results can be compared honestly.</p>
+<h2>Interpretation</h2>
+<p>A microbenchmark is evidence about the operation it measures, not proof that Strut is globally faster than another language. Dogfood applications and end-to-end workloads are used alongside microbenchmarks before optimisation decisions are made.</p>

@@ -144,6 +144,21 @@
       "name": "docs/embedding",
       "title": "Embedded Resources",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/editor",
+      "title": "Editor & LSP",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/cross-compilation",
+      "title": "Cross compilation",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/performance",
+      "title": "Performance",
+      "template": "templates/docs.html"
     }
   ]
 }

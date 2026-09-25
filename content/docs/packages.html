@@ -34,3 +34,12 @@ strut list
 strut install
 strut remove http</code></pre>
 <p><code>include &lt;name&gt;</code> resolves the package entry declared by the cached version selected from the project manifest. <code>include &lt;name/path.h&gt;</code> resolves an explicit package file.</p>
+<h2>Authoring a package</h2>
+<p>An official-style package has a <code>strut.json</code> manifest, a declared entry header, source/header files, tests, and documentation. Package paths are validated so metadata cannot escape the package root.</p>
+<pre><code class="language-json">{
+  "name": "example",
+  "version": "0.1.0",
+  "include": "include/example.h"
+}</code></pre>
+<h3>Dogfood workflow</h3>
+<p>The repository includes clean-environment package dogfood fixtures. They initialise a fresh project, add local packages, install them into an isolated shared cache, resolve <code>include &lt;package&gt;</code>, compile the application, and execute it.</p>

@@ -1,0 +1,17 @@
+<h1>Cross compilation</h1>
+<p>Strut keeps target selection explicit. A target names the platform ABI Strut is building for; the bootstrap backend then invokes a compatible native or cross C++ toolchain.</p>
+<h2>Targets</h2>
+<table><thead><tr><th>Target</th><th>Purpose</th></tr></thead><tbody>
+<tr><td><code>native</code></td><td>Build for the current host.</td></tr>
+<tr><td><code>linux-x64</code></td><td>64-bit x86 Linux.</td></tr>
+<tr><td><code>linux-arm64</code></td><td>64-bit Arm Linux.</td></tr>
+<tr><td><code>macos-arm64</code></td><td>Apple silicon macOS.</td></tr>
+<tr><td><code>macos-x64</code></td><td>Intel macOS.</td></tr>
+<tr><td><code>windows-x64</code></td><td>64-bit Windows.</td></tr>
+</tbody></table>
+<h2>Build for a target</h2>
+<pre><code class="language-bash">strut app.p --target linux-x64</code></pre>
+<h2>Project builds</h2>
+<p>Set <code>target</code> in <code>.strut/config.json</code>, or override it on the command line where supported. Object and metadata caches are partitioned by target and build mode, so incompatible objects are never reused accidentally.</p>
+<h2>Native dependencies</h2>
+<p>Packages that link native libraries must provide libraries compatible with the selected target. Strut does not pretend a host library can be linked into a foreign target. Cross builds therefore require an appropriate cross toolchain and target-compatible native dependencies.</p>
