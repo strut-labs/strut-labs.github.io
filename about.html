@@ -23,16 +23,69 @@
   </div>
 </header>
 <div class="mobile-menu" data-mobile-menu hidden>
-  <nav aria-label="Mobile">
-    <a href="./">Home</a>
-    <a href="./about.html">About</a>
-    <a href="./docs.html">Docs</a>
-    <a href="./getting-started.html">Get started</a>
-    <a href="https://github.com/strut-labs">GitHub</a>
-  </nav>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-main-nav" aria-label="Mobile">
+      <a href="./">Home</a>
+      <a href="./about.html">About</a>
+      <a href="./docs.html">Docs</a>
+      <a href="./getting-started.html">Get started</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+    </nav>
+    <div class="mobile-docs-nav">
+      <div class="mobile-docs-label">Documentation</div>
+      <nav class="docs-nav" aria-label="Documentation">
+        <a class="docs-home" href="./docs.html">Documentation home</a>
+        <details open>
+          <summary>Start here</summary>
+          <div class="docs-nav-links">
+            <a href="./getting-started.html">Getting started</a>
+            <a href="./install.html">Install & build</a>
+            <a href="docs/syntax.html">Syntax</a>
+            <a href="docs/types.html">Types</a>
+          </div>
+        </details>
+        <details open>
+          <summary>Language</summary>
+          <div class="docs-nav-links">
+            <a href="docs/functions.html">Functions & lambdas</a>
+            <a href="docs/generics.html">Generics</a>
+            <a href="docs/operators.html">Operators</a>
+            <a href="docs/collections.html">Collections</a>
+            <a href="docs/json.html">JSON</a>
+            <a href="docs/structs.html">Structs</a>
+            <a href="docs/memory.html">Memory</a>
+            <a href="docs/errors.html">Errors</a>
+          </div>
+        </details>
+        <details>
+          <summary>Systems</summary>
+          <div class="docs-nav-links">
+            <a href="docs/streams.html">Streams</a>
+            <a href="docs/concurrency.html">Concurrency</a>
+            <a href="docs/async.html">Async</a>
+            <a href="docs/linking.html">Linking & FFI</a>
+            <a href="docs/packages.html">Packages</a>
+          </div>
+        </details>
+        <details>
+          <summary>Tools</summary>
+          <div class="docs-nav-links">
+            <a href="docs/cli.html">CLI</a>
+            <a href="docs/examples.html">Examples</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </div>
 </div>
 <main>
-<section class="hero"><div><div class="eyebrow">Coming in CP6</div><h1>about</h1></div></section>
+<section class="hero"><div><div class="eyebrow">About Strut</div><h1>Support without bulk.</h1><p>Strut is an experimental native compiled language shaped around memory safety, concise syntax, deterministic behaviour, agent-friendly code, and straightforward deployment. It borrows proven ideas from C++, Nift, Go, Rust, Zig and elsewhere without inheriting ceremony simply for familiarity.</p></div><div class="code-card"><div class="code-title">Design target</div><pre><code>memory safe
+native performance
+no garbage collector
+real concurrency
+small language surface
+static + dynamic linking
+cross-platform by design</code></pre></div></section>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
 </body>

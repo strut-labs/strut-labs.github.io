@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10110f">
+<title>Examples · Strut</title>
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/site.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../"><img src="../assets/favicon.svg" alt=""><span>Strut</span></a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="../about.html">About</a>
+      <a href="../docs.html">Docs</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+      <a class="button-link" href="../getting-started.html">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-toggle><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" data-mobile-menu hidden>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-main-nav" aria-label="Mobile">
+      <a href="../">Home</a>
+      <a href="../about.html">About</a>
+      <a href="../docs.html">Docs</a>
+      <a href="../getting-started.html">Get started</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+    </nav>
+    <div class="mobile-docs-nav">
+      <div class="mobile-docs-label">Documentation</div>
+      <nav class="docs-nav" aria-label="Documentation">
+        <a class="docs-home" href="../docs.html">Documentation home</a>
+        <details open>
+          <summary>Start here</summary>
+          <div class="docs-nav-links">
+            <a href="../getting-started.html">Getting started</a>
+            <a href="../install.html">Install & build</a>
+            <a href="./syntax.html">Syntax</a>
+            <a href="./types.html">Types</a>
+          </div>
+        </details>
+        <details open>
+          <summary>Language</summary>
+          <div class="docs-nav-links">
+            <a href="./functions.html">Functions & lambdas</a>
+            <a href="./generics.html">Generics</a>
+            <a href="./operators.html">Operators</a>
+            <a href="./collections.html">Collections</a>
+            <a href="./json.html">JSON</a>
+            <a href="./structs.html">Structs</a>
+            <a href="./memory.html">Memory</a>
+            <a href="./errors.html">Errors</a>
+          </div>
+        </details>
+        <details>
+          <summary>Systems</summary>
+          <div class="docs-nav-links">
+            <a href="./streams.html">Streams</a>
+            <a href="./concurrency.html">Concurrency</a>
+            <a href="./async.html">Async</a>
+            <a href="./linking.html">Linking & FFI</a>
+            <a href="./packages.html">Packages</a>
+          </div>
+        </details>
+        <details>
+          <summary>Tools</summary>
+          <div class="docs-nav-links">
+            <a href="./cli.html">CLI</a>
+            <a href="./examples.html">Examples</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </div>
+</div>
+<main class="docs-shell">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav" aria-label="Documentation">
+      <a class="docs-home" href="../docs.html">Documentation home</a>
+      <details open>
+        <summary>Start here</summary>
+        <div class="docs-nav-links">
+          <a href="../getting-started.html">Getting started</a>
+          <a href="../install.html">Install & build</a>
+          <a href="./syntax.html">Syntax</a>
+          <a href="./types.html">Types</a>
+        </div>
+      </details>
+      <details open>
+        <summary>Language</summary>
+        <div class="docs-nav-links">
+          <a href="./functions.html">Functions & lambdas</a>
+          <a href="./generics.html">Generics</a>
+          <a href="./operators.html">Operators</a>
+          <a href="./collections.html">Collections</a>
+          <a href="./json.html">JSON</a>
+          <a href="./structs.html">Structs</a>
+          <a href="./memory.html">Memory</a>
+          <a href="./errors.html">Errors</a>
+        </div>
+      </details>
+      <details>
+        <summary>Systems</summary>
+        <div class="docs-nav-links">
+          <a href="./streams.html">Streams</a>
+          <a href="./concurrency.html">Concurrency</a>
+          <a href="./async.html">Async</a>
+          <a href="./linking.html">Linking & FFI</a>
+          <a href="./packages.html">Packages</a>
+        </div>
+      </details>
+      <details>
+        <summary>Tools</summary>
+        <div class="docs-nav-links">
+          <a href="./cli.html">CLI</a>
+          <a href="./examples.html">Examples</a>
+        </div>
+      </details>
+    </nav>
+  </aside>
+  <article class="docs-content">
+    <h1>Examples</h1><h2>Hello</h2><pre><code>function main() -&gt; void {
+    out &lt;&lt; "hello" &lt;&lt; endl;
+    return;
+}</code></pre><h2>Generic lambda</h2><pre><code>max := (T x, T y) =&gt; x &gt; y ? x : y;</code></pre><h2>JSON</h2><pre><code>user := {
+    "name": "Nick",
+    "active": true
+};</code></pre>
+  </article>
+</main>
+<footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
+</body>
+</html>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Getting Started · Strut</title>
+<title>Install & Build · Strut</title>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/style.css">
 <script defer src="assets/site.js"></script>
@@ -124,20 +124,12 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Getting started</h1>
-    <div class="status-note"><strong>Early implementation:</strong> Strut is being built checkpoint-by-checkpoint. Syntax documented here is the current language contract; not every feature is implemented yet.</div>
-    <h2>Build the bootstrap compiler</h2>
-    <pre><code>cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+    <h1>Install & build</h1>
+    <p>The bootstrap compiler uses portable C++20 and CMake. Linux is the initial development host, while macOS and Windows remain first-class architectural targets.</p>
+    <h2>Requirements</h2><ul><li>CMake 3.20+</li><li>GCC, Clang, Apple Clang, or MSVC with C++20 support</li><li>Ninja is recommended but optional</li></ul>
+    <h2>Current build</h2><pre><code>cmake -S . -B build
 cmake --build build
 ctest --test-dir build --output-on-failure</code></pre>
-    <h2>The shape of a program</h2>
-    <pre><code>function main() -&gt; void {
-    x := 2;
-    y := 3;
-    out &lt;&lt; x + y &lt;&lt; endl;
-    return;
-}</code></pre>
-    <p>Ordinary variables are mutable. Use <code>const</code> when immutability matters. Statements end in semicolons.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
