@@ -1,19 +1,17 @@
 <h1>Implementation status</h1>
 <p>The docs distinguish the Strut language contract from compiler support. Planned syntax is useful for design review, but it must not be mistaken for a feature that already compiles.</p>
-<h2>Implemented through CP30</h2>
+<h2>Implemented through CP39</h2>
 <ul>
   <li>Portable C++17/CMake bootstrap with GCC and Clang warnings-as-errors certification; Linux, macOS and Windows remain first-class architectural targets.</li>
-  <li>Lexer, parser, semantic analysis, typed source-mapped IR, and a backend boundary separated from syntax.</li>
-  <li>Native executable generation via the C++17 backend, including calls, returns, arithmetic, control flow and <code>print(...)</code>.</li>
-  <li><code>strut file.p</code> compilation, deterministic output naming, <code>-o</code>, plus <code>--check</code> and token-dump workflows.</li>
-  <li>Primitive width types and aliases, <code>:=</code> inference, explicit typing, widening checks and <code>const</code>.</li>
-  <li>Dynamic <code>T[]</code> and fixed <code>T[n]</code> arrays with bounds-safe indexing and iteration.</li>
-  <li>Owned strings, core string helpers, split/join, and numeric conversion paths using <code>std::from_chars</code>.</li>
-  <li><code>map&lt;K,V&gt;</code> with keyed <code>[key: value]</code> literals, deterministic ordered iteration and core lookup/mutation operations.</li>
-  <li>Built-in <code>json</code> backed by JSONIC: object/array values, navigation, structural equality, parse, stringify, pretty output and encode groundwork.</li>
-  <li>Struct fields, <code>Type { field: value }</code> construction, inline methods and <code>Type::method</code> definitions.</li>
-  <li>Independent black-box regression suite covering compiler failures and generated native programs.</li>
-<li>Nullable <code>T?</code> values, <code>?.</code>, <code>??</code>, null-check flow narrowing and unsafe nullable-member diagnostics.</li>
+  <li>Lexer, parser, semantic analysis, typed source-mapped IR and native executable generation through a backend boundary.</li>
+  <li><code>strut file.p</code>, deterministic output naming, <code>-o</code>, <code>--check</code> and token dumping.</li>
+  <li>Primitive width types and aliases, <code>:=</code> inference, explicit typing, <code>const</code>, arrays, maps, strings, JSONIC-backed <code>json</code> and structs.</li>
+  <li>Nullable <code>T?</code>, <code>?.</code>, <code>??</code> and flow narrowing after null checks.</li>
+  <li>First-class named functions, typed function values, generic lambdas and escaping closures with value captures.</li>
+  <li>Higher-order collection helpers including map/filter/reduce/find/count/sort plus <code>count_by</code>, <code>index_by</code> and <code>partition</code>.</li>
+  <li>No-GC memory prototype: reference-counted <code>ptr&lt;T&gt;</code>, independent referent/binding constness, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code> and cycle warnings.</li>
+  <li><code>unsafe</code> and unmanaged <code>raw_ptr&lt;T&gt;</code>, with raw dereference/arithmetic prohibited outside unsafe blocks.</li>
+  <li>Independent black-box regression suite exercises compiler failures and generated native programs.</li>
 </ul>
 <h2>Next</h2>
-<p>CP31 begins first-class named functions.</p>
+<p>CP40 is the first dedicated memory-safety certification pass: hostile lifetime cases, weak upgrades, double-destruction attempts, iterator invalidation and sanitizer/Valgrind checks.</p>
