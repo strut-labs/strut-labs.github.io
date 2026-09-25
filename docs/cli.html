@@ -147,6 +147,17 @@
     <pre><code class="language-bash">strut --check hello.p</code></pre>
     <h2>Inspect tokens</h2>
     <pre><code class="language-bash">strut --tokens hello.p</code></pre>
+    <h2>Initialise project build state</h2>
+    <p><code>strut init</code> creates <code>.strut/config.json</code> without replacing an existing configuration. The file contains machine/project build settings such as the entrypoint, output path, target, build mode, linking default, and incremental mode. Generated object and dependency metadata elsewhere under <code>.strut/</code> should not be source-controlled.</p>
+    <pre><code class="language-bash">strut init</code></pre>
+    <h2>Persistent native objects</h2>
+    <p>When a source file is the configured project entrypoint, Strut separates native compilation from linking and stores the native object under <code>.strut/obj/&lt;target&gt;/&lt;mode&gt;/</code>. Generated C++ used by the bootstrap backend is kept under <code>.strut/gen/</code> for diagnostics. Removing these directories is always a safe clean rebuild path.</p>
+    <h2>Dependency metadata</h2>
+    <p>After a successful object build, Strut writes <code>.strut/info/&lt;target&gt;/&lt;mode&gt;/&lt;unit&gt;.info.json</code>. It records the source, object, local and package dependencies, compiler version, target, mode, and build fingerprint. Metadata is written only after the corresponding object file succeeds.</p>
+    <h2>Incremental rebuilds</h2>
+    <p>Strut compares each dependency recorded in a unit’s <code>.info.json</code> with the metadata timestamp. Missing objects/metadata, malformed metadata, changed dependency graphs, changed build fingerprints, missing dependencies, and dependency mtimes equal to or newer than the metadata force recompilation. Equal timestamps are deliberately treated as potentially stale, matching Nift’s conservative modified-mode rule.</p>
+    <p>Use <code>--verbose</code> to see whether an object is reused or why it is rebuilt.</p>
+    <pre><code class="language-bash">strut src/main.p -o app --verbose</code></pre>
     <h2>Project compilation</h2>
     <p>The project-level workflow is planned around <code>strut make</code>, keeping the single-file path short while still supporting packages, linking modes, and cross-platform builds.</p>
     <pre><code class="language-bash">strut make</code></pre>
