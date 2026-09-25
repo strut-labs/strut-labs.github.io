@@ -26,6 +26,11 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/status",
+      "title": "Implementation Status",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "docs/syntax",
       "title": "Syntax",
       "template": "templates/docs.html"
@@ -109,6 +114,11 @@
       "name": "docs/examples",
       "title": "Examples",
       "template": "templates/docs.html"
+    },
+    {
+      "name": "404",
+      "title": "Page Not Found",
+      "template": "templates/404.html"
     }
   ]
 }
