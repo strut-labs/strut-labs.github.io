@@ -1,18 +1,17 @@
 <h1>Linking & FFI</h1>
 <p>Strut treats static and dynamic linking as equally legitimate deployment choices. A single self-contained executable is useful, but applications should not be forced to absorb every library into every binary.</p>
-<h2>Link modes</h2>
-<pre><code class="language-bash">strut make --static
-strut make --dynamic</code></pre>
-<h2>Mixed linking</h2>
-<p>Projects will be able to statically link some dependencies while dynamically linking others.</p>
-<pre><code class="language-text">http = static
-sqlite = dynamic</code></pre>
+<h2>Link a native library</h2>
+<p>Use a library name together with a search path, or pass an exact native library path. The default mode lets the platform linker choose its normal behaviour.</p>
+<pre><code class="language-bash">strut app.p --lib-path ./native --lib example</code></pre>
+<h2>Choose static or dynamic per library</h2>
+<p>Strut can request a mode for each native dependency, which is the basis for mixed-link builds.</p>
+<pre><code class="language-bash">strut app.p --lib-path ./native --static-lib core --dynamic-lib plugin</code></pre>
 <h2>Native libraries</h2>
 <p>The FFI/linker layer supports conventional C ABI declarations and native static/dynamic libraries across Linux, macOS, and Windows. Calls into C are explicit unsafe boundaries.</p>
-<pre><code class="language-text">libexample.a
-libexample.so
-libexample.dylib
-example.dll</code></pre>
+<pre><code class="language-text">Linux:   libexample.a / libexample.so
+macOS:   libexample.a / libexample.dylib
+Windows: example.lib / example.dll</code></pre>
+<p>On platforms where a linker cannot force static selection by library name, pass the exact static archive path instead. Strut does not silently substitute a different link mode.</p>
 <p class="status-note">Only JSONIC and libcurl are pre-approved embedded third-party dependencies. Additional vendored libraries require an explicit design decision.</p>
 <h2>C ABI declarations</h2>
 <p>Declare a C ABI function with <code>extern "C"</code>. Primitive values, Strut structs with ABI-compatible layouts, and <code>raw_ptr&lt;T&gt;</code> map directly onto native C-compatible representations.</p>
