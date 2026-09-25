@@ -8,9 +8,20 @@ strut make --dynamic</code></pre>
 <pre><code class="language-text">http = static
 sqlite = dynamic</code></pre>
 <h2>Native libraries</h2>
-<p>The FFI/linker layer is planned to support conventional static and dynamic native libraries across Linux, macOS, and Windows.</p>
+<p>The FFI/linker layer supports conventional C ABI declarations and native static/dynamic libraries across Linux, macOS, and Windows. Calls into C are explicit unsafe boundaries.</p>
 <pre><code class="language-text">libexample.a
 libexample.so
 libexample.dylib
 example.dll</code></pre>
 <p class="status-note">Only JSONIC and libcurl are pre-approved embedded third-party dependencies. Additional vendored libraries require an explicit design decision.</p>
+<h2>C ABI declarations</h2>
+<p>Declare a C ABI function with <code>extern "C"</code>. Primitive values, Strut structs with ABI-compatible layouts, and <code>raw_ptr&lt;T&gt;</code> map directly onto native C-compatible representations.</p>
+<pre><code class="language-strut">extern "C" function c_add(int a, int b) -> int;
+
+function main() -> void {
+    unsafe {
+        print(c_add(20, 22));
+    }
+    return;
+}</code></pre>
+<p>The compiler rejects calls to an <code>extern "C"</code> function outside an <code>unsafe</code> block so native code cannot silently bypass Strut's safety model.</p>
