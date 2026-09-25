@@ -9,3 +9,20 @@ include "models/user.h";</code></pre>
 <h2>Package direction</h2>
 <p>Official packages are intended to live under a dedicated Strut packages organisation. HTTP, SQLite, PostgreSQL, TLS, and WebSocket support are examples of functionality that can evolve independently from the language runtime.</p>
 <p>Core facilities that directly define the language experience—such as strings, collections, JSON, basic IO, process execution, and concurrency primitives—remain available without turning every small program into a dependency-management exercise.</p>
+<h2>Project manifest</h2>
+<p>Strut projects and packages use a JSON <code>strut.json</code> manifest. JSONIC is used by the bootstrap compiler to parse and validate the format.</p>
+<pre><code class="language-json">{
+  "name": "todo-service",
+  "version": "0.1.0",
+  "entry": "src/main.p",
+  "dependencies": {
+    "http": "^0.2.0",
+    "sqlite": "~0.3.1"
+  }
+}</code></pre>
+<h2>Version requirements</h2>
+<p>Initial requirements deliberately stay small: exact <code>1.2.3</code>, compatible <code>^1.2.3</code>, patch-compatible <code>~1.2.3</code>, and <code>*</code>. Floating labels such as <code>latest</code> are not part of the reproducible package contract.</p>
+<h2>Lockfile</h2>
+<p><code>strut.lock.json</code> records exact versions, immutable source revisions, content checksums, and transitive dependency edges. Normal builds consume the lock without silently upgrading dependencies.</p>
+<h2>Shared cache</h2>
+<p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
