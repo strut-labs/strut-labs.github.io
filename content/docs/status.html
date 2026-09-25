@@ -17,7 +17,10 @@
   <li>Independent black-box regression coverage for compiler failures and generated native programs.</li>
 </ul>
 <h2>Next</h2>
-<p>CP86 measures the first integrated one-binary application for size, startup, memory, HTTP performance, and compile time.</p>
+<p>CP87 adds the project-level <code>strut make</code> workflow on top of the new incremental object cache.</p>
 
 <h2>Current implementation milestone</h2>
-<p>CP0–CP85 are complete. Strut now has the first integrated one-binary web application path: HTTP server routing, JSON APIs, system SQLite integration, async handlers, and compile-time embedded frontend assets.</p>
+<p>CP0–CP86 are complete. Strut now has the first integrated one-binary web application path: HTTP server routing, JSON APIs, system SQLite integration, async handlers, and compile-time embedded frontend assets.</p>
+
+<h2>CP86 baseline</h2>
+<p>The first integrated one-binary todo application now has a reproducible baseline. On the current Linux x86-64 test host, the release build was 97,424 bytes, started in about 5.77 ms, used about 2.8 MiB RSS after startup, and handled roughly 4.8k sequential localhost requests per second. These are development baselines for profiling and later comparison, not cross-machine benchmark claims.</p>
