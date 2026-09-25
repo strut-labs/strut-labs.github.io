@@ -1,0 +1,42 @@
+<h1>Processes &amp; environment</h1>
+<p>Strut's standard library provides direct access to environment variables, clocks, sleeping, and external programs. Process execution is argv-based by default: arguments are passed as arguments rather than interpolated into a shell command.</p>
+<h2>Read environment variables</h2>
+<p><code>env()</code> returns a nullable string because a variable may not exist. Use <code>??</code> when a default is appropriate.</p>
+<pre><code class="language-strut">home := env("HOME") ?? "";
+print(home);</code></pre>
+<h2>Set and remove environment variables</h2>
+<p>Mutating the current process environment can fail and uses the checked <code>EnvironmentError</code> contract.</p>
+<pre><code class="language-strut">function main() -> void : EnvironmentError {
+    set_env("STRUT_MODE", "development");
+    print(env("STRUT_MODE") ?? "missing");
+    unset_env("STRUT_MODE");
+    return;
+}</code></pre>
+<h2>Clocks and durations</h2>
+<p><code>now_ms()</code> is monotonic and is suitable for measuring elapsed time. <code>unix_ms()</code> reports milliseconds since the Unix epoch. <code>sleep_ms()</code> pauses the current thread.</p>
+<pre><code class="language-strut">before := now_ms();
+sleep_ms(25);
+after := now_ms();
+print(after - before);</code></pre>
+<h2>Run an external program</h2>
+<p><code>exec(program, args)</code> launches the program directly and captures stdout and stderr. It returns an <code>exec_result</code> containing <code>exit_code</code>, <code>stdout</code>, and <code>stderr</code>.</p>
+<pre><code class="language-strut">result := exec("git", ["status", "--short"]);
+print(result.exit_code);
+print(result.stdout);</code></pre>
+<h2>Working directory and environment overrides</h2>
+<p>An options object can set the child's working directory and add or replace environment variables without changing the argv-safe launch model.</p>
+<pre><code class="language-strut">result := exec("tool", ["input.txt"], {
+    "cwd": "/tmp/work",
+    "env": {
+        "MODE": "test"
+    }
+});</code></pre>
+<h2>Inherited standard streams</h2>
+<p>Set <code>inherit_stdio</code> when the child should use the parent's terminal or redirected streams instead of being captured.</p>
+<pre><code class="language-strut">result := exec("tool", [], {
+    "inherit_stdio": true
+});</code></pre>
+<h2>Shell execution is explicit</h2>
+<p>Normal <code>exec</code> never requires shell interpolation. When shell syntax itself is intentionally required, use the visibly different <code>exec_shell</code> API.</p>
+<pre><code class="language-strut">result := exec_shell("printf 'hello\n'");</code></pre>
+<p>Prefer <code>exec</code> whenever possible, especially when any argument contains external or user-provided data.</p>

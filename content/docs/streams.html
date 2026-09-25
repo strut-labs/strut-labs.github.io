@@ -30,3 +30,15 @@ text := ss.str();</code></pre>
 <pre><code class="language-strut">print("hello");
 name := input();
 input(name);</code></pre>
+<h2>User-defined stream insertion</h2>
+<p><code>&lt;&lt;</code> and <code>&gt;&gt;</code> use Strut's ordinary operator-overload machinery. A type can therefore define how it is written to a stream without adding special formatting hooks.</p>
+<pre><code class="language-strut">struct Point {
+    int x;
+}
+
+operator &lt;&lt;(ref&lt;ostream&gt; stream, ref&lt;const Point&gt; point) -> ref&lt;ostream&gt; {
+    stream &lt;&lt; point.x;
+    return stream;
+}</code></pre>
+<h2>File lifetime</h2>
+<p>File streams close their underlying handle when the object is destroyed, but explicit <code>.close()</code> is useful when the program needs errors reported immediately or wants to release the file before the surrounding scope ends.</p>

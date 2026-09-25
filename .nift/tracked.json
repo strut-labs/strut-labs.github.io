@@ -119,6 +119,11 @@
       "name": "404",
       "title": "Page Not Found",
       "template": "templates/404.html"
+    },
+    {
+      "name": "docs/system",
+      "title": "Processes & environment",
+      "template": "templates/docs.html"
     }
   ]
 }
