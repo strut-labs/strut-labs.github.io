@@ -28,7 +28,7 @@ include "models/user.h";</code></pre>
 <p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
 
 <h2>Package CLI</h2>
-<p>CP73 supports deterministic local/cache package workflows while remote fetching waits for the HTTP package layer.</p>
+<p>The current package CLI supports deterministic local/cache workflows. Strut now has an HTTP client, but remote package fetching is intentionally still separate from the package resolver until its registry/security contract is designed.</p>
 <pre><code class="language-bash">strut add ../http
 strut list
 strut install

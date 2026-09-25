@@ -17,4 +17,4 @@ app.static("/", assets, "index.html");
 app.listen("127.0.0.1", 8080);
 </code></pre>
 <h2>Incremental builds</h2>
-<p>Embedded files are build dependencies. The planned persistent object build system records them in per-object <code>.strut</code> metadata so changing an embedded asset recompiles only affected objects.</p>
+<p>Embedded files are build dependencies. The persistent object build system records them in per-object <code>.strut/info</code> metadata, so changing an embedded asset invalidates the affected object on the next build.</p>

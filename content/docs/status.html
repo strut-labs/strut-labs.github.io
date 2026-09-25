@@ -1,26 +1,30 @@
 <h1>Implementation status</h1>
-<p>The docs describe both the language contract and the compiler as it exists today. This page is the quick reference for what has actually reached the implementation and regression suite.</p>
-<h2>Implemented through CP76</h2>
+<p>The documentation describes the implemented language contract unless a page explicitly marks something as deferred. This page is the quick implementation snapshot.</p>
+
+<h2>Implemented through CP91</h2>
 <ul>
-  <li>Portable C++20/CMake bootstrap, with Linux, macOS, and Windows treated as first-class architectural targets.</li>
-  <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation through a backend boundary.</li>
-  <li>Primitive and fixed-width types, ordinary type aliases, arrays, maps, strings, JSONIC-backed <code>json</code>, structs, generics, enums, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
-  <li>First-class functions, generic and inferred lambdas, fixed-precedence operator overloading, lambda operator definitions, and overloadable assignment/initialisation.</li>
-  <li>No-GC memory model prototype with reference-counted <code>ptr&lt;T&gt;</code>, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>raw_ptr&lt;T&gt;</code>; raw pointers support <code>raw-&gt;member</code>.</li>
+  <li>Portable C++20/CMake bootstrap with Linux, macOS, and Windows treated as first-class targets.</li>
+  <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation behind a backend boundary.</li>
+  <li>Primitive/fixed-width types and aliases, strings, dynamic/fixed arrays, maps, JSONIC-backed <code>json</code>, structs, enums, generics, nullability, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
+  <li>First-class functions, named/generic functions, closures, inferred and explicitly typed generic lambdas, async functions/lambdas, and futures.</li>
+  <li>Fixed-precedence operator overloading, lambda operator definitions, dereference overloads, and custom <code>=</code>/<code>:=</code> semantics.</li>
+  <li>No-GC memory model with reference-counted <code>ptr&lt;T&gt;</code>, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>raw_ptr&lt;T&gt;</code>, including <code>raw-&gt;member</code>.</li>
   <li>Checked error signatures, <code>throw</code>, typed <code>try</code>/<code>catch</code>, and catch-all handling.</li>
-  <li>Filesystem operations, streams, environment access, clocks, sleeping, argv-safe external process execution, and explicit shell execution.</li>
-  <li>Native threads, mutexes, typed channels, async functions/lambdas, futures, <code>await</code>, and a shared multithreaded executor.</li>
-  <li>C ABI declarations with explicit unsafe calls, plus native static/dynamic library linkage and static, dynamic, or mixed final builds.</li>
-  <li>Release builds request platform-appropriate optimisation, dead-code elimination, and symbol stripping.</li>
-  <li><code>strut.json</code> package manifests, deterministic cache/lock handling, local package CLI workflows, and <code>include &lt;package&gt;</code> resolution.</li>
-  <li>Cross-platform TCP networking substrate, verified client TLS through libcurl, and synchronous/async HTTP client support with JSON integration.</li>
-  <li>Independent black-box regression coverage for compiler failures and generated native programs.</li>
+  <li>Filesystem APIs, streams, <code>in</code>/<code>out</code>/<code>err</code>, environment access, clocks/sleeping, argv-safe <code>exec</code>, child processes/pipes, and explicit shell execution.</li>
+  <li>Native threads, mutexes/scoped locking, typed channels, a shared multithreaded async executor, and documented cross-thread safety policy.</li>
+  <li>C ABI FFI, static/dynamic native libraries, and static, dynamic, or mixed final linking with release dead-code elimination/stripping where supported.</li>
+  <li><code>strut.json</code> package manifests, lock/cache handling, local package workflows, and <code>include &lt;package&gt;</code> resolution.</li>
+  <li>Cross-platform TCP networking, verified client TLS through libcurl, HTTP client APIs, plain HTTP server routing, JSON requests/responses, and system SQLite integration.</li>
+  <li>Compile-time file/directory embedding and static-asset serving for one-binary applications.</li>
+  <li><code>strut init</code>, persistent <code>.o</code>/<code>.obj</code> files, per-object <code>.info.json</code> dependencies, Nift-style modified-time invalidation, and <code>strut make</code>.</li>
+  <li><code>strut test</code> test discovery/filtering and <code>strut fmt</code>/<code>--check</code> canonical formatting.</li>
 </ul>
-<h2>Next</h2>
-<p>CP87 adds the project-level <code>strut make</code> workflow on top of the new incremental object cache.</p>
 
-<h2>Current implementation milestone</h2>
-<p>CP0–CP86 are complete. Strut now has the first integrated one-binary web application path: HTTP server routing, JSON APIs, system SQLite integration, async handlers, and compile-time embedded frontend assets.</p>
+<h2>Project build state</h2>
+<p><code>.strut/config.json</code> is project configuration. Generated object files live in <code>.strut/obj</code>, generated bootstrap sources in <code>.strut/gen</code>, and dependency/build records in <code>.strut/info</code>. Unchanged objects are reused; changed dependencies rebuild only affected units.</p>
 
-<h2>CP86 baseline</h2>
-<p>The first integrated one-binary todo application now has a reproducible baseline. On the current Linux x86-64 test host, the release build was 97,424 bytes, started in about 5.77 ms, used about 2.8 MiB RSS after startup, and handled roughly 4.8k sequential localhost requests per second. These are development baselines for profiling and later comparison, not cross-machine benchmark claims.</p>
+<h2>Current benchmark baseline</h2>
+<p>The CP86 one-binary todo application established a development-host baseline for compile time, stripped executable size, startup, idle RSS, and localhost HTTP throughput. Those numbers are intentionally treated as profiling baselines rather than external performance claims until the dedicated benchmark phase begins.</p>
+
+<h2>Still deferred</h2>
+<p>Server-side HTTPS is not yet shipped. OpenSSL is approved for that work, but the server TLS integration has not been implemented. Remote package fetching/registry policy is also intentionally separate from the already-working local/cache package model.</p>
