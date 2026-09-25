@@ -1,0 +1,6 @@
+<h1>Async</h1><p><code>async</code>/<code>await</code> is planned on top of a genuinely multithreaded executor.</p><pre><code>fetch := async (url) =&gt; await http.get(url);
+
+async function load() -&gt; User {
+    response := await http.get(url);
+    return await response.json&lt;User&gt;();
+}</code></pre>

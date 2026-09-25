@@ -1,1 +1,14 @@
-<section class="hero"><div><div class="eyebrow">Coming in CP6</div><h1>getting-started</h1></div></section>
+<h1>Getting started</h1>
+<div class="status-note"><strong>Early implementation:</strong> Strut is being built checkpoint-by-checkpoint. Syntax documented here is the current language contract; not every feature is implemented yet.</div>
+<h2>Build the bootstrap compiler</h2>
+<pre><code>cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+cmake --build build
+ctest --test-dir build --output-on-failure</code></pre>
+<h2>The shape of a program</h2>
+<pre><code>function main() -&gt; void {
+    x := 2;
+    y := 3;
+    out &lt;&lt; x + y &lt;&lt; endl;
+    return;
+}</code></pre>
+<p>Ordinary variables are mutable. Use <code>const</code> when immutability matters. Statements end in semicolons.</p>

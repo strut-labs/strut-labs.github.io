@@ -1,0 +1,6 @@
+<h1>Operators</h1><p>Strut uses a fixed language-defined operator set and precedence table. Supported operators can be overloaded; packages cannot invent new punctuation or alter parsing precedence.</p><pre><code>operator +(Vector a, Vector b) -&gt; Vector {
+    ...
+}
+
+operator&lt;(vector&lt;int&gt;, vector&lt;int&gt;) -&gt; vector&lt;int&gt;&gt; + :=
+    (a, b) =&gt; { ... };</code></pre><p>Assignment <code>=</code>, typed initialization <code>:=</code>, and prefix dereference <code>*</code> are intended to be overloadable where their semantics remain well-defined.</p>

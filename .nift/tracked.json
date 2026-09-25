@@ -1,8 +1,114 @@
 {
   "tracked": [
-    {"name":"/","title":"Strut","template":"templates/template.html"},
-    {"name":"about","title":"About","template":"templates/template.html"},
-    {"name":"docs","title":"Docs","template":"templates/template.html"},
-    {"name":"getting-started","title":"Getting Started","template":"templates/template.html"}
+    {
+      "name": "/",
+      "title": "Strut",
+      "template": "templates/template.html"
+    },
+    {
+      "name": "about",
+      "title": "About",
+      "template": "templates/template.html"
+    },
+    {
+      "name": "getting-started",
+      "title": "Getting Started",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "install",
+      "title": "Install & Build",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs",
+      "title": "Documentation",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/syntax",
+      "title": "Syntax",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/types",
+      "title": "Types",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/functions",
+      "title": "Functions & Lambdas",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/generics",
+      "title": "Generics",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/operators",
+      "title": "Operators",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/collections",
+      "title": "Collections",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/json",
+      "title": "JSON",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/structs",
+      "title": "Structs",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/memory",
+      "title": "Memory",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/errors",
+      "title": "Errors",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/streams",
+      "title": "Streams",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/concurrency",
+      "title": "Concurrency",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/async",
+      "title": "Async",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/linking",
+      "title": "Linking & FFI",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/packages",
+      "title": "Packages",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/cli",
+      "title": "CLI",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/examples",
+      "title": "Examples",
+      "template": "templates/docs.html"
+    }
   ]
 }

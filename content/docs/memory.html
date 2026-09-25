@@ -1,0 +1,9 @@
+<h1>Memory</h1><p>Strut has no tracing garbage collector. Safe owning pointers are reference counted and destroy their object deterministically when the count reaches zero.</p><pre><code>ptr&lt;User&gt; user;
+ptr&lt;const User&gt; readonly;
+ref&lt;User&gt; borrow;
+ref&lt;const User&gt; readonly_borrow;
+weak_ptr&lt;User&gt; weak;
+
+unsafe {
+    raw_ptr&lt;User&gt; raw;
+}</code></pre><p><code>weak_ptr&lt;T&gt;</code> breaks ownership cycles. <code>ref&lt;T&gt;</code> is non-owning and non-null.</p>

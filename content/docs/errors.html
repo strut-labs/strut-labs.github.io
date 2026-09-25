@@ -1,0 +1,13 @@
+<h1>Errors</h1><p>Thrown error types are part of a function's visible signature.</p><pre><code>function load(string path) -&gt; Config : (IOError, ParseError) {
+    ...
+}
+
+try {
+    config := load(path);
+}
+catch (IOError err) {
+    ...
+}
+catch {
+    ...
+}</code></pre>

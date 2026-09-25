@@ -1,0 +1,3 @@
+<h1>Generics</h1><p>Generic declarations use square brackets so they do not collide visually with instantiated types and callable signatures.</p><pre><code>function max[T](T a, T b) -&gt; T {
+    return a &gt; b ? a : b;
+}</code></pre><p>Template identifiers are uppercase. Typed lambdas may infer otherwise-undeclared uppercase type parameters:</p><pre><code>max := (T x, T y) =&gt; x &gt; y ? x : y;</code></pre>

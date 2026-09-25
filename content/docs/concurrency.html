@@ -1,0 +1,7 @@
+<h1>Concurrency</h1><p>Real native threads are a first-class capability rather than a single-threaded event-loop illusion.</p><pre><code>worker := thread(work, arg);
+worker.join();
+
+mutex mtx;
+mtx.lock(() =&gt; {
+    counter++;
+});</code></pre><p>Explicit <code>lock()</code>/<code>unlock()</code>, scoped locking, channels/queues, and data-race safety rules are planned.</p>

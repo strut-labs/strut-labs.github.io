@@ -1,0 +1,6 @@
+<h1>Install & build</h1>
+<p>The bootstrap compiler uses portable C++20 and CMake. Linux is the initial development host, while macOS and Windows remain first-class architectural targets.</p>
+<h2>Requirements</h2><ul><li>CMake 3.20+</li><li>GCC, Clang, Apple Clang, or MSVC with C++20 support</li><li>Ninja is recommended but optional</li></ul>
+<h2>Current build</h2><pre><code>cmake -S . -B build
+cmake --build build
+ctest --test-dir build --output-on-failure</code></pre>

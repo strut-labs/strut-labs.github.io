@@ -11,11 +11,17 @@
   </div>
 </header>
 <div class="mobile-menu" data-mobile-menu hidden>
-  <nav aria-label="Mobile">
-    <a href="@path('/')">Home</a>
-    <a href="@path('about')">About</a>
-    <a href="@path('docs')">Docs</a>
-    <a href="@path('getting-started')">Get started</a>
-    <a href="https://github.com/strut-labs">GitHub</a>
-  </nav>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-main-nav" aria-label="Mobile">
+      <a href="@path('/')">Home</a>
+      <a href="@path('about')">About</a>
+      <a href="@path('docs')">Docs</a>
+      <a href="@path('getting-started')">Get started</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+    </nav>
+    <div class="mobile-docs-nav">
+      <div class="mobile-docs-label">Documentation</div>
+      @input("templates/docs-nav.html")
+    </div>
+  </div>
 </div>
