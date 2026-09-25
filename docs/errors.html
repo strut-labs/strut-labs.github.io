@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -128,15 +128,32 @@
   </aside>
   <article class="docs-content">
     <h1>Errors</h1>
-    <p>Checked error signatures and <code>throw</code> are implemented. A function lists the checked errors it may propagate after its return type.</p>
-    <pre><code>function load(string path) -&gt; Config : IOError {
-    throw IOError("failed to read config");
-}
-
-function parse(string path) -&gt; Config : (IOError, ParseError) {
-    return load(path);
+    <p>Checked error types are part of a function signature. A function either handles a checked error or declares that it may propagate it.</p>
+    <h2>Declare checked errors</h2>
+    <pre><code class="language-strut">function load(string path) -> Config : IOError {
+    // ...
 }</code></pre>
-    <p>Calling a function that may throw a checked error requires the current function to declare that error until it is handled. Typed <code>try</code>/<code>catch</code> handling is the next checkpoint.</p>
+    <h2>Declare multiple errors</h2>
+    <pre><code class="language-strut">function load(string path) -> Config : (IOError, ParseError) {
+    // ...
+}</code></pre>
+    <h2>Throw</h2>
+    <pre><code class="language-strut">throw IOError("could not read configuration");</code></pre>
+    <h2>Try and typed catch</h2>
+    <pre><code class="language-strut">try {
+    config := load("config.json");
+} catch (IOError err) {
+    err &lt;&lt; "I/O failure" &lt;&lt; endl;
+} catch (ParseError err) {
+    err &lt;&lt; "invalid configuration" &lt;&lt; endl;
+}</code></pre>
+    <h2>Catch all</h2>
+    <pre><code class="language-strut">try {
+    risky();
+} catch {
+    err &lt;&lt; "operation failed" &lt;&lt; endl;
+}</code></pre>
+    <p>Strut currently favours explicit handling or explicit propagation in the signature rather than adding a separate terse propagation token before its behaviour is justified by real code.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

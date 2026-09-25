@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="./docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="./getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="docs/status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="docs/functions.html">Functions & lambdas</a>
@@ -81,11 +81,11 @@
   </div>
 </div>
 <main>
-<section class="hero">
+<section class="hero home-hero">
   <div>
-    <div class="eyebrow">Native without the ceremony</div>
+    <div class="eyebrow">A concise, memory-safe compiled language</div>
     <h1>Build with<br>support.</h1>
-    <p>Strut is a concise, memory-safe compiled language for native applications and web backends, with deterministic memory management, real concurrency, and practical deployment.</p>
+    <p>Strut combines native compilation, deterministic memory management, expressive language features, real concurrency, and straightforward deployment without making everyday code ceremonial.</p>
     <div class="hero-actions">
       <a class="primary" href="./getting-started.html">Get started</a>
       <a href="./docs.html">Read the docs</a>
@@ -93,9 +93,8 @@
   </div>
   <div class="code-card">
     <div class="code-title">hello.p</div>
-    <pre><code>function main() -&gt; void {
-    name := "world";
-    out &lt;&lt; "hello, " &lt;&lt; name &lt;&lt; endl;
+    <pre><code class="language-strut">function main() -> void {
+    print("hello, world!");
     return;
 }</code></pre>
   </div>
@@ -103,7 +102,7 @@
 <section class="feature-strip">
   <div class="feature-grid">
     <div><strong>Concise</strong><span>Inference where it helps. Explicit types where they matter.</span></div>
-    <div><strong>Memory-safe</strong><span>Reference-counted safe pointers, borrows, and explicit unsafe escape hatches.</span></div>
+    <div><strong>Memory-safe</strong><span>Reference-counted safe pointers, non-owning references, and explicit unsafe escape hatches.</span></div>
     <div><strong>Native</strong><span>Compiled executables with static, dynamic, or mixed linking.</span></div>
     <div><strong>Cross-platform</strong><span>Linux, macOS, and Windows are first-class design targets.</span></div>
   </div>

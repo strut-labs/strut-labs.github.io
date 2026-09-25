@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="./docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="./getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="docs/status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="docs/functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="./docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="./getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="docs/status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="docs/functions.html">Functions & lambdas</a>
@@ -128,13 +128,15 @@
   </aside>
   <article class="docs-content">
     <h1>Documentation</h1>
-    <p>These docs track the current Strut design and implementation. Pages deliberately distinguish current compiler support from planned language behaviour.</p>
+    <p>Start with the language surface, then move into the systems features you need. Each page explains the relevant model before showing focused examples.</p>
     <div class="docs-cards">
-    <a class="docs-card" href="docs/syntax.html"><strong>Syntax</strong><span>Declarations, assignment, control flow and source files.</span></a>
-    <a class="docs-card" href="docs/memory.html"><strong>Memory</strong><span>Reference-counted pointers, references, weak pointers and unsafe raw pointers.</span></a>
-    <a class="docs-card" href="docs/functions.html"><strong>Functions</strong><span>Functions, lambdas, callable types and async forms.</span></a>
-    <a class="docs-card" href="docs/linking.html"><strong>Native linking</strong><span>Static, dynamic and mixed linking are explicit Strut goals.</span></a>
+      <a class="docs-card" href="docs/syntax.html"><strong>Syntax</strong><span>Declarations, control flow, functions, includes, and the basic grammar.</span></a>
+      <a class="docs-card" href="docs/types.html"><strong>Types</strong><span>Numeric widths, strings, arrays, maps, JSON, nullability, and pointer types.</span></a>
+      <a class="docs-card" href="docs/functions.html"><strong>Functions & lambdas</strong><span>Named functions, callable values, closures, and explicit function types.</span></a>
+      <a class="docs-card" href="docs/memory.html"><strong>Memory</strong><span>Reference counting, safe references, weak pointers, and explicit unsafe raw access.</span></a>
     </div>
+    <h2>Implementation status</h2>
+    <p>The language is under active implementation. The status page distinguishes working compiler behaviour from syntax that is designed but scheduled for a later checkpoint.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

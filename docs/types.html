@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -127,10 +127,62 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Types</h1><p>Default numeric names are ordinary aliases rather than privileged compiler-only spellings.</p><pre><code>type int := int_32;
+    <h1>Types</h1>
+    <p>Strut uses lowercase built-in type names and lets aliases provide ergonomic defaults. Explicit-width names remain available whenever layout or interoperability matters.</p>
+    <h2>Built-in and core types</h2>
+    <table><thead><tr><th>Type</th><th>Meaning</th><th>Example</th></tr></thead><tbody>
+    <tr><td><code>bool</code></td><td>Boolean value.</td><td><code>ready := true;</code></td></tr>
+    <tr><td><code>int</code></td><td>Alias of <code>int_32</code>.</td><td><code>count := 12;</code></td></tr>
+    <tr><td><code>uint</code></td><td>Alias of <code>uint_32</code>.</td><td><code>uint mask := 7;</code></td></tr>
+    <tr><td><code>int_8/16/32/64</code></td><td>Signed fixed-width integers.</td><td><code>int_64 id := 42;</code></td></tr>
+    <tr><td><code>uint_8/16/32/64</code></td><td>Unsigned fixed-width integers.</td><td><code>uint_8 byte := 255;</code></td></tr>
+    <tr><td><code>double</code></td><td>Alias of <code>double_32</code>.</td><td><code>ratio := 1.5;</code></td></tr>
+    <tr><td><code>double_32/64</code></td><td>Floating-point values.</td><td><code>double_64 precise := 1.25;</code></td></tr>
+    <tr><td><code>string</code></td><td>Owned UTF-8 byte string.</td><td><code>name := "Strut";</code></td></tr>
+    <tr><td><code>json</code></td><td>Built-in JSON value.</td><td><code>json data := {...};</code></td></tr>
+    <tr><td><code>T[]</code></td><td>Dynamic array.</td><td><code>int[] ids := [1, 2];</code></td></tr>
+    <tr><td><code>T[n]</code></td><td>Fixed-size array.</td><td><code>int[3] rgb := [1, 2, 3];</code></td></tr>
+    <tr><td><code>map&lt;K,V&gt;</code></td><td>Key/value map.</td><td><code>map&lt;string,int&gt;</code></td></tr>
+    <tr><td><code>T?</code></td><td>Nullable value.</td><td><code>User? user := null;</code></td></tr>
+    <tr><td><code>ptr&lt;T&gt;</code></td><td>Safe reference-counted owning pointer.</td><td><code>ptr&lt;User&gt;</code></td></tr>
+    <tr><td><code>ref&lt;T&gt;</code></td><td>Safe non-owning, non-null reference.</td><td><code>ref&lt;User&gt;</code></td></tr>
+    <tr><td><code>weak_ptr&lt;T&gt;</code></td><td>Non-owning weak pointer.</td><td><code>weak_ptr&lt;User&gt;</code></td></tr>
+    <tr><td><code>raw_ptr&lt;T&gt;</code></td><td>Unsafe unmanaged pointer.</td><td><code>raw_ptr&lt;User&gt;</code></td></tr>
+    </tbody></table>
+    <h2>Aliases</h2>
+    <p><code>int</code>, <code>uint</code>, and <code>double</code> are ordinary aliases, not special compiler-only spellings. User aliases use the same mechanism.</p>
+    <pre><code class="language-strut">type int := int_32;
 type uint := uint_32;
-type double := double_32;</code></pre><p>Explicit widths include <code>int_8</code> through <code>int_64</code>, unsigned equivalents, and <code>double_32</code>/<code>double_64</code>.</p><p>Dynamic arrays use <code>T[]</code>; fixed arrays use <code>T[n]</code>. Maps use <code>map&lt;K,V&gt;</code>, <code>json</code> is a built-in type, and user structs are now compiled types.</p><p><code>:=</code> performs type inference, explicit numeric annotations are compatibility-checked, widening conversions are supported, and <code>const</code> assignment is rejected.</p>
-    <h2>Nullability</h2><p>Nullable values use <code>T?</code>. Safe member access uses <code>?.</code>, fallback/defaulting uses <code>??</code>, and a successful <code>value != null</code> check narrows the value inside the guarded branch.</p>
+type double := double_32;
+type user_id := uint_64;</code></pre>
+    <h2>Dynamic arrays</h2>
+    <pre><code class="language-strut">int[] values := [1, 2, 3];
+values.push(4);
+last := values.pop();</code></pre>
+    <h2>Fixed arrays</h2>
+    <pre><code class="language-strut">double[3] point := [1.0, 2.0, 3.0];</code></pre>
+    <h2>Maps</h2>
+    <p>Maps use keyed square-bracket literals so that braces can unambiguously mean JSON objects.</p>
+    <pre><code class="language-strut">map&lt;string, int&gt; scores := [
+    "alice": 10,
+    "bob": 20
+];
+
+scores.insert("carol", 30);</code></pre>
+    <h2>JSON</h2>
+    <pre><code class="language-strut">payload := {
+    "name": "Strut",
+    "active": true,
+    "ports": [8080, 8081]
+};</code></pre>
+    <h2>Nullable values</h2>
+    <pre><code class="language-strut">User? user := find_user(id);
+name := user?.name ?? "anonymous";</code></pre>
+    <h2>Type inference</h2>
+    <p><code>:=</code> infers a stable type from the initializer. Later assignment must remain compatible with that type.</p>
+    <pre><code class="language-strut">count := 1;       // int / int_32
+ratio := 1.25;    // double / double_32
+name := "Strut"; // string</code></pre>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -127,13 +127,22 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Concurrency</h1><p>Real native threads are a first-class capability rather than a single-threaded event-loop illusion.</p><pre><code>worker := thread(work, arg);
-worker.join();
+    <h1>Concurrency</h1>
+    <p>Strut is designed for real multithreaded concurrency rather than a single-threaded event-loop model. Explicit threads, mutexes, channels, and async execution are staged later in the implementation roadmap.</p>
+    <h2>Thread shape</h2>
+    <pre><code class="language-strut">worker := thread(work, arg1, arg2);
+worker.join();</code></pre>
+    <h2>Lambda thread</h2>
+    <pre><code class="language-strut">worker := thread(() => {
+    do_work();
+});</code></pre>
+    <h2>Mutex locking</h2>
+    <pre><code class="language-strut">mutex mtx;
 
-mutex mtx;
-mtx.lock(() =&gt; {
+mtx.lock(() => {
     counter++;
-});</code></pre><p>Explicit <code>lock()</code>/<code>unlock()</code>, scoped locking, channels/queues, and data-race safety rules are planned.</p>
+});</code></pre>
+    <p class="status-note">Concurrency syntax is part of the language design; implementation follows the current IO/runtime checkpoints.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -127,12 +127,32 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Operators</h1><p>Strut uses a fixed language-defined operator set and precedence table. Supported operators can be overloaded; packages cannot invent new punctuation or alter parsing precedence.</p><pre><code>operator +(Vector a, Vector b) -&gt; Vector {
-    ...
-}
-
-operator&lt;(vector&lt;int&gt;, vector&lt;int&gt;) -&gt; vector&lt;int&gt;&gt; + :=
-    (a, b) =&gt; { ... };</code></pre><p>Assignment <code>=</code>, typed initialization <code>:=</code>, and prefix dereference <code>*</code> are intended to be overloadable where their semantics remain well-defined.</p>
+    <h1>Operators</h1>
+    <p>Strut has a fixed, language-defined operator table. Packages may overload supported operators, but they cannot invent punctuation or change precedence, which keeps parsing predictable for people, formatters, and coding agents.</p>
+    <h2>Arithmetic and comparison</h2>
+    <pre><code class="language-strut">total := price * quantity + shipping;
+ready := total >= 100 && enabled;</code></pre>
+    <h2>Dereference</h2>
+    <p>Prefix <code>*</code> dereferences a safe <code>ptr&lt;T&gt;</code> and remains overloadable for user-defined pointer-like types.</p>
+    <pre><code class="language-strut">ptr&lt;int&gt; value := ptr(7);
+print(*value);</code></pre>
+    <h2>Normal overload declarations</h2>
+    <pre><code class="language-strut">operator +(Vector a, Vector b) -> Vector {
+    return Vector { x: a.x + b.x, y: a.y + b.y };
+}</code></pre>
+    <h2>Generic operator overloads</h2>
+    <pre><code class="language-strut">operator[T] +(Vector&lt;T&gt; a, Vector&lt;T&gt; b) -> Vector&lt;T&gt; {
+    return Vector&lt;T&gt; { x: a.x + b.x, y: a.y + b.y };
+}</code></pre>
+    <h2>Lambda operator declarations</h2>
+    <pre><code class="language-strut">operator&lt;(Vector, Vector) -> Vector&gt; + :=
+    (a, b) => Vector { x: a.x + b.x, y: a.y + b.y };</code></pre>
+    <h2>Assignment and initialization</h2>
+    <p><code>=</code> operates on an existing destination. <code>:=</code> represents construction into new storage when an explicit destination type makes overload resolution meaningful.</p>
+    <pre><code class="language-strut">operator =(ref&lt;Widget&gt; dst, ref&lt;const Widget&gt; src) -> ref&lt;Widget&gt; {
+    dst.value = src.value;
+    return dst;
+}</code></pre>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

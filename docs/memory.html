@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -128,23 +128,31 @@
   </aside>
   <article class="docs-content">
     <h1>Memory</h1>
-    <p>Strut has no tracing garbage collector. Safe owning pointers are reference counted and destroy their object deterministically when the final owner disappears.</p>
-    <pre><code>ptr&lt;User&gt; user := ptr(User { ... });
-ptr&lt;const User&gt; readonly := user;
-const ptr&lt;User&gt; fixed_binding := user;
-
-ref&lt;User&gt; borrow := ref(*user);
-ref&lt;const User&gt; readonly_borrow := ref(*readonly);
-
-weak_ptr&lt;User&gt; weak := weak(user);
-ptr&lt;User&gt; upgraded := weak.lock();
-
-unsafe {
-    raw_ptr&lt;User&gt; raw := raw(user);
-    *raw = other;
+    <p>Strut has no tracing garbage collector. Safe ownership is deterministic: <code>ptr&lt;T&gt;</code> uses reference counting, and the object is destroyed when the final owning pointer is released.</p>
+    <h2>Safe owning pointers</h2>
+    <pre><code class="language-strut">ptr&lt;User&gt; user := ptr(User { id: 1, name: "Ada" });
+ptr&lt;User&gt; second := user;</code></pre>
+    <h2>Const pointees and const bindings</h2>
+    <pre><code class="language-strut">ptr&lt;const User&gt; read_only := user;
+const ptr&lt;User&gt; fixed_owner := user;</code></pre>
+    <h2>References</h2>
+    <p><code>ref&lt;T&gt;</code> is non-owning, non-null, and non-rebindable. Use it when a callee needs temporary access without reference-count churn.</p>
+    <pre><code class="language-strut">function print_user(ref&lt;const User&gt; user) -> void {
+    print(user.name);
 }</code></pre>
-    <p><code>ptr&lt;T&gt;</code> is safe reference-counted ownership; <code>weak_ptr&lt;T&gt;</code> is non-owning and can be upgraded with <code>.lock()</code>; <code>ref&lt;T&gt;</code> is non-null and non-rebindable. The first lifetime validator deliberately rejects reference escapes it cannot yet prove safe. Raw pointers and raw pointer arithmetic are confined to <code>unsafe</code>.</p>
-    <p>The compiler warns about obvious strong two-struct reference cycles and recommends weak back-references.</p>
+    <h2>Weak pointers</h2>
+    <pre><code class="language-strut">weak_ptr&lt;User&gt; weak := weak(user);
+if (!weak.expired()) {
+    ptr&lt;User&gt; locked := weak.lock();
+}</code></pre>
+    <h2>Unsafe raw pointers</h2>
+    <p>Raw pointers exist for FFI and specialised low-level work, but they are restricted to explicit <code>unsafe</code> regions.</p>
+    <pre><code class="language-strut">unsafe {
+    raw_ptr&lt;User&gt; raw := raw(user);
+    print((*raw).name);
+}</code></pre>
+    <h2>Reference cycles</h2>
+    <p>Reference counting cannot automatically collect strong cycles. Use <code>weak_ptr&lt;T&gt;</code> for back-references. The compiler warns for obvious cycles it can identify statically.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

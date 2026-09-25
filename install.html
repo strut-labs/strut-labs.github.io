@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="./docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="./getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="docs/status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="docs/functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="./docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="./getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="docs/status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="docs/functions.html">Functions & lambdas</a>
@@ -128,11 +128,15 @@
   </aside>
   <article class="docs-content">
     <h1>Install & build</h1>
-    <p>The bootstrap compiler uses portable C++20 and CMake. Linux is the initial development host, while macOS and Windows remain first-class architectural targets.</p>
-    <h2>Requirements</h2><ul><li>CMake 3.20+</li><li>GCC, Clang, Apple Clang, or MSVC with C++20 support</li><li>Ninja is recommended but optional</li></ul>
-    <h2>Current build</h2><pre><code>cmake -S . -B build
-cmake --build build
-ctest --test-dir build --output-on-failure</code></pre>
+    <p>Strut is currently built from source. The compiler is portable C++ and is tested with GCC and Clang; Windows/MSVC remains a first-class architectural target.</p>
+    <h2>Configure</h2>
+    <pre><code class="language-bash">cmake -S . -B build -G Ninja</code></pre>
+    <h2>Build</h2>
+    <pre><code class="language-bash">cmake --build build</code></pre>
+    <h2>Run compiler tests</h2>
+    <pre><code class="language-bash">ctest --test-dir build --output-on-failure</code></pre>
+    <h2>Compiler dependencies</h2>
+    <p>JSONIC is embedded for Strut's built-in JSON implementation. libcurl is the other pre-approved embedded dependency for future web/HTTP functionality. Additional third-party components are not added implicitly.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

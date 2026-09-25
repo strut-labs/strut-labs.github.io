@@ -36,7 +36,7 @@
       <div class="mobile-docs-label">Documentation</div>
       <nav class="docs-nav" aria-label="Documentation">
         <a class="docs-home" href="../docs.html">Documentation home</a>
-        <details open>
+        <details>
           <summary>Start here</summary>
           <div class="docs-nav-links">
             <a href="../getting-started.html">Getting started</a>
@@ -46,7 +46,7 @@
             <a href="./status.html">Implementation status</a>
           </div>
         </details>
-        <details open>
+        <details>
           <summary>Language</summary>
           <div class="docs-nav-links">
             <a href="./functions.html">Functions & lambdas</a>
@@ -84,7 +84,7 @@
   <aside class="docs-sidebar">
     <nav class="docs-nav" aria-label="Documentation">
       <a class="docs-home" href="../docs.html">Documentation home</a>
-      <details open>
+      <details>
         <summary>Start here</summary>
         <div class="docs-nav-links">
           <a href="../getting-started.html">Getting started</a>
@@ -94,7 +94,7 @@
           <a href="./status.html">Implementation status</a>
         </div>
       </details>
-      <details open>
+      <details>
         <summary>Language</summary>
         <div class="docs-nav-links">
           <a href="./functions.html">Functions & lambdas</a>
@@ -128,17 +128,34 @@
   </aside>
   <article class="docs-content">
     <h1>Generics</h1>
-    <p>Generic declarations use square brackets so they do not collide visually with instantiated types and callable signatures.</p>
-    <pre><code>struct Box[T] {
-    T value;
-}
-
-function identity[T](T value) -&gt; T {
+    <p>Generic declarations use square brackets so generic parameters remain visually separate from instantiated types such as <code>vector&lt;T&gt;</code> or callable signatures.</p>
+    <h2>Generic functions</h2>
+    <pre><code class="language-strut">function identity[T](T value) -> T {
     return value;
 }</code></pre>
-    <p>Instantiated types continue to use angle brackets, for example <code>Box&lt;int&gt;</code> and <code>ptr&lt;T&gt;</code>. Template identifiers are uppercase. Typed lambdas may infer otherwise-undeclared uppercase type parameters:</p>
-    <pre><code>max := (T x, T y) =&gt; x &gt; y ? x : y;</code></pre>
-    <p>The bootstrap C++ backend currently uses host C++ templates for instantiation. Strut's source syntax does not depend on that backend choice.</p>
+    <h2>Multiple type parameters</h2>
+    <pre><code class="language-strut">function pair[X, Y](X first, Y second) -> Pair&lt;X, Y&gt; {
+    return Pair&lt;X, Y&gt; { first: first, second: second };
+}</code></pre>
+    <h2>Generic structs</h2>
+    <pre><code class="language-strut">struct Box[T] {
+    T value;
+}</code></pre>
+    <h2>Inferred generic lambdas</h2>
+    <p>Undeclared all-uppercase type identifiers in lambda parameter types are inferred as generic parameters. Misspelled lowercase or mixed-case types remain compiler errors.</p>
+    <pre><code class="language-strut">max := (T a, T b) => {
+    if (a > b) { return a; }
+    return b;
+};</code></pre>
+    <h2>Explicit generic lambda type</h2>
+    <p>When the callable contract itself matters, write the generic function type explicitly.</p>
+    <pre><code class="language-strut">function[T]&lt;(T, T) -> T&gt; max :=
+    (a, b) => {
+        if (a > b) { return a; }
+        return b;
+    };</code></pre>
+    <h2>Why uppercase generic names?</h2>
+    <p>The convention is part of the language rather than a style preference. <code>T</code>, <code>X</code>, and <code>VALUE</code> can identify generic parameters; a typo such as <code>ddouble</code> is therefore diagnosed as an unknown type instead of silently becoming a generic.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
