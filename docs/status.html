@@ -128,21 +128,22 @@
   <article class="docs-content">
     <h1>Implementation status</h1>
     <p>The docs distinguish the Strut language contract from compiler support. Planned syntax is useful for design review, but it must not be mistaken for a feature that already compiles.</p>
-    <h2>Implemented through CP19</h2>
+    <h2>Implemented through CP29</h2>
     <ul>
-      <li>Portable C++20/CMake bootstrap project with Linux, macOS and Windows kept as architectural targets.</li>
-      <li><code>strut --help</code>, <code>--version</code>, token dumping and parse/semantic <code>--check</code> workflow.</li>
-      <li>JSONIC-backed machine-readable compiler metadata.</li>
-      <li>Independent black-box regression harness.</li>
-      <li><code>.p</code>/<code>.h</code> source loading, source spans, comments, identifiers, keywords, operators and primitive literals.</li>
-      <li>Declarations, assignment, mandatory semicolons, expression precedence, member/index syntax, compound assignment and increment/decrement parsing.</li>
-      <li><code>if</code>/<code>else</code>, <code>while</code>, C-style <code>for</code>, and <code>for (item : items)</code>.</li>
-      <li>Named functions, explicit return types, out-of-struct method definitions, <code>[T]</code> generic declarations, lambdas and function-value types.</li>
-      <li>Stable source-located diagnostics, lexical scopes, duplicate-definition checks and separate value/function/type namespaces.</li>
-      <li><code>int_*</code>, <code>uint_*</code>, <code>double_*</code>, ordinary type aliases including <code>int</code>/<code>uint</code>/<code>double</code>, primitive type inference, compatibility checking and <code>const</code> enforcement.</li>
+      <li>Portable C++20/CMake bootstrap with GCC and Clang warnings-as-errors certification; Linux, macOS and Windows remain first-class architectural targets.</li>
+      <li>Lexer, parser, semantic analysis, typed source-mapped IR, and a backend boundary separated from syntax.</li>
+      <li>Native executable generation via the C++20 backend, including calls, returns, arithmetic, control flow and <code>print(...)</code>.</li>
+      <li><code>strut file.p</code> compilation, deterministic output naming, <code>-o</code>, plus <code>--check</code> and token-dump workflows.</li>
+      <li>Primitive width types and aliases, <code>:=</code> inference, explicit typing, widening checks and <code>const</code>.</li>
+      <li>Dynamic <code>T[]</code> and fixed <code>T[n]</code> arrays with bounds-safe indexing and iteration.</li>
+      <li>Owned strings, core string helpers, split/join, and numeric conversion paths using <code>std::from_chars</code>.</li>
+      <li><code>map&lt;K,V&gt;</code> with keyed <code>[key: value]</code> literals, deterministic ordered iteration and core lookup/mutation operations.</li>
+      <li>Built-in <code>json</code> backed by JSONIC: object/array values, navigation, structural equality, parse, stringify, pretty output and encode groundwork.</li>
+      <li>Struct fields, <code>Type { field: value }</code> construction, inline methods and <code>Type::method</code> definitions.</li>
+      <li>Independent black-box regression suite covering compiler failures and generated native programs.</li>
     </ul>
     <h2>Next</h2>
-    <p>CP20 introduces the typed IR and a documented backend contract. Later language pages describe the current design contract and remain planned until their implementation checkpoints are completed.</p>
+    <p>CP30 begins nullability: <code>T?</code>, nullable assignment rules, safe access, defaulting, flow narrowing and safe dereference diagnostics.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

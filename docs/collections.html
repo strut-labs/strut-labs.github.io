@@ -126,11 +126,19 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Collections</h1><p>Collections are designed to be useful without a dependency pile: arrays, maps, sets, and higher-order helpers such as <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>, <code>count_by</code>, and <code>partition</code>.</p><pre><code>int[] values := [1, 2, 3];
-scores := [
+    <h1>Collections</h1>
+    <p>Dynamic arrays, fixed arrays and maps are implemented. Higher-order helpers such as <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>count_by</code> and <code>partition</code> remain later checkpoints.</p>
+    <pre><code>int[] values := [1, 2, 3];
+values.push(4);
+values.pop();
+
+int[3] fixed := [1, 2, 3];
+
+map&lt;string, int&gt; scores := [
     "alice": 10,
     "bob": 20
 ];</code></pre>
+    <p>Indexing is bounds checked. Map iteration is deterministic in the current runtime representation.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
