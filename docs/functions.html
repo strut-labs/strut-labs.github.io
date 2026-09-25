@@ -127,12 +127,19 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Functions & lambdas</h1><pre><code>function add(int a, int b) -&gt; int {
+    <h1>Functions & lambdas</h1>
+    <p>Functions are now first-class values: they can be assigned, passed and returned.</p>
+    <pre><code>function add(int a, int b) -&gt; int {
     return a + b;
 }
 
-multiply := (x, y) =&gt; x * y;
-function&lt;(double, double) -&gt; double&gt; typed := multiply;</code></pre><p><code>-&gt; void</code> remains explicit. Void functions may use <code>return;</code>.</p>
+function&lt;(int, int) -&gt; int&gt; f := add;
+
+generic_max := (T x, T y) =&gt; {
+    if (x &gt; y) { return x; }
+    return y;
+};</code></pre>
+    <p><code>-&gt; void</code> remains explicit. Void functions may use <code>return;</code>. Lambdas capture outer values by value by default so escaping closures do not borrow dead stack storage implicitly.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

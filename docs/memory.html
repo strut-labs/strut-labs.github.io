@@ -127,15 +127,24 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Memory</h1><p>Strut has no tracing garbage collector. Safe owning pointers are reference counted and destroy their object deterministically when the count reaches zero.</p><pre><code>ptr&lt;User&gt; user;
-ptr&lt;const User&gt; readonly;
-ref&lt;User&gt; borrow;
-ref&lt;const User&gt; readonly_borrow;
-weak_ptr&lt;User&gt; weak;
+    <h1>Memory</h1>
+    <p>Strut has no tracing garbage collector. Safe owning pointers are reference counted and destroy their object deterministically when the final owner disappears.</p>
+    <pre><code>ptr&lt;User&gt; user := ptr(User { ... });
+ptr&lt;const User&gt; readonly := user;
+const ptr&lt;User&gt; fixed_binding := user;
+
+ref&lt;User&gt; borrow := ref(*user);
+ref&lt;const User&gt; readonly_borrow := ref(*readonly);
+
+weak_ptr&lt;User&gt; weak := weak(user);
+ptr&lt;User&gt; upgraded := weak.lock();
 
 unsafe {
-    raw_ptr&lt;User&gt; raw;
-}</code></pre><p><code>weak_ptr&lt;T&gt;</code> breaks ownership cycles. <code>ref&lt;T&gt;</code> is non-owning and non-null.</p>
+    raw_ptr&lt;User&gt; raw := raw(user);
+    *raw = other;
+}</code></pre>
+    <p><code>ptr&lt;T&gt;</code> is safe reference-counted ownership; <code>weak_ptr&lt;T&gt;</code> is non-owning and can be upgraded with <code>.lock()</code>; <code>ref&lt;T&gt;</code> is non-null and non-rebindable. The first lifetime validator deliberately rejects reference escapes it cannot yet prove safe. Raw pointers and raw pointer arithmetic are confined to <code>unsafe</code>.</p>
+    <p>The compiler warns about obvious strong two-struct reference cycles and recommends weak back-references.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
