@@ -1,0 +1,21 @@
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="@path('/')"><img src="@path('public/assets/favicon.svg')" alt=""><span>Strut</span></a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="@path('about')">About</a>
+      <a href="@path('docs')">Docs</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+      <a class="button-link" href="@path('getting-started')">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-toggle><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" data-mobile-menu hidden>
+  <nav aria-label="Mobile">
+    <a href="@path('/')">Home</a>
+    <a href="@path('about')">About</a>
+    <a href="@path('docs')">Docs</a>
+    <a href="@path('getting-started')">Get started</a>
+    <a href="https://github.com/strut-labs">GitHub</a>
+  </nav>
+</div>
