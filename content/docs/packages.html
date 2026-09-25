@@ -1,6 +1,11 @@
-<h1>Includes and packages</h1>
-<p>Local source dependencies use quoted semantic includes. They are loaded once and are not textual preprocessor substitution.</p>
-<pre><code>include "user.h";</code></pre>
-<p>Package includes use angle brackets:</p>
-<pre><code>include &lt;http&gt;;</code></pre>
-<p>The syntax and namespace distinction are implemented. Package manifests, fetching, caches and the dedicated package ecosystem arrive in later checkpoints; package includes do not silently fetch or vendor dependencies today.</p>
+<h1>Packages</h1>
+<p>Strut aims for a deliberately small standard library and a curated package ecosystem. Package includes use angle brackets; local project headers use quotes.</p>
+<h2>Package include</h2>
+<pre><code class="language-strut">include &lt;http&gt;;
+include &lt;sqlite&gt;;</code></pre>
+<h2>Local include</h2>
+<pre><code class="language-strut">include "auth.h";
+include "models/user.h";</code></pre>
+<h2>Package direction</h2>
+<p>Official packages are intended to live under a dedicated Strut packages organisation. HTTP, SQLite, PostgreSQL, TLS, and WebSocket support are examples of functionality that can evolve independently from the language runtime.</p>
+<p>Core facilities that directly define the language experience—such as strings, collections, JSON, basic IO, process execution, and concurrency primitives—remain available without turning every small program into a dependency-management exercise.</p>

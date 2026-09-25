@@ -1,6 +1,65 @@
-<h1>Syntax</h1><p>Strut keeps declaration and assignment visually distinct. These declaration forms are implemented as of CP10.</p><pre><code>x := 2;
-int y := 3;
-y = 4;
-const limit := 10;</code></pre><p>Semicolons are mandatory. Range loops follow Nift-style colon syntax:</p><pre><code>for (item : items) {
+<h1>Syntax</h1>
+<p>Strut deliberately keeps the common path short while retaining explicit syntax where ambiguity would be expensive. Declarations use <code>:=</code>, assignment uses <code>=</code>, semicolons are mandatory, and blocks use braces.</p>
+<h2>Declarations and assignment</h2>
+<p>Use <code>:=</code> to declare a value and infer its type. Add a type when you want an explicit contract. Existing values are changed with <code>=</code>.</p>
+<pre><code class="language-strut">count := 0;
+name := "Strut";
+int_64 large_count := 1000000;
+
+count = 1;</code></pre>
+<h3>Constants</h3>
+<p>Variables are mutable by default. Add <code>const</code> when a binding should not be reassigned.</p>
+<pre><code class="language-strut">const max_retries := 3;
+const string app_name := "Strut";</code></pre>
+<h2>Conditionals</h2>
+<pre><code class="language-strut">if (score >= 90) {
+    print("excellent");
+} else if (score >= 50) {
+    print("pass");
+} else {
+    print("retry");
+}</code></pre>
+<h2>Loops</h2>
+<p>Strut supports familiar C-style loops and concise range iteration. Range iteration uses the same colon form as Nift scripting.</p>
+<pre><code class="language-strut">for (int i := 0; i < 10; i++) {
+    print(i);
+}</code></pre>
+<pre><code class="language-strut">for (item : items) {
     print(item);
+}</code></pre>
+<pre><code class="language-strut">while (running) {
+    tick();
+}</code></pre>
+<h2>Functions</h2>
+<p>Return types are always explicit, including <code>void</code>. A void function may use a bare <code>return;</code>.</p>
+<pre><code class="language-strut">function add(int a, int b) -> int {
+    return a + b;
+}</code></pre>
+<pre><code class="language-strut">function log_ready() -> void {
+    print("ready");
+    return;
+}</code></pre>
+<h2>Comments</h2>
+<pre><code class="language-strut">// A line comment.
+
+/* A block comment
+   can span lines. */</code></pre>
+<h2>Includes</h2>
+<p>Angle brackets identify packages; quotes identify local project headers. Includes are semantic module loads, not textual C preprocessor inclusion.</p>
+<pre><code class="language-strut">include <http>;
+include "auth.h";</code></pre>
+<h2>Switch and match</h2>
+<p>Use <code>switch</code> for ordinary value dispatch. Strut does not implicitly fall through between cases. <code>match</code> is available for exhaustive enum matching.</p>
+<pre><code class="language-strut">switch (status) {
+    case Status::ready: {
+        print("ready");
+    }
+    default: {
+        print("other");
+    }
+}</code></pre>
+<pre><code class="language-strut">match (status) {
+    Status::pending => { print("pending"); }
+    Status::ready => { print("ready"); }
+    Status::done => { print("done"); }
 }</code></pre>

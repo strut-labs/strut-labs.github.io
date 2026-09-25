@@ -1,8 +1,10 @@
 <h1>Documentation</h1>
-<p>These docs track the current Strut design and implementation. Pages deliberately distinguish current compiler support from planned language behaviour.</p>
+<p>Start with the language surface, then move into the systems features you need. Each page explains the relevant model before showing focused examples.</p>
 <div class="docs-cards">
-<a class="docs-card" href="@path('docs/syntax')"><strong>Syntax</strong><span>Declarations, assignment, control flow and source files.</span></a>
-<a class="docs-card" href="@path('docs/memory')"><strong>Memory</strong><span>Reference-counted pointers, references, weak pointers and unsafe raw pointers.</span></a>
-<a class="docs-card" href="@path('docs/functions')"><strong>Functions</strong><span>Functions, lambdas, callable types and async forms.</span></a>
-<a class="docs-card" href="@path('docs/linking')"><strong>Native linking</strong><span>Static, dynamic and mixed linking are explicit Strut goals.</span></a>
+  <a class="docs-card" href="@path('docs/syntax')"><strong>Syntax</strong><span>Declarations, control flow, functions, includes, and the basic grammar.</span></a>
+  <a class="docs-card" href="@path('docs/types')"><strong>Types</strong><span>Numeric widths, strings, arrays, maps, JSON, nullability, and pointer types.</span></a>
+  <a class="docs-card" href="@path('docs/functions')"><strong>Functions & lambdas</strong><span>Named functions, callable values, closures, and explicit function types.</span></a>
+  <a class="docs-card" href="@path('docs/memory')"><strong>Memory</strong><span>Reference counting, safe references, weak pointers, and explicit unsafe raw access.</span></a>
 </div>
+<h2>Implementation status</h2>
+<p>The language is under active implementation. The status page distinguishes working compiler behaviour from syntax that is designed but scheduled for a later checkpoint.</p>

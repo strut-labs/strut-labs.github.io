@@ -1,7 +1,29 @@
-<h1>Examples</h1><h2>Hello</h2><pre><code>function main() -&gt; void {
-    out &lt;&lt; "hello" &lt;&lt; endl;
+<h1>Examples</h1>
+<p>Small examples are kept deliberately ordinary. The point is to show how Strut reads in real code rather than compress every language feature into one demonstration.</p>
+<h2>Hello world</h2>
+<pre><code class="language-strut">function main() -> void {
+    print("hello, world!");
     return;
-}</code></pre><h2>Generic lambda</h2><pre><code>max := (T x, T y) =&gt; x &gt; y ? x : y;</code></pre><h2>JSON</h2><pre><code>user := {
-    "name": "Nick",
-    "active": true
-};</code></pre>
+}</code></pre>
+<h2>Collections</h2>
+<pre><code class="language-strut">function main() -> void {
+    int[] values := [1, 2, 3, 4];
+    squares := values.map((x) => x * x);
+
+    for (value : squares) {
+        print(value);
+    }
+
+    return;
+}</code></pre>
+<h2>JSON configuration</h2>
+<pre><code class="language-strut">config := {
+    "host": "127.0.0.1",
+    "port": 8080
+};
+
+print(json.pretty(config));</code></pre>
+<h2>Safe pointers</h2>
+<pre><code class="language-strut">ptr&lt;int&gt; value := ptr(7);
+ptr&lt;int&gt; copy := value;
+print(*copy);</code></pre>

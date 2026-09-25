@@ -1,16 +1,27 @@
 <h1>Collections</h1>
-<p>Dynamic arrays, fixed arrays and maps are implemented, together with higher-order and query-style helpers.</p>
-<pre><code>int[] values := [1, 2, 3, 4];
+<p>Strut keeps common collection operations in the language/runtime surface so ordinary data work does not require a dependency stack.</p>
+<h2>Dynamic arrays</h2>
+<pre><code class="language-strut">int[] values := [1, 2, 3];
+values.push(4);
+print(values[0]);</code></pre>
+<h2>Maps</h2>
+<pre><code class="language-strut">map&lt;string, int&gt; counts := [
+    "users": 10,
+    "jobs": 4
+];
 
-doubled := values.map((x) =&gt; x * 2);
-even := values.filter((x) =&gt; x % 2 == 0);
-sum := values.reduce((a, b) =&gt; a + b);
-found := values.find((x) =&gt; x == 3);
-counts := values.count_by((x) =&gt; x % 2);
-parts := values.partition((x) =&gt; x &gt; 2);
-
-map&lt;string, int&gt; scores := [
-    "alice": 10,
-    "bob": 20
-];</code></pre>
-<p>Implemented helpers include <code>map</code>, <code>filter</code>, <code>reduce</code>, <code>any</code>, <code>all</code>, <code>find</code>, <code>count</code>, callback sorting, <code>count_by</code>, duplicate-rejecting <code>index_by</code> and <code>partition</code>. JSON objects also expose conservative <code>pick</code>, <code>omit</code> and <code>merge_deep</code> helpers.</p>
+counts.insert("workers", 2);</code></pre>
+<h2>Map and filter</h2>
+<pre><code class="language-strut">squares := values.map((x) => x * x);
+even := values.filter((x) => x % 2 == 0);</code></pre>
+<h2>Reduce</h2>
+<pre><code class="language-strut">sum := values.reduce(0, (total, x) => total + x);</code></pre>
+<h2>Queries</h2>
+<pre><code class="language-strut">has_large := values.any((x) => x > 100);
+all_positive := values.all((x) => x > 0);
+first_even := values.find((x) => x % 2 == 0);
+count_even := values.count((x) => x % 2 == 0);</code></pre>
+<h2>Grouping helpers</h2>
+<pre><code class="language-strut">by_role := users.count_by((user) => user.role);
+by_id := users.index_by((user) => user.id);
+groups := users.partition((user) => user.active);</code></pre>

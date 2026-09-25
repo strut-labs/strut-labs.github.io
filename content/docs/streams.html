@@ -1,6 +1,32 @@
-<h1>Streams</h1><p>Strut keeps the useful C++ stream model with clearer standard stream names.</p><pre><code>out &lt;&lt; "hello, world!" &lt;&lt; endl;
-err &lt;&lt; "failure" &lt;&lt; endl;
-in &gt;&gt; name;
-
-ofstream ofs(path);
-ofs &lt;&lt; "hello" &lt;&lt; endl;</code></pre><p>Planned stream types include <code>istream</code>, <code>ostream</code>, <code>sstream</code>, <code>ifstream</code>, and <code>ofstream</code>.</p>
+<h1>Streams</h1>
+<p>Strut keeps the useful C++ stream model while using clearer standard stream names: <code>in</code>, <code>out</code>, and <code>err</code>. File streams are deterministic resources and support both construction with a path and explicit <code>.open()</code>/<code>.close()</code>.</p>
+<h2>Standard output</h2>
+<pre><code class="language-strut">out << "hello, world!" << endl;</code></pre>
+<h2>Standard error</h2>
+<pre><code class="language-strut">err << "could not open file" << endl;</code></pre>
+<h2>Standard input</h2>
+<pre><code class="language-strut">string name;
+in >> name;</code></pre>
+<h2>Output files</h2>
+<pre><code class="language-strut">ofstream ofs("report.txt");
+ofs << "hello" << endl;
+ofs.close();</code></pre>
+<h3>Open later</h3>
+<pre><code class="language-strut">ofstream ofs;
+ofs.open("report.txt");
+ofs << "ready" << endl;
+ofs.close();</code></pre>
+<h2>Input files</h2>
+<pre><code class="language-strut">ifstream ifs("data.txt");
+string value;
+ifs >> value;
+ifs.close();</code></pre>
+<h2>String streams</h2>
+<pre><code class="language-strut">sstream ss;
+ss << "count=" << count;
+text := ss.str();</code></pre>
+<h2>Convenience functions</h2>
+<p>Streams do not replace the short common-case helpers.</p>
+<pre><code class="language-strut">print("hello");
+name := input();
+input(name);</code></pre>

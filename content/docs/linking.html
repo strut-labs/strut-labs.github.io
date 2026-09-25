@@ -1,1 +1,16 @@
-<h1>Linking & FFI</h1><p>Static linking is not the only deployment story. Strut intends to make static, dynamic, and mixed linking first-class and benchmark them for size, startup, memory, and performance.</p><p>The FFI will support native C ABI integration and platform libraries. Unsafe raw-pointer work remains explicit inside <code>unsafe</code>.</p>
+<h1>Linking & FFI</h1>
+<p>Strut treats static and dynamic linking as equally legitimate deployment choices. A single self-contained executable is useful, but applications should not be forced to absorb every library into every binary.</p>
+<h2>Link modes</h2>
+<pre><code class="language-bash">strut make --static
+strut make --dynamic</code></pre>
+<h2>Mixed linking</h2>
+<p>Projects will be able to statically link some dependencies while dynamically linking others.</p>
+<pre><code class="language-text">http = static
+sqlite = dynamic</code></pre>
+<h2>Native libraries</h2>
+<p>The FFI/linker layer is planned to support conventional static and dynamic native libraries across Linux, macOS, and Windows.</p>
+<pre><code class="language-text">libexample.a
+libexample.so
+libexample.dylib
+example.dll</code></pre>
+<p class="status-note">Only JSONIC and libcurl are pre-approved embedded third-party dependencies. Additional vendored libraries require an explicit design decision.</p>

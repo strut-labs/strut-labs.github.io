@@ -1,7 +1,13 @@
 <h1>CLI</h1>
-<p>Single-file native compilation is implemented.</p>
-<pre><code>strut hello.p
-strut hello.p -o hello
-strut --check hello.p
-strut --dump-tokens hello.p</code></pre>
-<p>The output defaults to the source stem (<code>.exe</code> on Windows). Project commands such as <code>strut make</code> and <code>strut test</code> remain planned rather than implemented.</p>
+<p>The primary single-file workflow is intentionally direct: pass a Strut source file to <code>strut</code> and receive a native executable.</p>
+<h2>Compile one file</h2>
+<pre><code class="language-bash">strut hello.p</code></pre>
+<h2>Choose output path</h2>
+<pre><code class="language-bash">strut hello.p -o hello</code></pre>
+<h2>Check without producing an executable</h2>
+<pre><code class="language-bash">strut --check hello.p</code></pre>
+<h2>Inspect tokens</h2>
+<pre><code class="language-bash">strut --tokens hello.p</code></pre>
+<h2>Project compilation</h2>
+<p>The project-level workflow is planned around <code>strut make</code>, keeping the single-file path short while still supporting packages, linking modes, and cross-platform builds.</p>
+<pre><code class="language-bash">strut make</code></pre>

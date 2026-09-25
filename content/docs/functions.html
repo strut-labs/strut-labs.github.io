@@ -1,13 +1,31 @@
 <h1>Functions & lambdas</h1>
-<p>Functions are now first-class values: they can be assigned, passed and returned.</p>
-<pre><code>function add(int a, int b) -&gt; int {
-    return a + b;
-}
-
-function&lt;(int, int) -&gt; int&gt; f := add;
-
-generic_max := (T x, T y) =&gt; {
-    if (x &gt; y) { return x; }
-    return y;
+<p>Functions have explicit return types. Lambdas are first-class callable values and may infer parameter types from context.</p>
+<h2>Named functions</h2>
+<pre><code class="language-strut">function multiply(double a, double b) -> double {
+    return a * b;
+}</code></pre>
+<h2>Void functions</h2>
+<pre><code class="language-strut">function announce() -> void {
+    print("ready");
+    return;
+}</code></pre>
+<h2>Function values</h2>
+<pre><code class="language-strut">function&lt;(double, double) -> double&gt; op := multiply;
+result := op(2.0, 4.0);</code></pre>
+<h2>Lambdas</h2>
+<p>The common case leaves the callable type to inference.</p>
+<pre><code class="language-strut">square := (x) => x * x;</code></pre>
+<h3>Block-bodied lambdas</h3>
+<pre><code class="language-strut">clamp := (x, lo, hi) => {
+    if (x < lo) { return lo; }
+    if (x > hi) { return hi; }
+    return x;
 };</code></pre>
-<p><code>-&gt; void</code> remains explicit. Void functions may use <code>return;</code>. Lambdas capture outer values by value by default so escaping closures do not borrow dead stack storage implicitly.</p>
+<h3>Typed lambda values</h3>
+<pre><code class="language-strut">function&lt;(double, double) -> double&gt; multiply :=
+    (a, b) => a * b;</code></pre>
+<h2>Closures</h2>
+<p>Escaping closures capture values safely. The compiler keeps the closure lifetime independent from the lexical stack frame that created it.</p>
+<pre><code class="language-strut">factor := 3;
+scale := (x) => x * factor;
+print(scale(4));</code></pre>

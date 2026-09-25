@@ -1,6 +1,14 @@
-<h1>Async</h1><p><code>async</code>/<code>await</code> is planned on top of a genuinely multithreaded executor.</p><pre><code>fetch := async (url) =&gt; await http.get(url);
-
-async function load() -&gt; User {
-    response := await http.get(url);
+<h1>Async</h1>
+<p>Async/await is intended to provide structured asynchronous code backed by a genuinely multithreaded runtime where useful.</p>
+<h2>Async functions</h2>
+<pre><code class="language-strut">async function fetch_user(int id) -> User {
+    response := await http.get("/users/" + to_string(id));
     return await response.json&lt;User&gt;();
 }</code></pre>
+<h2>Async lambdas</h2>
+<pre><code class="language-strut">handler := async (request) => {
+    return await process(request);
+};</code></pre>
+<h2>Single-expression async lambda</h2>
+<pre><code class="language-strut">load := async (url) => await http.get(url);</code></pre>
+<p class="status-note">The parser recognises async lambda syntax, while the runtime executor arrives in a later concurrency phase.</p>

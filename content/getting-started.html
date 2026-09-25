@@ -1,14 +1,15 @@
 <h1>Getting started</h1>
-<div class="status-note"><strong>Early implementation:</strong> Strut is being built checkpoint-by-checkpoint. Syntax documented here is the current language contract; not every feature is implemented yet.</div>
-<h2>Build the bootstrap compiler</h2>
-<pre><code>cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
-cmake --build build
-ctest --test-dir build --output-on-failure</code></pre>
-<h2>The shape of a program</h2>
-<pre><code>function main() -&gt; void {
-    x := 2;
-    y := 3;
-    out &lt;&lt; x + y &lt;&lt; endl;
+<p>Strut currently builds from source while the compiler is under active development. Once the compiler is available, the simplest workflow is one source file and one command.</p>
+<h2>Your first program</h2>
+<pre><code class="language-strut">function main() -> void {
+    print("hello, world!");
     return;
 }</code></pre>
-<p>Ordinary variables are mutable. Use <code>const</code> when immutability matters. Statements end in semicolons.</p>
+<h2>Compile it</h2>
+<pre><code class="language-bash">strut hello.p</code></pre>
+<p>The default output is a native executable named from the source file. Use <code>-o</code> when you want to choose the path explicitly.</p>
+<pre><code class="language-bash">strut hello.p -o hello
+./hello</code></pre>
+<h2>Check source without linking</h2>
+<pre><code class="language-bash">strut --check hello.p</code></pre>
+<p>From here, the syntax and types pages are the shortest path through the implemented language surface.</p>
