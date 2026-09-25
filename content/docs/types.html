@@ -1,3 +1,3 @@
 <h1>Types</h1><p>Type aliases are implemented as of CP18. Default numeric names are ordinary aliases rather than privileged compiler-only spellings.</p><pre><code>type int := int_32;
 type uint := uint_32;
-type double := double_32;</code></pre><p>Explicit widths include <code>int_8</code> through <code>int_64</code>, unsigned equivalents, and <code>double_32</code>/<code>double_64</code>.</p><p>Dynamic arrays use <code>T[]</code>; fixed arrays use <code>T[n]</code>.</p>
+type double := double_32;</code></pre><p>Explicit widths include <code>int_8</code> through <code>int_64</code>, unsigned equivalents, and <code>double_32</code>/<code>double_64</code>.</p><p>Dynamic arrays use <code>T[]</code>; fixed arrays use <code>T[n]</code>.</p><p>As of CP19, <code>:=</code> performs real type inference for primitive values, explicit numeric annotations are compatibility-checked, widening conversions are supported, and <code>const</code> assignment is rejected.</p>
