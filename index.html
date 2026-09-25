@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10110f">
+<title>Strut · Strut</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/style.css">
+<script defer src="assets/site.js"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="./"><img src="assets/favicon.svg" alt=""><span>Strut</span></a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="./about.html">About</a>
+      <a href="./docs.html">Docs</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+      <a class="button-link" href="./getting-started.html">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-toggle><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" data-mobile-menu hidden>
+  <nav aria-label="Mobile">
+    <a href="./">Home</a>
+    <a href="./about.html">About</a>
+    <a href="./docs.html">Docs</a>
+    <a href="./getting-started.html">Get started</a>
+    <a href="https://github.com/strut-labs">GitHub</a>
+  </nav>
+</div>
+<main>
+<section class="hero">
+  <div>
+    <div class="eyebrow">Native without the ceremony</div>
+    <h1>Build with<br>support.</h1>
+    <p>Strut is a concise, memory-safe compiled language for native applications and web backends, with deterministic memory management, real concurrency, and practical deployment.</p>
+    <div class="hero-actions">
+      <a class="primary" href="./getting-started.html">Get started</a>
+      <a href="./docs.html">Read the docs</a>
+    </div>
+  </div>
+  <div class="code-card">
+    <div class="code-title">hello.p</div>
+    <pre><code>function main() -&gt; void {
+    name := "world";
+    out &lt;&lt; "hello, " &lt;&lt; name &lt;&lt; endl;
+    return;
+}</code></pre>
+  </div>
+</section>
+<section class="feature-strip">
+  <div class="feature-grid">
+    <div><strong>Concise</strong><span>Inference where it helps. Explicit types where they matter.</span></div>
+    <div><strong>Memory-safe</strong><span>Reference-counted safe pointers, borrows, and explicit unsafe escape hatches.</span></div>
+    <div><strong>Native</strong><span>Compiled executables with static, dynamic, or mixed linking.</span></div>
+    <div><strong>Cross-platform</strong><span>Linux, macOS, and Windows are first-class design targets.</span></div>
+  </div>
+</section>
+</main>
+<footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
+</body>
+</html>
