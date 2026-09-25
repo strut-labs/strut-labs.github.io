@@ -35,7 +35,7 @@ button, input { font: inherit; }
 .menu-open { overflow: hidden; }
 main { min-height: 0; }
 .hero { max-width: var(--max); margin: 0 auto; padding: 72px 24px 64px; display: grid; grid-template-columns: 1.07fr .93fr; gap: 68px; align-items: center; }
-.home-hero { min-height: calc(100svh - 274px); }
+.home-hero { min-height: 0; padding-top: 52px; padding-bottom: 48px; }
 .eyebrow { color: var(--accent); font-size: .78rem; text-transform: uppercase; letter-spacing: .16em; font-weight: 800; }
 h1 { margin: 14px 0 20px; font-size: clamp(3.4rem, 8vw, 6.6rem); line-height: .9; letter-spacing: -.07em; }
 .hero p { color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); line-height: 1.7; max-width: 650px; }
@@ -113,13 +113,13 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
 
 /* Code blocks */
 .code-block { position: relative; margin: 22px 0; }
-.docs-content .code-block pre { margin: 0; padding-top: 44px; }
+.docs-content .code-block pre { margin: 0; padding: 22px 56px 22px 22px; }
 .code-copy { position: absolute; top: 9px; right: 9px; z-index: 2; width: 31px; height: 31px; border: 1px solid var(--line); border-radius: 7px; background: #141512; color: var(--muted); cursor: pointer; display: grid; place-items: center; }
 .code-copy:hover { color: var(--text); border-color: #484b40; }
 .code-copy svg { width: 15px; height: 15px; fill: none; stroke: currentColor; stroke-width: 1.8; }
 .code-copy.copied { color: var(--accent-strong); }
 .code-card .code-block { margin: 0; }
-.code-card .code-block pre { padding-top: 48px; }
+.code-card .code-block pre { padding: 22px 56px 22px 22px; }
 .code-card .code-copy { top: 10px; }
 
 /* Lightweight custom syntax highlighting */
