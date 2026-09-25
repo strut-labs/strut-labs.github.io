@@ -35,7 +35,7 @@ button, input { font: inherit; }
 .menu-open { overflow: hidden; }
 main { min-height: 0; }
 .hero { max-width: var(--max); margin: 0 auto; padding: 72px 24px 64px; display: grid; grid-template-columns: 1.07fr .93fr; gap: 68px; align-items: center; }
-.home-hero { min-height: calc(100vh - 66px - 116px); }
+.home-hero { min-height: calc(100svh - 274px); }
 .eyebrow { color: var(--accent); font-size: .78rem; text-transform: uppercase; letter-spacing: .16em; font-weight: 800; }
 h1 { margin: 14px 0 20px; font-size: clamp(3.4rem, 8vw, 6.6rem); line-height: .9; letter-spacing: -.07em; }
 .hero p { color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.25rem); line-height: 1.7; max-width: 650px; }
