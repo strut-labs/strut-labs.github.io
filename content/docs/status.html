@@ -5,20 +5,20 @@
 <ul>
   <li>Portable C++20/CMake bootstrap with Linux, macOS, and Windows treated as first-class targets.</li>
   <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation behind a backend boundary.</li>
-  <li>Primitive/fixed-width types and aliases, strings, dynamic/fixed arrays, maps, JSONIC-backed <code>json</code>, structs, enums, generics, nullability, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
+  <li>Primitive/fixed-width types and aliases, strings, dynamic/fixed arrays, explicit collection modules (<code>vector</code>, <code>deque</code>, <code>list</code>, hash/ordered maps and sets, queue/stack/priority queue), heterogeneous tuples including one-tuples, JSONIC-backed <code>json</code>, structs, enums, generics, nullability, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
   <li>First-class functions, named/generic functions, closures, inferred and explicitly typed generic lambdas, async functions/lambdas, and futures.</li>
   <li>Fixed-precedence operator overloading, lambda operator definitions, dereference overloads, and custom <code>=</code>/<code>:=</code> semantics.</li>
-  <li>No-GC memory model with reference-counted <code>ptr&lt;T&gt;</code>, non-owning <code>ref&lt;T&gt;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>raw_ptr&lt;T&gt;</code>, including <code>raw-&gt;member</code>.</li>
+  <li>No-GC memory model with reference-counted <code>T*</code>, non-owning <code>T&amp;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>ptr&lt;T&gt;</code>, including <code>raw-&gt;member</code>.</li>
   <li>Checked error signatures, <code>throw</code>, typed <code>try</code>/<code>catch</code>, and catch-all handling.</li>
-  <li>Filesystem APIs, streams, <code>in</code>/<code>out</code>/<code>err</code>, environment access, clocks/sleeping, argv-safe <code>exec</code>, child processes/pipes, and explicit shell execution.</li>
+  <li>Filesystem APIs with scalar/vector/wildcard copy/move/removal, recursive traversal, metadata/path helpers and optimized whole-file text/binary I/O; streams, <code>in</code>/<code>out</code>/<code>err</code>; environment access, clocks/sleeping, argv-safe <code>exec</code>, child processes/pipes, and explicit shell execution.</li>
   <li>Native threads, mutexes/scoped locking, typed channels, a shared multithreaded async executor, and documented cross-thread safety policy.</li>
   <li>C ABI FFI, static/dynamic native libraries, and static, dynamic, or mixed final linking with release dead-code elimination/stripping where supported.</li>
-  <li><code>strut.json</code> package manifests, lock/cache handling, local package workflows, and <code>include &lt;package&gt;</code> resolution.</li>
+  <li><code>strut.json</code> package manifests, lock/cache handling, local package workflows, explicit angle-bracket standard modules, and <code>include &lt;package&gt;</code> resolution; quoted includes remain local/native dependencies.</li>
   <li>Cross-platform TCP networking, verified client TLS through libcurl, HTTP client APIs, plain HTTP server routing, JSON requests/responses, and system SQLite integration.</li>
   <li>Compile-time file/directory embedding and static-asset serving for one-binary applications.</li>
   <li><code>strut init</code>, persistent <code>.o</code>/<code>.obj</code> files, per-object <code>.info.json</code> dependencies, Nift-style modified-time invalidation, and <code>strut make</code>.</li>
   <li><code>strut test</code> test discovery/filtering and <code>strut fmt</code>/<code>--check</code> canonical formatting.</li>
-  <li>Built-in <code>strut lsp</code> language server with diagnostics, definition, completion, hover, and formatting.</li>
+  <li>Built-in <code>strut lsp</code> language server with diagnostics, definition, completion, hover, and formatting, plus syntax-highlighted CLI error snippets and standard-library completions.</li>
   <li>Named cross-compilation targets and target-partitioned build caches.</li>
   <li>Frontend fuzzing, sanitizer-backed memory stress, concurrency stress, FFI hardening, and multi-program/package dogfooding.</li>
 </ul>

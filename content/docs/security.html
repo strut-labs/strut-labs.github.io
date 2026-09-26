@@ -1,9 +1,9 @@
 <h1>Security model</h1>
 <p>Strut separates the safe language surface from explicit unsafe/native boundaries. The goal is deterministic native programs without a tracing garbage collector while preventing lifetime errors promised by the safe type system.</p>
 <h2>Safe memory</h2>
-<p><code>ptr&lt;T&gt;</code> owns through reference counting, <code>ref&lt;T&gt;</code> is a compiler-checked non-owning/non-null borrow, and <code>weak_ptr&lt;T&gt;</code> provides non-owning access to shared ownership. Safe null dereferences are checked rather than becoming native undefined behaviour.</p>
+<p><code>T*</code> owns through reference counting, <code>T&amp;</code> is a compiler-checked non-owning/non-null borrow, and <code>weak_ptr&lt;T&gt;</code> provides non-owning access to shared ownership. Safe null dereferences are checked rather than becoming native undefined behaviour.</p>
 <h2>Unsafe and FFI</h2>
-<p><code>raw_ptr&lt;T&gt;</code> operations and C ABI calls require an explicit <code>unsafe</code> boundary. Strut cannot prove the behaviour of external native code; unsafe regions should remain small and be wrapped by safe APIs.</p>
+<p><code>ptr&lt;T&gt;</code> operations and C ABI calls require an explicit <code>unsafe</code> boundary. Strut cannot prove the behaviour of external native code; unsafe regions should remain small and be wrapped by safe APIs.</p>
 <h2>Processes and packages</h2>
 <p><code>exec</code> is argv-based by default rather than silently invoking a shell. Package paths are validated against escaping package roots, and lock metadata is intended to make dependency selection reproducible.</p>
 <h2>TLS</h2>

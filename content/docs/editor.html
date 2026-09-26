@@ -8,3 +8,5 @@
 <p>The current server provides document diagnostics, go-to-definition, completion, hover/type information, and document formatting. Formatting uses the same canonical formatter as <code>strut fmt</code>.</p>
 <h2>Editor integration</h2>
 <p>Configure an editor's generic LSP client to launch <code>strut lsp</code> for <code>.p</code> and <code>.h</code> files. A dedicated editor extension can add convenience later without changing the protocol.</p>
+<h2>Terminal diagnostics</h2>
+<p>Command-line diagnostics render the relevant source line with syntax highlighting and a highlighted caret/range. Semantic errors for standard modules, including missing collection includes and unsupported hash keys, are reported by Strut before backend compilation.</p>

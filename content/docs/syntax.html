@@ -45,8 +45,9 @@ const string app_name := "Strut";</code></pre>
 /* A block comment
    can span lines. */</code></pre>
 <h2>Includes</h2>
-<p>Angle brackets identify packages; quotes identify local project headers. Includes are semantic module loads, not textual C preprocessor inclusion.</p>
-<pre><code class="language-strut">include <http>;
+<p>Angle brackets identify Strut standard-library modules and package modules; quotes identify local project/native headers. Includes are semantic module loads, not textual C preprocessor inclusion, so <code>include &lt;vector&gt;;</code> does not promise that every backend literally injects a C++ <code>&lt;vector&gt;</code> header.</p>
+<pre><code class="language-strut">include &lt;vector&gt;;
+include &lt;sqlite&gt;;
 include "auth.h";</code></pre>
 <h2>Switch and match</h2>
 <p>Use <code>switch</code> for ordinary value dispatch. Strut does not implicitly fall through between cases. <code>match</code> is available for exhaustive enum matching.</p>

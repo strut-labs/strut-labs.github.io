@@ -24,6 +24,28 @@
 
 print(json.pretty(config));</code></pre>
 <h2>Safe pointers</h2>
-<pre><code class="language-strut">ptr&lt;int&gt; value := ptr(7);
-ptr&lt;int&gt; copy := value;
-print(*copy);</code></pre>
+<pre><code class="language-strut">int* value := ptr(7);
+int* copy := value;
+print(*copy);</code></pre><h2>Tuple and collections</h2>
+<pre><code class="language-strut">include &lt;tuple&gt;;
+include &lt;map&gt;;
+include &lt;priority_queue&gt;;
+
+tuple&lt;double, int&gt; measurement := (2.0, 1);
+map&lt;string, int&gt; counts := ["ready": 2];
+
+priority_queue&lt;int, min&gt; next;
+next.push(8);
+next.push(3);
+print(next.top()); // 3</code></pre>
+<h2>Filesystem scripting</h2>
+<pre><code class="language-strut">include &lt;vector&gt;;
+include &lt;filesystem&gt;;
+
+make_dir("dist/assets");
+copy(["css/*.css", "js/*.js"], "dist/assets");
+write_file("dist/version.txt", "0.1.0\n");
+
+for (path : walk("dist")) {
+    print(path);
+}</code></pre>

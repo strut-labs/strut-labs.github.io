@@ -30,12 +30,12 @@ function User::label() -> string {
 <h2>Abstract contracts and inheritance</h2>
 <p>A struct with required methods that have no implementation cannot be instantiated. Derived structs can satisfy those contracts. Strut permits one data-bearing base plus additional contract-style bases.</p>
 <pre><code class="language-strut">struct Printable {
-    function print_to(ref&lt;ostream&gt; out) -> void;
+    function print_to(ostream&amp; out) -> void;
 }
 
 struct User : Printable {
     string name;
-    function print_to(ref&lt;ostream&gt; out) -> void {
+    function print_to(ostream&amp; out) -> void {
         out << name;
     }
 }</code></pre>

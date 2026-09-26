@@ -1,8 +1,10 @@
 <h1>Packages</h1>
-<p>Strut aims for a deliberately small standard library and a curated package ecosystem. Package includes use angle brackets; local project headers use quotes.</p>
-<h2>Package include</h2>
-<pre><code class="language-strut">include &lt;http&gt;;
-include &lt;sqlite&gt;;</code></pre>
+<p>Strut uses familiar angle-bracket syntax for both standard-library modules and package modules. Quoted includes are reserved for local project/native headers. Angle brackets are semantic Strut module loads, not a promise to inject a same-named C++ header.</p>
+<h2>Standard and package includes</h2>
+<pre><code class="language-strut">include &lt;vector&gt;;     // Strut standard module
+include &lt;filesystem&gt;; // Strut standard module
+include &lt;http&gt;;       // package/module
+include &lt;sqlite&gt;;     // package/module</code></pre>
 <h2>Local include</h2>
 <pre><code class="language-strut">include "auth.h";
 include "models/user.h";</code></pre>

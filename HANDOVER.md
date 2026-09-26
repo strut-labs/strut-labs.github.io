@@ -313,3 +313,7 @@ Then read feature documentation only when the task requires it, for example:
 - integration with other application stacks.
 
 Prefer documented Nift behaviour and the existing project structure over guessing based on another website generator or framework.
+
+## 2026-09 stdlib documentation sync
+
+Website docs were synced to the latest Strut workspace changes: explicit stdlib modules, expanded collections and tuples, filesystem/vector/wildcard operations, whole-file IO, syntax-highlighted diagnostics, and profiling coverage. `public/` was synchronized manually from the affected `content/` pages in this pass because no Nift binary was present in the workspace/environment; rebuild with the normal Nift workflow when available to certify generated output.

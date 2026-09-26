@@ -8,3 +8,11 @@
 <p>Raw benchmark output belongs with the benchmark scripts. Machine, compiler, target, build mode, dependency versions, and benchmark parameters should be recorded so later results can be compared honestly.</p>
 <h2>Interpretation</h2>
 <p>A microbenchmark is evidence about the operation it measures, not proof that Strut is globally faster than another language. Dogfood applications and end-to-end workloads are used alongside microbenchmarks before optimisation decisions are made.</p>
+
+<h2>Compiler profiling</h2>
+<p>The bootstrap compiler can expose its frontend/backend split directly. Use <code>--timings</code> to print phase timing and <code>--emit-cpp</code> to stop after generating the bootstrap C++.</p>
+<pre><code class="language-bash">strut app.p --release --timings -o app
+strut app.p --release --emit-cpp generated.cpp</code></pre>
+<p>The benchmark workspace contains scripts for cold and incremental builds, generated-C++ compile/link timing, Linux <code>perf</code>, disassembly and assembly comparison. Keep raw before/after results when making optimisation changes.</p><h2>Standard-library profiling</h2>
+<p>The profiling workspace measures collection workloads, whole-file reads, filesystem traversal, per-module compile cost, emitted C++ size, project-scale incremental builds, and generated-code budgets. Equivalent workloads are compared against C++, Rust, and Go where the required toolchains and matching standard-library semantics are available.</p>
+<p>Module profiling is especially important for Strut's explicit standard-library model: a program that enables one collection should not silently pull in unrelated JSON, HTTP, SQLite, or filesystem machinery.</p>
