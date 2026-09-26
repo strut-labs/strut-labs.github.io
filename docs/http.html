@@ -8,7 +8,7 @@
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
-<script defer src="../assets/site.js"></script>
+<script defer src="../assets/site.js?v=2"></script>
 </head>
 <body>
 <header class="site-header">
@@ -150,17 +150,17 @@
     <h1>HTTP client</h1>
     <p>The official HTTP client uses libcurl, keeps TLS certificate and hostname verification enabled, follows redirects by default, and integrates with Strut's JSON and async facilities.</p>
     <h2>GET request</h2>
-    <pre><code class="language-strut">function main() -&gt; void : HttpError {
+    <pre><code class="language-strut">function main() -&gt; int : HttpError {
     response := http_get("https://example.com/api/status");
     print(response.status);
     print(response.body);
-    return;
+    return 0;
 }</code></pre>
     <h2>JSON response</h2>
-    <pre><code class="language-strut">function main() -&gt; void : HttpError {
+    <pre><code class="language-strut">function main() -&gt; int : HttpError {
     body := http_get_json("https://example.com/api/user");
     print(body["name"]);
-    return;
+    return 0;
 }</code></pre>
     <h2>Custom requests</h2>
     <p><code>http_request</code> accepts a method, URL, and JSON options object for headers, request bodies, timeouts, and redirect policy.</p>
@@ -180,7 +180,7 @@ response := await pending;</code></pre>
     <p>Client TLS is backed by libcurl. OpenSSL is approved as Strut's server-side TLS backend, but HTTPS server support is not implemented yet; the current server surface is plain HTTP.</p>
     <h2>HTTP server</h2>
     <p>Strut's server API is built on the cross-platform TCP substrate. Routes support path parameters, query values, headers, request bodies, JSON parsing, and synchronous or async handlers.</p>
-    <pre><code class="language-strut">function main() -&gt; void : NetworkError {
+    <pre><code class="language-strut">function main() -&gt; int : NetworkError {
     http_server app := http_server();
 
     app.get("/hello/:name", (http_request req) =&gt; {
@@ -189,7 +189,7 @@ response := await pending;</code></pre>
     });
 
     app.listen("127.0.0.1", 8080);
-    return;
+    return 0;
 }</code></pre>
     <h2>Async handlers</h2>
     <p>Use <code>get_async</code> or <code>post_async</code> when a handler performs async work. The server awaits the returned Strut future before writing the response.</p>

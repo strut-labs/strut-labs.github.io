@@ -8,7 +8,7 @@
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
-<script defer src="../assets/site.js"></script>
+<script defer src="../assets/site.js?v=2"></script>
 </head>
 <body>
 <header class="site-header">
@@ -155,11 +155,11 @@
     return 42;
 }</code></pre>
     <h2>Awaiting a result</h2>
-    <pre><code class="language-strut">function main() -> void {
+    <pre><code class="language-strut">function main() -> int {
     pending := answer();
     value := await pending;
     print(value);
-    return;
+    return 0;
 }</code></pre>
     <h2>Async lambdas</h2>
     <p>Async lambdas use the same lambda syntax with an <code>async</code> prefix.</p>
