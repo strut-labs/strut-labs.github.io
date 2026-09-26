@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -160,14 +160,20 @@
     <tr><td><code>double_32/64</code></td><td>Floating-point values.</td><td><code>double_64 precise := 1.25;</code></td></tr>
     <tr><td><code>string</code></td><td>Owned UTF-8 byte string.</td><td><code>name := "Strut";</code></td></tr>
     <tr><td><code>json</code></td><td>Built-in JSON value.</td><td><code>json data := {...};</code></td></tr>
-    <tr><td><code>T[]</code></td><td>Dynamic array.</td><td><code>int[] ids := [1, 2];</code></td></tr>
+    <tr><td><code>vector&lt;T&gt;</code> / <code>T[]</code></td><td>Dynamic contiguous vector; requires <code>&lt;vector&gt;</code>.</td><td><code>int[] ids := [1, 2];</code></td></tr>
     <tr><td><code>T[n]</code></td><td>Fixed-size array.</td><td><code>int[3] rgb := [1, 2, 3];</code></td></tr>
-    <tr><td><code>map&lt;K,V&gt;</code></td><td>Key/value map.</td><td><code>map&lt;string,int&gt;</code></td></tr>
+    <tr><td><code>map&lt;K,V&gt;</code></td><td>Hash map; requires <code>&lt;map&gt;</code>.</td><td><code>map&lt;string,int&gt;</code></td></tr>
+    <tr><td><code>set&lt;T&gt;</code></td><td>Hash set; requires <code>&lt;set&gt;</code>.</td><td><code>set&lt;string&gt;</code></td></tr>
+    <tr><td><code>ordered_map&lt;K,V&gt;</code></td><td>Sorted tree map.</td><td><code>ordered_map&lt;string,int&gt;</code></td></tr>
+    <tr><td><code>ordered_set&lt;T&gt;</code></td><td>Sorted tree set.</td><td><code>ordered_set&lt;string&gt;</code></td></tr>
+    <tr><td><code>tuple&lt;T...&gt;</code></td><td>Fixed heterogeneous tuple.</td><td><code>tuple&lt;double,int&gt;</code></td></tr>
     <tr><td><code>T?</code></td><td>Nullable value.</td><td><code>User? user := null;</code></td></tr>
-    <tr><td><code>ptr&lt;T&gt;</code></td><td>Safe reference-counted owning pointer.</td><td><code>ptr&lt;User&gt;</code></td></tr>
-    <tr><td><code>ref&lt;T&gt;</code></td><td>Safe non-owning, non-null reference.</td><td><code>ref&lt;User&gt;</code></td></tr>
+    <tr><td><code>T*</code></td><td>Safe reference-counted owning pointer.</td><td><code>User* user := ptr(...);</code></td></tr>
+    <tr><td><code>T**</code></td><td>Recursive safe owning pointer layers.</td><td><code>User** users := ptr(user);</code></td></tr>
+    <tr><td><code>T*&amp;</code></td><td>Non-owning reference to a pointer binding.</td><td><code>User*&amp; alias := ref(user);</code></td></tr>
+    <tr><td><code>T&amp;</code></td><td>Safe non-owning, non-null reference.</td><td><code>User&amp; user := existing;</code></td></tr>
     <tr><td><code>weak_ptr&lt;T&gt;</code></td><td>Non-owning weak pointer.</td><td><code>weak_ptr&lt;User&gt;</code></td></tr>
-    <tr><td><code>raw_ptr&lt;T&gt;</code></td><td>Unsafe unmanaged pointer.</td><td><code>raw_ptr&lt;User&gt;</code></td></tr>
+    <tr><td><code>ptr&lt;T&gt;</code></td><td>Unsafe unmanaged raw pointer; restricted to <code>unsafe</code>.</td><td><code>ptr&lt;User&gt;</code></td></tr>
     </tbody></table>
     <h2>Aliases</h2>
     <p><code>int</code>, <code>uint</code>, and <code>double</code> are ordinary aliases, not special compiler-only spellings. User aliases use the same mechanism.</p>
@@ -176,14 +182,18 @@ type uint := uint_32;
 type double := double_32;
 type user_id := uint_64;</code></pre>
     <h2>Dynamic arrays</h2>
-    <pre><code class="language-strut">int[] values := [1, 2, 3];
+    <pre><code class="language-strut">include &lt;vector&gt;;
+
+int[] values := [1, 2, 3];
 values.push(4);
 last := values.pop();</code></pre>
     <h2>Fixed arrays</h2>
     <pre><code class="language-strut">double[3] point := [1.0, 2.0, 3.0];</code></pre>
     <h2>Maps</h2>
-    <p>Maps use keyed square-bracket literals so that braces can unambiguously mean JSON objects.</p>
-    <pre><code class="language-strut">map&lt;string, int&gt; scores := [
+    <p>Plain <code>map</code> is hash-based for fast general-purpose lookup; use <code>ordered_map</code> when sorted iteration is required. Maps use keyed square-bracket literals so braces can unambiguously mean JSON objects.</p>
+    <pre><code class="language-strut">include &lt;map&gt;;
+
+map&lt;string, int&gt; scores := [
     "alice": 10,
     "bob": 20
 ];
@@ -203,6 +213,13 @@ name := user?.name ?? "anonymous";</code></pre>
     <pre><code class="language-strut">count := 1;       // int / int_32
 ratio := 1.25;    // double / double_32
 name := "Strut"; // string</code></pre>
+    <h2>Tuples</h2>
+    <pre><code class="language-strut">include &lt;tuple&gt;;
+
+tuple&lt;double, int&gt; t := (2.0, 1);
+tuple&lt;int&gt; single := (7,);
+print(t[0]);</code></pre>
+    <p>A trailing comma distinguishes a one-element tuple from an ordinary parenthesized expression.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

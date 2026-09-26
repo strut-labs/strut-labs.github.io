@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -157,6 +157,8 @@
     <p>Packages use semantic versions. Lockfiles record exact versions/revisions/checksums so locked builds do not silently change dependency contents.</p>
     <h2>Build metadata</h2>
     <p><code>.strut</code> object metadata is a cache format rather than a permanent interchange format. An incompatible compiler may invalidate it and perform a clean rebuild.</p>
+    <h2>Current pre-1.0 collection migration</h2>
+    <p>The general-purpose collection names now favour the efficient default: <code>map</code> and <code>set</code> are hash-based. Sorted tree semantics use <code>ordered_map</code> and <code>ordered_set</code>. The temporary <code>prique</code> spelling has been replaced by <code>priority_queue</code>; use <code>priority_queue&lt;T,min&gt;</code> for min-first ordering.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

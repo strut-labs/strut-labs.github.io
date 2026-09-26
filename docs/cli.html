@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -231,6 +231,11 @@ strut test --help</code></pre>
     <tr><td><code>1</code></td><td>Compilation, build, formatting check, or test execution failed.</td></tr>
     <tr><td><code>2</code></td><td>The command line or project configuration was invalid.</td></tr>
     </tbody></table>
+    
+    <h2>Compiler diagnostics and profiling</h2>
+    <pre><code class="language-bash">strut main.p --release --timings -o main
+strut main.p --release --emit-cpp generated.cpp</code></pre>
+    <p><code>--timings</code> reports coarse load/parse, semantic, IR and native-backend timing. <code>--emit-cpp</code> is primarily a bootstrap/profiling tool: it emits the generated C++ and stops before invoking the host compiler.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

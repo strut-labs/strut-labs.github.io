@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -147,7 +147,7 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Processes &amp; environment</h1>
+    <h1>Filesystem, processes &amp; environment</h1>
     <p>Strut's standard library provides direct access to environment variables, clocks, sleeping, and external programs. Process execution is argv-based by default: arguments are passed as arguments rather than interpolated into a shell command.</p>
     <h2>Read environment variables</h2>
     <p><code>env()</code> returns a nullable string because a variable may not exist. Use <code>??</code> when a default is appropriate.</p>
@@ -189,6 +189,54 @@ print(result.stdout);</code></pre>
     <p>Normal <code>exec</code> never requires shell interpolation. When shell syntax itself is intentionally required, use the visibly different <code>exec_shell</code> API.</p>
     <pre><code class="language-strut">result := exec_shell("printf 'hello\n'");</code></pre>
     <p>Prefer <code>exec</code> whenever possible, especially when any argument contains external or user-provided data.</p>
+    <h2>Filesystem</h2>
+    <p>Filesystem operations live in the explicit <code>&lt;filesystem&gt;</code> standard module and use checked <code>FilesystemError</code> failures.</p>
+    <pre><code class="language-strut">include &lt;filesystem&gt;;
+
+make_dir("build/assets");
+copy("logo.png", "build/assets/logo.png");
+move("old.txt", "archive/old.txt");
+remove("scratch.txt");
+remove_all("tmp");</code></pre>
+    <h3>Bulk paths</h3>
+    <p><code>copy</code> and <code>move</code> accept a vector of source paths and copy/move each source into an existing destination directory. <code>remove</code> and <code>remove_all</code> also accept vectors.</p>
+    <pre><code class="language-strut">include &lt;vector&gt;;
+include &lt;filesystem&gt;;
+
+copy(["a.txt", "b.txt"], "backup");
+move(["one.log", "two.log"], "archive");
+remove(["a.tmp", "b.tmp"]);</code></pre>
+    <h3>Wildcards</h3>
+    <p>Source operands support portable Strut-side <code>*</code>, <code>?</code>, and recursive <code>**</code> expansion. Destination paths never expand wildcards. Wildcard copy/move requires an existing destination directory; an unmatched copy/move is an error, while unmatched removal is a no-op.</p>
+    <pre><code class="language-strut">copy("assets/*.png", "public/images");
+move("logs/*.log", "archive");
+remove("build/*.o");
+remove_all("tmp/**");
+copy(["css/*.css", "js/*.js"], "dist");</code></pre>
+    <h3>Metadata and traversal</h3>
+    <pre><code class="language-strut">print(exists("data.txt"));
+print(is_file("data.txt"));
+print(is_dir("assets"));
+print(file_size("data.txt"));
+print(modified("data.txt"));
+
+entries := ls("assets");
+all_entries := walk("assets");</code></pre>
+    <h3>Path operations</h3>
+    <pre><code class="language-strut">path := join_path("assets", "images", "logo.png");
+print(absolute(path));
+print(canonical(path));
+print(parent(path));
+print(filename(path));
+print(extension(path));
+print(stem(path));</code></pre>
+    <h3>Current directory</h3>
+    <pre><code class="language-strut">before := cwd();
+cd("workspace");
+print(cwd());
+cd(before);</code></pre>
+    <h3>Removal semantics</h3>
+    <p><code>remove()</code> removes a file or empty directory. Recursive deletion is deliberately explicit through <code>remove_all()</code>.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

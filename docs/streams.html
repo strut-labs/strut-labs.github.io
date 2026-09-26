@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -185,12 +185,23 @@ input(name);</code></pre>
     int x;
 }
 
-operator &lt;&lt;(ref&lt;ostream&gt; stream, ref&lt;const Point&gt; point) -> ref&lt;ostream&gt; {
+operator &lt;&lt;(ostream&amp; stream, Point&amp; const point) -> ostream&amp; {
     stream &lt;&lt; point.x;
     return stream;
 }</code></pre>
     <h2>File lifetime</h2>
     <p>File streams close their underlying handle when the object is destroyed, but explicit <code>.close()</code> is useful when the program needs errors reported immediately or wants to release the file before the surrounding scope ends.</p>
+    <h2>Whole-file I/O</h2>
+    <p>For the common case where the entire file is wanted at once, the filesystem module provides bulk operations that size the file, allocate the destination once, and perform a direct read or write.</p>
+    <pre><code class="language-strut">include &lt;filesystem&gt;;
+
+string text := read_file("config.txt");
+write_file("copy.txt", text);
+append_file("copy.txt", "\nmore");
+
+bytes raw := read_bytes("image.bin");
+write_file("image-copy.bin", raw);</code></pre>
+    <p><code>ifstream.read_all()</code> uses the same size-aware bulk-read strategy for regular files. Stream APIs remain the right choice for incremental, token-by-token, or line-by-line processing.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

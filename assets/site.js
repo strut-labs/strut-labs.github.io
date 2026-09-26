@@ -28,7 +28,7 @@
 
   const esc = (value) => value.replace(/[&<>]/g, (c) => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
   const strutKeywords = new Set(['async','await','break','case','catch','const','continue','default','else','enum','for','function','if','include','match','operator','return','struct','switch','throw','try','type','unsafe','void','while']);
-  const strutTypes = new Set(['bool','int','uint','int_8','int_16','int_32','int_64','uint_8','uint_16','uint_32','uint_64','double','double_32','double_64','string','json','map','ptr','ref','weak_ptr','raw_ptr','istream','ostream','sstream','ifstream','ofstream','exec_result']);
+  const strutTypes = new Set(['bool','int','uint','int_8','int_16','int_32','int_64','uint_8','uint_16','uint_32','uint_64','double','double_32','double_64','string','json','map','ptr','weak_ptr','istream','ostream','sstream','ifstream','ofstream','exec_result']);
   const strutLiterals = new Set(['true','false','null']);
 
   function highlightStrut(source) {

@@ -63,7 +63,7 @@
           <summary>Systems</summary>
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
-            <a href="./system.html">Processes & environment</a>
+            <a href="./system.html">Filesystem & system</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
@@ -121,7 +121,7 @@
         <summary>Systems</summary>
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
-          <a href="./system.html">Processes & environment</a>
+          <a href="./system.html">Filesystem & system</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
@@ -180,7 +180,7 @@ producer := thread(() => {
 value := jobs.receive();
 producer.join();</code></pre>
     <h2>Race-safety model</h2>
-    <p><code>ptr&lt;T&gt;</code> lifetime accounting is safe across threads, but that does not make arbitrary mutation of the pointed-to object race-free. Synchronize shared mutable state with <code>mutex</code> or <code>channel&lt;T&gt;</code>. Direct <code>ref&lt;T&gt;</code> arguments are rejected at thread boundaries because they are non-owning borrows.</p>
+    <p><code>T*</code> lifetime accounting is safe across threads, but that does not make arbitrary mutation of the pointed-to object race-free. Synchronize shared mutable state with <code>mutex</code> or <code>channel&lt;T&gt;</code>. Direct <code>T&amp;</code> arguments are rejected at thread boundaries because they are non-owning borrows.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
