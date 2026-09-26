@@ -19,8 +19,8 @@
 <tr><td><code>ordered_set&lt;T&gt;</code></td><td>Sorted tree set.</td><td><code>ordered_set&lt;string&gt;</code></td></tr>
 <tr><td><code>tuple&lt;T...&gt;</code></td><td>Fixed heterogeneous tuple.</td><td><code>tuple&lt;double,int&gt;</code></td></tr>
 <tr><td><code>T?</code></td><td>Nullable value.</td><td><code>User? user := null;</code></td></tr>
-<tr><td><code>T*</code></td><td>Safe reference-counted owning pointer.</td><td><code>User* user := ptr(...);</code></td></tr>
-<tr><td><code>T**</code></td><td>Recursive safe owning pointer layers.</td><td><code>User** users := ptr(user);</code></td></tr>
+<tr><td><code>T*</code></td><td>Safe reference-counted owning pointer.</td><td><code>User* user := new(...);</code></td></tr>
+<tr><td><code>T**</code></td><td>Recursive safe owning pointer layers.</td><td><code>User** users := new(user);</code></td></tr>
 <tr><td><code>T*&amp;</code></td><td>Non-owning reference to a pointer binding.</td><td><code>User*&amp; alias := ref(user);</code></td></tr>
 <tr><td><code>T&amp;</code></td><td>Safe non-owning, non-null reference.</td><td><code>User&amp; user := existing;</code></td></tr>
 <tr><td><code>weak_ptr&lt;T&gt;</code></td><td>Non-owning weak pointer.</td><td><code>weak_ptr&lt;User&gt;</code></td></tr>

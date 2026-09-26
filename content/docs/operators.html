@@ -5,7 +5,7 @@
 ready := total >= 100 && enabled;</code></pre>
 <h2>Dereference</h2>
 <p>Prefix <code>*</code> dereferences a safe <code>T*</code> and remains overloadable for user-defined pointer-like types.</p>
-<pre><code class="language-strut">int* value := ptr(7);
+<pre><code class="language-strut">int* value := new(7);
 print(*value);</code></pre>
 <h2>Normal overload declarations</h2>
 <pre><code class="language-strut">operator +(Vector a, Vector b) -> Vector {
