@@ -156,7 +156,15 @@
     <h2>Diagnostics</h2>
     <p>The language server reuses Strut's lexer, parser, semantic analyser, and source spans. Syntax and type errors therefore match command-line diagnostics rather than being reimplemented by an editor plugin.</p>
     <h2>Navigation and assistance</h2>
-    <p>The current server provides document diagnostics, go-to-definition, completion, hover/type information, and document formatting. Formatting uses the same canonical formatter as <code>strut fmt</code>.</p>
+    <p>The server provides diagnostics, project-aware go-to-definition, contextual completion, hover/type information, signature help, document symbols, and document formatting. Formatting uses the same canonical formatter as <code>strut fmt</code>.</p>
+    <h3>Completion and imports</h3>
+    <p>Expression completion includes visible declarations and free functions. Member completion after <code>value.</code> is filtered by the value's Strut type. Type positions offer types rather than unrelated values, while <code>include &lt;...&gt;</code> offers standard modules and manifest dependencies. A completion for a standard-module API can carry a standard LSP additional text edit that inserts its missing include; core arrays and JSON do not receive module edits.</p>
+    <h3>Signatures and checked errors</h3>
+    <p>Signature help tracks the active argument through nested calls and displays parameter names, canonical Strut types, return types, optional parameters, and checked errors. Hover and completion details use the same canonical API registry. User functions and declarations come from the compiler AST rather than a second editor grammar.</p>
+    <h3>Incomplete files</h3>
+    <p>Open files are analysed normally with the compiler lexer, parser, and semantic analyser. If a file is temporarily incomplete, a small recovery index preserves available declarations and registry-powered completion without weakening normal compilation.</p>
+    <h3>Project discovery</h3>
+    <p>Each document discovers its project from its own file path, using the same <code>.strut/config.json</code> and <code>strut.json</code> root rules as <code>strut project</code>. Definition lookup indexes sibling Strut sources, so launching the editor from another working directory does not change project navigation.</p>
     <h2>Editor integration</h2>
     <p>Configure an editor's generic LSP client to launch <code>strut lsp</code> for <code>.p</code> and <code>.h</code> files. A dedicated editor extension can add convenience later without changing the protocol.</p>
     <h2>Terminal diagnostics</h2>
