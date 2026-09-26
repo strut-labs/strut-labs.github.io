@@ -181,8 +181,31 @@ producer := thread(() => {
 
 value := jobs.receive();
 producer.join();</code></pre>
+    <h2>Atomic values</h2>
+    <p><code>atomic&lt;int&gt;</code> and <code>atomic&lt;bool&gt;</code> provide sequentially consistent shared state without a separate mutex. Both support <code>load</code>, <code>store</code>, <code>exchange</code>, and <code>compare_exchange</code>; integer atomics also support <code>fetch_add</code> and <code>fetch_sub</code>. Atomic values cannot be copied or moved: load the value and explicitly initialize another atomic instead.</p>
+    <!-- strut-example:atomics:start -->
+    <pre><code class="language-strut">atomic&lt;int&gt; counter := 0;
+
+function increment() -&gt; void {
+    counter.fetch_add(1);
+    return;
+}
+
+function main() -&gt; int : ThreadError {
+    first := thread(increment);
+    second := thread(increment);
+    first.join();
+    second.join();
+
+    println(counter.load());
+    println(counter.exchange(8));
+    println(counter.compare_exchange(8, 9));
+    println(counter.load());
+    return 0;
+}</code></pre>
+    <!-- strut-example:atomics:end -->
     <h2>Race-safety model</h2>
-    <p><code>T*</code> lifetime accounting is safe across threads, but that does not make arbitrary mutation of the pointed-to object race-free. Synchronize shared mutable state with <code>mutex</code> or <code>channel&lt;T&gt;</code>. Direct <code>T&amp;</code> arguments are rejected at thread boundaries because they are non-owning borrows.</p>
+    <p><code>T*</code> lifetime accounting is safe across threads, but that does not make arbitrary mutation of the pointed-to object race-free. Synchronize shared mutable state with <code>atomic&lt;T&gt;</code>, <code>mutex</code>, or <code>channel&lt;T&gt;</code>. Direct <code>T&amp;</code> arguments are rejected at thread boundaries because they are non-owning borrows.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
