@@ -150,7 +150,7 @@
     <h1>Memory</h1>
     <p>Strut has no tracing garbage collector. Safe ownership is deterministic: <code>T*</code> is the ordinary reference-counted owning pointer, and the object is destroyed when the final owning pointer is released.</p>
     <h2>Safe owning pointers</h2>
-    <pre><code class="language-strut">User* user := ptr(User { id: 1, name: "Ada" });
+    <pre><code class="language-strut">User* user := new(User { id: 1, name: "Ada" });
 User* second := user;</code></pre>
     <p>Copying a safe pointer shares ownership. A null safe pointer traps on dereference rather than becoming native undefined behaviour.</p>
     <h2>Const pointees and const bindings</h2>
@@ -160,9 +160,9 @@ User* const read_only := user;
 const User* const fixed_read_only := user;</code></pre>
     <h2>Nested pointers and references</h2>
     <p>Pointer layers compose normally. <code>T**</code> is a safe pointer to a safe <code>T*</code>, and deeper pointer chains continue the same way. References to pointer bindings are supported with <code>T*&amp;</code>. Pointers to references are deliberately rejected.</p>
-    <pre><code class="language-strut">int* value := ptr(7);
-int** pointer := ptr(value);
-int*** triple := ptr(pointer);
+    <pre><code class="language-strut">int* value := new(7);
+int** pointer := new(value);
+int*** triple := new(pointer);
 int*&amp; binding := ref(value);
 
 print(***triple);</code></pre>
@@ -179,7 +179,7 @@ if (!weak.expired()) {
     <h2>Unsafe raw pointers</h2>
     <p><code>ptr&lt;T&gt;</code> is the unmanaged raw-pointer type. Raw pointers exist for FFI and specialised low-level work and are restricted to explicit <code>unsafe</code> regions. Both <code>*raw</code> and familiar <code>raw-&gt;member</code> access are supported.</p>
     <pre><code class="language-strut">unsafe {
-    ptr&lt;User&gt; raw_user := raw(user);
+    ptr&lt;User&gt; raw_user := ptr(user);
     print(raw_user-&gt;name);
 }</code></pre>
     <h2>Reference cycles</h2>
