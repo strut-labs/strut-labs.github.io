@@ -78,6 +78,7 @@
           <summary>Tools</summary>
           <div class="docs-nav-links">
             <a href="./cli.html">CLI</a>
+            <a href="./api-schema.html">API schema</a>
             <a href="./editor.html">Editor & LSP</a>
             <a href="./cross-compilation.html">Cross compilation</a>
             <a href="./performance.html">Performance</a>
@@ -136,6 +137,7 @@
         <summary>Tools</summary>
         <div class="docs-nav-links">
           <a href="./cli.html">CLI</a>
+          <a href="./api-schema.html">API schema</a>
           <a href="./editor.html">Editor & LSP</a>
           <a href="./cross-compilation.html">Cross compilation</a>
           <a href="./performance.html">Performance</a>
@@ -177,7 +179,11 @@
 strut project --json</code></pre>
     <h2>Machine-readable API index</h2>
     <p><code>strut api --json</code> is the authoritative discovery surface for coding agents and editor tooling. It includes built-in signatures, methods, checked errors, runtime components, native dependencies, standard modules, and CLI commands.</p>
-    <pre><code class="language-bash">strut api --json</code></pre>
+    <pre><code class="language-bash">strut api http
+strut api --json
+strut api --json sqlite
+strut api --json checked-errors</code></pre>
+    <p>See the <a href="./api-schema.html">API discovery schema</a> for fields and compatibility guarantees.</p>
     
     <h3>Example configuration</h3>
     <pre><code class="language-json">{

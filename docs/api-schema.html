@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#10110f">
-<title>Compatibility · Strut</title>
+<title>API discovery schema · Strut</title>
 <link rel="icon" href="../assets/favicon.png" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
 <link rel="stylesheet" href="../assets/style.css">
@@ -149,18 +149,53 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <h1>Compatibility & versioning</h1>
-    <p>Strut uses semantic versioning for compiler releases. The language is still pre-1.0, so deliberate source changes may occur while the design is being hardened; they must be documented and covered by regressions.</p>
-    <h2>After 1.0</h2>
-    <ul><li>patch releases do not intentionally break valid source or package contracts;</li><li>minor releases add backwards-compatible features;</li><li>major releases are required for deliberate backwards-incompatible language changes.</li></ul>
-    <h2>Deprecation</h2>
-    <p>After 1.0, public behaviour should normally receive a deprecation period with a clear diagnostic before removal in a later major release. Security defects may require faster changes and must be documented.</p>
-    <h2>Packages and locks</h2>
-    <p>Packages use semantic versions. Lockfiles record exact versions/revisions/checksums so locked builds do not silently change dependency contents.</p>
-    <h2>Build metadata</h2>
-    <p><code>.strut</code> object metadata is a cache format rather than a permanent interchange format. An incompatible compiler may invalidate it and perform a clean rebuild.</p>
-    <h2>Current pre-1.0 collection migration</h2>
-    <p>The general-purpose collection names now favour the efficient default: <code>map</code> and <code>set</code> are hash-based. Sorted tree semantics use <code>ordered_map</code> and <code>ordered_set</code>. The temporary <code>prique</code> spelling has been replaced by <code>priority_queue</code>; use <code>priority_queue&lt;T,min&gt;</code> for min-first ordering.</p>
+    <h1>API discovery schema</h1>
+    <p><code>strut api --json [query]</code> exposes the same callable registry used by semantic analysis, lowering, runtime-component selection, and editor features. It is intended for agents and other tooling that need language knowledge without scraping documentation.</p>
+    
+    <h2>Versioning</h2>
+    <p>The top-level <code>schema_version</code> is currently <code>1</code>. New optional fields may be added within version 1. Removing a field, changing its type, or changing its meaning requires a new schema version. <code>language_version</code> identifies the Strut release that produced the catalog.</p>
+    
+    <h2>Top-level fields</h2>
+    <table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td><code>schema_version</code></td><td>Integer contract version for this JSON document.</td></tr>
+    <tr><td><code>language_version</code></td><td>Compiler/language version.</td></tr>
+    <tr><td><code>query</code></td><td>The applied filter, or an empty string for the complete catalog.</td></tr>
+    <tr><td><code>functions</code>, <code>methods</code></td><td>Matching free callables and owner-qualified methods.</td></tr>
+    <tr><td><code>standard_modules</code></td><td>Modules recognized by the compiler.</td></tr>
+    <tr><td><code>cli_commands</code></td><td>Stable command discovery names.</td></tr>
+    <tr><td><code>language_notes</code></td><td>Small syntax/compatibility facts useful to generated code.</td></tr>
+    </tbody></table>
+    
+    <h2>Callable fields</h2>
+    <p>Each callable has <code>name</code>, <code>category</code>, <code>module</code>, <code>owner</code>, <code>summary</code>, a convenience <code>signature</code>, all <code>signatures</code>, <code>checked_errors</code>, <code>runtime_components</code>, and <code>native_dependencies</code>. An empty owner denotes a free function. Signatures use canonical Strut type spelling.</p>
+    
+    <h2>Filtering</h2>
+    <pre><code class="language-bash">strut api http
+strut api --json sqlite
+strut api --json filesystem
+strut api --json checked-errors</code></pre>
+    <p>Matching is case-insensitive across names, categories, modules, owners, and summaries. The special <code>checked-errors</code> filter selects callables with checked-error contracts.</p>
+    
+    <h2>Example</h2>
+    <pre><code class="language-json">{
+  "schema_version": 1,
+  "language_version": "0.0.1",
+  "query": "sqlite",
+  "functions": [{
+    "name": "sqlite_open",
+    "category": "function",
+    "module": "sqlite",
+    "owner": "",
+    "signature": "sqlite_open(string path) -&gt; sqlite_db",
+    "signatures": ["sqlite_open(string path) -&gt; sqlite_db"],
+    "checked_errors": ["SqliteError"],
+    "runtime_components": ["sqlite"],
+    "native_dependencies": ["SQLite3"]
+  }],
+  "methods": []
+}</code></pre>
+    
+    <p><code>strut project --json</code> follows the same convention: an integer <code>schema_version</code>, stable snake-case field names, JSON on standard output, diagnostics on standard error, and exit status <code>0</code> only for success.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
