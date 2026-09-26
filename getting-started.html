@@ -150,18 +150,22 @@
     <h1>Getting started</h1>
     <p>After downloading Strut 0.0.1 or building it from source, the simplest workflow is one source file and one command.</p>
     <h2>Your first program</h2>
-    <pre><code class="language-strut">function main() -> int {
+    <!-- strut-example:hello-world:start -->
+    <pre><code class="language-strut">function main() -&gt; int {
     print("hello, world!");
     return 0;
 }</code></pre>
+    <!-- strut-example:hello-world:end -->
     <p>Executable entry points return a process exit status. Use <code>main(string cmd, string[] args)</code> when you need command-line arguments: <code>cmd</code> is native <code>argv[0]</code>, and <code>args</code> contains only user arguments. The command may be a bare name, relative path, or absolute path depending on how the program was invoked.</p>
-    <pre><code class="language-strut">function main(string cmd, string[] args) -> int {
-    println("command: " + cmd);
+    <!-- strut-example:command-line-args:start -->
+    <pre><code class="language-strut">function main(string cmd, string[] args) -&gt; int {
     for (arg : args) {
         println(arg);
     }
+
     return 0;
 }</code></pre>
+    <!-- strut-example:command-line-args:end -->
     <h2>Compile it</h2>
     <pre><code class="language-bash">strut hello.p</code></pre>
     <p>The default output is a native executable named from the source file. Use <code>-o</code> when you want to choose the path explicitly.</p>

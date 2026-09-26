@@ -182,9 +182,13 @@ type uint := uint_32;
 type double := double_32;
 type user_id := uint_64;</code></pre>
     <h2>Dynamic arrays</h2>
-    <pre><code class="language-strut">int[] values := [1, 2, 3];
-values.push(4);
-last := values.pop();</code></pre>
+    <!-- strut-example:core-arrays:start -->
+    <pre><code class="language-strut">function main() -&gt; int {
+    int[] values := [1, 2, 3];
+    print(values.reduce((total, value) =&gt; total + value));
+    return 0;
+}</code></pre>
+    <!-- strut-example:core-arrays:end -->
     <p>Pointer and reference types compose inside generic containers.</p>
     <pre><code class="language-strut">User*[] owners;
 owners.push(new(User { id: 1, name: "Ada" }));

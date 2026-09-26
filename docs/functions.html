@@ -175,6 +175,18 @@ result := op(2.0, 4.0);</code></pre>
     (a, b) => a * b;</code></pre>
     <p>Parameters may also carry explicit composite types when the callable context does not provide them.</p>
     <pre><code class="language-strut">read := (int&amp; value, string[] labels) =&gt; *value;</code></pre>
+    <h3>Nested callable types</h3>
+    <!-- strut-example:nested-types:start -->
+    <pre><code class="language-strut">include &lt;map&gt;;
+
+function main() -&gt; int {
+    map&lt;string, int[]&gt; groups;
+    vector&lt;function&lt;(int)-&gt;int&gt;&gt; operations := [];
+    function&lt;(map&lt;string, int[]&gt;, int)-&gt;int&gt; count :=
+        (map&lt;string, int[]&gt; values, int fallback) =&gt; fallback;
+    return 0;
+}</code></pre>
+    <!-- strut-example:nested-types:end -->
     <h2>Closures</h2>
     <p>Escaping closures capture values safely. The compiler keeps the closure lifetime independent from the lexical stack frame that created it.</p>
     <pre><code class="language-strut">factor := 3;

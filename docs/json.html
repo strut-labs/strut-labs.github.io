@@ -150,12 +150,13 @@
     <h1>JSON</h1>
     <p><code>json</code> is a built-in Strut type backed by JSONIC. It is part of the core language, so JSON values and the <code>json</code> helpers do not require an <code>include &lt;json&gt;;</code> declaration. JSON object literals use braces, while maps use keyed square brackets so intent never depends on homogeneous-value inference.</p>
     <h2>JSON literals</h2>
-    <pre><code class="language-strut">config := {
-    "host": "127.0.0.1",
-    "port": 8080,
-    "tls": false,
-    "tags": ["dev", "local"]
-};</code></pre>
+    <!-- strut-example:core-json:start -->
+    <pre><code class="language-strut">function main() -&gt; int {
+    config := {"name": "Strut", "stable": true};
+    print(config["name"]);
+    return 0;
+}</code></pre>
+    <!-- strut-example:core-json:end -->
     <h2>Navigation</h2>
     <pre><code class="language-strut">port := config["port"];
 name := config["server"]["name"];</code></pre>

@@ -205,9 +205,19 @@ remove_all("tmp");</code></pre>
 copy(["a.txt", "b.txt"], "backup");
 move(["one.log", "two.log"], "archive");
 remove(["a.tmp", "b.tmp"]);</code></pre>
-    <pre><code class="language-strut">string[] sources := ["draft.md", "notes.md"];
-string[] destinations := ["archive/draft.md", "archive/notes.md"];
-move(sources, destinations);</code></pre>
+    <!-- strut-example:iterable-filesystem:start -->
+    <pre><code class="language-strut">include &lt;filesystem&gt;;
+include &lt;list&gt;;
+
+function main() -&gt; int : FilesystemError {
+    list&lt;string&gt; sources;
+    sources.push("draft.md");
+    sources.push("notes.md");
+    string[] destinations := ["archive/draft.md", "archive/notes.md"];
+    copy(sources, destinations);
+    return 0;
+}</code></pre>
+    <!-- strut-example:iterable-filesystem:end -->
     <h3>Wildcards</h3>
     <p>Source operands support portable Strut-side <code>*</code>, <code>?</code>, and recursive <code>**</code> expansion. Destination paths never expand wildcards. Wildcard copy/move requires an existing destination directory; an unmatched copy/move is an error, while unmatched removal is a no-op.</p>
     <pre><code class="language-strut">copy("assets/*.png", "public/images");
