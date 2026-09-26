@@ -65,6 +65,7 @@ remove("build/*.o");
 remove_all("tmp/**");
 copy(["css/*.css", "js/*.js"], "dist");</code></pre>
 <h3>Metadata and traversal</h3>
+<p><code>ls(root)</code> returns names directly below <code>root</code>. <code>walk(root)</code> returns recursive paths relative to <code>root</code>; pass <code>join_path(root, entry)</code> to metadata or IO operations.</p>
 <pre><code class="language-strut">print(exists("data.txt"));
 print(is_file("data.txt"));
 print(is_dir("assets"));
@@ -72,7 +73,8 @@ print(file_size("data.txt"));
 print(modified("data.txt"));
 
 entries := ls("assets");
-all_entries := walk("assets");</code></pre>
+all_entries := walk("assets");
+first_path := join_path("assets", all_entries[0]);</code></pre>
 <h3>Path operations</h3>
 <pre><code class="language-strut">path := join_path("assets", "images", "logo.png");
 print(absolute(path));

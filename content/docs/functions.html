@@ -24,6 +24,8 @@ result := op(2.0, 4.0);</code></pre>
 <h3>Typed lambda values</h3>
 <pre><code class="language-strut">function&lt;(double, double) -> double&gt; multiply :=
     (a, b) => a * b;</code></pre>
+<p>Parameters may also carry explicit composite types when the callable context does not provide them.</p>
+<pre><code class="language-strut">read := (int&amp; value, string[] labels) =&gt; *value;</code></pre>
 <h2>Closures</h2>
 <p>Escaping closures capture values safely. The compiler keeps the closure lifetime independent from the lexical stack frame that created it.</p>
 <pre><code class="language-strut">factor := 3;
