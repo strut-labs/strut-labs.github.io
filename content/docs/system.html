@@ -20,9 +20,12 @@ after := now_ms();
 print(after - before);</code></pre>
 <h2>Run an external program</h2>
 <p><code>exec(program, args)</code> launches the program directly and captures stdout and stderr. It returns an <code>exec_result</code> containing <code>exit_code</code>, <code>stdout</code>, and <code>stderr</code>.</p>
-<pre><code class="language-strut">result := exec("git", ["status", "--short"]);
-print(result.exit_code);
-print(result.stdout);</code></pre>
+<pre><code class="language-strut">function main() -&gt; int : ExecError {
+    result := exec("git", ["status", "--short"]);
+    print(result.exit_code);
+    print(result.stdout);
+    return result.exit_code;
+}</code></pre>
 <h2>Working directory and environment overrides</h2>
 <p>An options object can set the child's working directory and add or replace environment variables without changing the argv-safe launch model.</p>
 <pre><code class="language-strut">result := exec("tool", ["input.txt"], {

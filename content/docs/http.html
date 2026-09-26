@@ -1,5 +1,6 @@
 <h1>HTTP client</h1>
 <p>The official HTTP client uses libcurl, keeps TLS certificate and hostname verification enabled, follows redirects by default, and integrates with Strut's JSON and async facilities.</p>
+<p>The current HTTP client API is selected automatically when these functions are used; do not add <code>include &lt;http&gt;;</code>. Native compilation requires the libcurl development package.</p>
 <h2>GET request</h2>
 <pre><code class="language-strut">function main() -&gt; int : HttpError {
     response := http_get("https://example.com/api/status");

@@ -2,8 +2,8 @@
 <p>Strut uses familiar angle-bracket syntax for both standard-library modules and package modules. Quoted includes are reserved for local project/native headers. Angle brackets are semantic Strut module loads, not a promise to inject a same-named C++ header.</p>
 <h2>Standard and package includes</h2>
 <pre><code class="language-strut">include &lt;filesystem&gt;; // Strut standard module
-include &lt;http&gt;;       // package/module
-include &lt;sqlite&gt;;     // package/module</code></pre>
+include &lt;example&gt;;    // dependency declared by this project's strut.json</code></pre>
+<p>HTTP and SQLite are currently dependency-driven runtime APIs and need no include; their documentation lists the native development libraries required at link time. An angle-bracket name that is not a standard module is resolved as a project dependency.</p>
 <h2>Local include</h2>
 <pre><code class="language-strut">include "auth.h";
 include "models/user.h";</code></pre>
