@@ -44,4 +44,4 @@ strut api --json checked-errors</code></pre>
   "methods": []
 }</code></pre>
 
-<p><code>strut project --json</code> follows the same convention: an integer <code>schema_version</code>, stable snake-case field names, JSON on standard output, diagnostics on standard error, and exit status <code>0</code> only for success.</p>
+<p><code>strut project --json</code> and <code>strut packages --json</code> follow the same convention: integer <code>schema_version</code>, stable snake-case field names, JSON on standard output, diagnostics on standard error, and meaningful exit status. Project metadata includes lock/cache health and direct/transitive counts. Package metadata includes the request, exact version/revision/checksum, source identity, direct status, verified cache state, and offline availability.</p>
