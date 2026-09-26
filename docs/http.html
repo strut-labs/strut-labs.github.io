@@ -192,6 +192,20 @@ response := await pending;</code></pre>
     app.listen("127.0.0.1", 8080);
     return 0;
 }</code></pre>
+    <h3>SQLite-backed route</h3>
+    <!-- strut-example:sqlite-http-service:start -->
+    <pre><code class="language-strut">function main() -&gt; int : (NetworkError, SqliteError) {
+    db := sqlite_open(":memory:");
+    db.exec("CREATE TABLE notes(id INTEGER PRIMARY KEY, text TEXT)");
+
+    app := http_server();
+    app.get("/notes", (http_request req) =&gt; {
+        return http_json_response(db.query("SELECT * FROM notes"));
+    });
+    app.listen("127.0.0.1", 8080);
+    return 0;
+}</code></pre>
+    <!-- strut-example:sqlite-http-service:end -->
     <h2>Async handlers</h2>
     <p>Use <code>get_async</code> or <code>post_async</code> when a handler performs async work. The server awaits the returned Strut future before writing the response.</p>
     <pre><code class="language-strut">app.get_async("/api/items", async (http_request req) =&gt; {

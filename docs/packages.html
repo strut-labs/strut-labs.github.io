@@ -176,6 +176,7 @@ include "models/user.h";</code></pre>
     <p><code>strut.lock.json</code> records exact versions, immutable source revisions, content checksums, and transitive dependency edges. Normal builds consume the lock without silently upgrading dependencies.</p>
     <h2>Shared cache</h2>
     <p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
+    <p>Run <code>strut project</code> to see the exact project root and cache path currently in use. If a declared dependency is unavailable, <code>strut install</code> reports the missing package and requirement; local packages enter the cache through <code>strut add &lt;path&gt;</code>. Remote registry acquisition is not yet supported.</p>
     
     <h2>Package CLI</h2>
     <p>The current package CLI supports deterministic local/cache workflows. Strut now has an HTTP client, but remote package fetching is intentionally still separate from the package resolver until its registry/security contract is designed.</p>

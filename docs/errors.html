@@ -149,6 +149,7 @@
   <article class="docs-content">
     <h1>Errors</h1>
     <p>Checked error types are part of a function signature. A function either handles a checked error or declares that it may propagate it.</p>
+    <p>Use the checked-error types exposed by the API that can fail, such as <code>HttpError</code>, <code>SqliteError</code>, <code>NetworkError</code>, and <code>FilesystemError</code>. User-declared custom error types are not implemented yet; <code>strut api --json</code> lists the contracts for built-in APIs.</p>
     <h2>Declare checked errors</h2>
     <pre><code class="language-strut">function load(string path) -> Config : IOError {
     // ...
