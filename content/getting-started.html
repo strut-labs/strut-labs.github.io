@@ -1,10 +1,11 @@
 <h1>Getting started</h1>
 <p>After downloading Strut 0.0.1 or building it from source, the simplest workflow is one source file and one command.</p>
 <h2>Your first program</h2>
-<pre><code class="language-strut">function main() -> void {
+<pre><code class="language-strut">function main() -> int {
     print("hello, world!");
-    return;
+    return 0;
 }</code></pre>
+<p>Executable entry points return a process exit status. Use <code>main(string[] args)</code> when you need command-line arguments; <code>args</code> contains only user arguments, while <code>program_path()</code> returns the executable path.</p>
 <h2>Compile it</h2>
 <pre><code class="language-bash">strut hello.p</code></pre>
 <p>The default output is a native executable named from the source file. Use <code>-o</code> when you want to choose the path explicitly.</p>

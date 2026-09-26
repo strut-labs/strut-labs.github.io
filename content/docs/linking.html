@@ -17,11 +17,11 @@ Windows: example.lib / example.dll</code></pre>
 <p>Declare a C ABI function with <code>extern "C"</code>. Primitive values, Strut structs with ABI-compatible layouts, and <code>ptr&lt;T&gt;</code> map directly onto native C-compatible representations.</p>
 <pre><code class="language-strut">extern "C" function c_add(int a, int b) -> int;
 
-function main() -> void {
+function main() -> int {
     unsafe {
         print(c_add(20, 22));
     }
-    return;
+    return 0;
 }</code></pre>
 <p>The compiler rejects calls to an <code>extern "C"</code> function outside an <code>unsafe</code> block so native code cannot silently bypass Strut's safety model.</p>
 

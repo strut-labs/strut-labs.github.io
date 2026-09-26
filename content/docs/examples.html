@@ -1,12 +1,12 @@
 <h1>Examples</h1>
 <p>Small examples are kept deliberately ordinary. The point is to show how Strut reads in real code rather than compress every language feature into one demonstration.</p>
 <h2>Hello world</h2>
-<pre><code class="language-strut">function main() -> void {
+<pre><code class="language-strut">function main() -> int {
     print("hello, world!");
-    return;
+    return 0;
 }</code></pre>
 <h2>Collections</h2>
-<pre><code class="language-strut">function main() -> void {
+<pre><code class="language-strut">function main() -> int {
     int[] values := [1, 2, 3, 4];
     squares := values.map((x) => x * x);
 
@@ -14,7 +14,7 @@
         print(value);
     }
 
-    return;
+    return 0;
 }</code></pre>
 <h2>JSON configuration</h2>
 <pre><code class="language-strut">config := {

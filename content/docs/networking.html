@@ -1,22 +1,22 @@
 <h1>Networking</h1>
 <p>Strut's networking substrate keeps the core small: TCP connect, listen, accept, reads, writes, explicit close, and executor-backed async connect/accept. Higher-level protocols live in official packages.</p>
 <h2>TCP client</h2>
-<pre><code class="language-strut">function main() -&gt; void : NetworkError {
+<pre><code class="language-strut">function main() -&gt; int : NetworkError {
     socket := tcp_connect("example.com", 80);
     socket.write("GET / HTTP/1.0\r\n\r\n");
     response := socket.read(4096);
     print(response);
     socket.close();
-    return;
+    return 0;
 }</code></pre>
 <h2>TCP listener</h2>
-<pre><code class="language-strut">function main() -&gt; void : NetworkError {
+<pre><code class="language-strut">function main() -&gt; int : NetworkError {
     listener := tcp_listen("127.0.0.1", 8080);
     socket := listener.accept();
     socket.write("hello");
     socket.close();
     listener.close();
-    return;
+    return 0;
 }</code></pre>
 <h2>Async connect and accept</h2>
 <p><code>tcp_connect_async</code> and <code>accept_async()</code> use Strut's shared native executor and return futures.</p>

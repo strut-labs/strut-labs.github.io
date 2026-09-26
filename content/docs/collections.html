@@ -1,8 +1,8 @@
 <h1>Collections</h1>
-<p>Strut's standard collection modules are explicit: include the collection you use, then work with a native generic type. The common unordered containers are the default fast choices; ordered variants are explicit when sorted iteration matters.</p>
+<p>Dynamic arrays are built into the language. Other standard collections use explicit modules. The common unordered containers are the default fast choices; ordered variants are explicit when iteration order matters.</p>
 <h2>Modules and container types</h2>
 <table><thead><tr><th>Module</th><th>Type</th><th>Semantics</th></tr></thead><tbody>
-<tr><td><code>&lt;vector&gt;</code></td><td><code>vector&lt;T&gt;</code> / <code>T[]</code></td><td>Contiguous dynamic array.</td></tr>
+<tr><td>Core</td><td><code>T[]</code></td><td>Contiguous dynamic array. <code>vector&lt;T&gt;</code> is a compatibility spelling.</td></tr>
 <tr><td><code>&lt;deque&gt;</code></td><td><code>deque&lt;T&gt;</code></td><td>Double-ended sequence.</td></tr>
 <tr><td><code>&lt;list&gt;</code></td><td><code>list&lt;T&gt;</code></td><td>Linked sequence.</td></tr>
 <tr><td><code>&lt;map&gt;</code></td><td><code>map&lt;K,V&gt;</code></td><td>Hash map; average O(1) lookup/insert.</td></tr>
@@ -14,15 +14,13 @@
 <tr><td><code>&lt;priority_queue&gt;</code></td><td><code>priority_queue&lt;T&gt;</code></td><td>Max-first priority queue by default.</td></tr>
 <tr><td><code>&lt;tuple&gt;</code></td><td><code>tuple&lt;T...&gt;</code></td><td>Fixed heterogeneous product value.</td></tr>
 </tbody></table>
-<h2>Vectors and array shorthand</h2>
-<pre><code class="language-strut">include &lt;vector&gt;;
-
-vector&lt;int&gt; a := [1, 2, 3];
+<h2>Dynamic arrays</h2>
+<pre><code class="language-strut">int[] a := [1, 2, 3];
 int[] b := [4, 5, 6];
 
 b.push(7);
 print(b[0]);</code></pre>
-<p><code>T[]</code> is shorthand for the dynamic vector type. It still requires <code>include &lt;vector&gt;;</code>.</p>
+<p><code>T[]</code> is the preferred dynamic-array spelling and requires no include. Existing <code>vector&lt;T&gt;</code> source remains compatible.</p>
 <h2>Maps and sets</h2>
 <p><code>map</code> and <code>set</code> are the general-purpose hash-based choices. They do not promise sorted iteration order. Use the <code>ordered_*</code> types when order is part of the program contract.</p>
 <pre><code class="language-strut">include &lt;map&gt;;
@@ -90,9 +88,7 @@ x := t[0];
 y := t[1];</code></pre>
 <p>Tuple indices are compile-time integer literals so each access has a statically known result type.</p>
 <h2>Higher-order vector operations</h2>
-<pre><code class="language-strut">include &lt;vector&gt;;
-
-int[] values := [1, 2, 3, 4];
+<pre><code class="language-strut">int[] values := [1, 2, 3, 4];
 squares := values.map((x) =&gt; x * x);
 even := values.filter((x) =&gt; x % 2 == 0);
 sum := values.reduce(0, (total, x) =&gt; total + x);
