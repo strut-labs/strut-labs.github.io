@@ -20,8 +20,15 @@
 <pre><code class="language-bash">strut --dump-tokens hello.p</code></pre>
 
 <h2>Initialise a project</h2>
-<p><code>strut init</code> creates <code>.strut/config.json</code> without replacing an existing configuration. It records the entrypoint, output, target, default build mode, linking mode, and incremental strategy.</p>
+<p><code>strut init</code> creates <code>.strut/config.json</code> and, when absent, a minimal <code>strut.json</code> manifest. It does not replace existing project metadata. The build configuration records the entrypoint, output, target, default build mode, linking mode, and incremental strategy.</p>
 <pre><code class="language-bash">strut init</code></pre>
+<h2>Inspect project discovery</h2>
+<p><code>strut project</code> reports the discovered root, build configuration, manifest, and platform package-cache path. Use <code>--json</code> for tooling.</p>
+<pre><code class="language-bash">strut project
+strut project --json</code></pre>
+<h2>Machine-readable API index</h2>
+<p><code>strut api --json</code> is the authoritative discovery surface for coding agents and editor tooling. It includes built-in signatures, methods, checked errors, runtime components, native dependencies, standard modules, and CLI commands.</p>
+<pre><code class="language-bash">strut api --json</code></pre>
 
 <h3>Example configuration</h3>
 <pre><code class="language-json">{

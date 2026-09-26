@@ -1,4 +1,5 @@
 <h1>Generics</h1>
+<p>An empty literal carries no element evidence. Give it an explicit type before passing it to a generic function: <code>string[] empty := [];</code>. The compiler diagnoses an untyped <code>identity([])</code> at the Strut source location.</p>
 <p>Generic declarations use square brackets so generic parameters remain visually separate from instantiated types such as <code>vector&lt;T&gt;</code> or callable signatures.</p>
 <h2>Generic functions</h2>
 <pre><code class="language-strut">function identity[T](T value) -> T {
