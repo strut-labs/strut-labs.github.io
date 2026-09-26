@@ -52,7 +52,7 @@ print(next.top()); // 3</code></pre>
 
 make_dir("dist/assets");
 copy(["css/*.css", "js/*.js"], "dist/assets");
-write_file("dist/version.txt", "0.0.1\n");
+write_file("dist/version.txt", "0.0.2\n");
 
 for (path : walk("dist")) {
     print(path);

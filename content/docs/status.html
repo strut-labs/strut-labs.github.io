@@ -1,7 +1,7 @@
 <h1>Implementation status</h1>
 <p>The documentation describes the implemented language contract unless a page explicitly marks something as deferred. This page is the quick implementation snapshot.</p>
 
-<h2>Strut 0.0.1 implementation</h2>
+<h2>Strut 0.0.2 implementation</h2>
 <ul>
   <li>Portable C++20/CMake bootstrap with Linux, macOS, and Windows treated as first-class targets.</li>
   <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation behind a backend boundary.</li>
@@ -32,6 +32,6 @@
 <h2>Platform certification</h2>
 <p>The compiler and generated C++ are certified in GitHub Actions on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is also green across Ubuntu, macOS, and Windows.</p>
 <h2>Stability work</h2>
-<p>The language design, compatibility/versioning, security/reliability, and release-candidate audits are complete for 0.0.1. The current development baseline contains 139 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, package, and backend dogfood coverage.</p>
+<p>The 0.0.2 release candidate consolidates packages, TLS/backend lifecycle behavior, structured types, custom checked errors, atomics, richer editor tooling, and distinct prefix/postfix increment overloads. The current baseline contains 155 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, package, and backend dogfood coverage.</p>
 <h2>Still deferred</h2>
 <p>HTTP/2, WebSockets, ACME/certificate automation, reverse-proxy behavior, and a centralized package registry remain deliberately deferred.</p>
