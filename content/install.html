@@ -1,23 +1,24 @@
 <h1>Install & build</h1>
 <p>Install the latest stable Strut release without <code>sudo</code>:</p>
-<pre><code class="language-bash">curl -fsSL https://strut.cx/install.sh | sh</code></pre>
+<pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/install.sh | sh</code></pre>
 <p>The installer preserves Strut's relocatable <code>bin</code>/<code>share</code> layout under <code>~/.local/opt/strut</code>, links the command at <code>~/.local/bin/strut</code>, verifies the compiler, and prints PATH guidance when needed.</p>
 <pre><code class="language-bash">strut --version</code></pre>
 <h2>Update</h2>
-<pre><code class="language-bash">curl -fsSL https://strut.cx/update.sh | sh</code></pre>
+<pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/update.sh | sh</code></pre>
 <p>Update exits cleanly when already current and atomically replaces only the managed Strut installation.</p>
 <h2>Uninstall</h2>
-<pre><code class="language-bash">curl -fsSL https://strut.cx/uninstall.sh | sh</code></pre>
+<pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/uninstall.sh | sh</code></pre>
 <p>Uninstall requires the installation manifest and removes only the exact Strut tree and matching command link. It never recursively removes <code>~/.local</code>.</p>
 <h2>Download only</h2>
-<pre><code class="language-bash">curl -fsSL https://strut.cx/download.sh -o download-strut.sh
+<pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/download.sh -o download-strut.sh
 sh download-strut.sh
 sh download-strut.sh 0.0.1 ./downloads</code></pre>
 <p>This selects the correct archive without installing it. Archives are also available from <a href="https://github.com/strut-labs/strut/releases">GitHub Releases</a>.</p>
 <h2>Custom locations</h2>
-<pre><code class="language-bash">curl -fsSL https://strut.cx/install.sh | \
+<pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/install.sh | \
 STRUT_INSTALL_DIR="$HOME/tools/strut" STRUT_BIN_DIR="$HOME/bin" sh</code></pre>
 <p>Use the same variables for update and uninstall. Paths containing spaces are supported.</p>
+<p>The scripts live at site-root paths and can move unchanged to <code>strut.cx</code> once that custom domain's DNS and GitHub Pages configuration are active.</p>
 <h2>Supported platforms</h2>
 <ul>
 <li>Linux x86-64 (<code>x86_64</code>/<code>amd64</code>)</li>
