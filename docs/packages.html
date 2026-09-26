@@ -150,52 +150,59 @@
   </aside>
   <article class="docs-content">
     <h1>Packages</h1>
-    <p>Strut uses familiar angle-bracket syntax for both standard-library modules and package modules. Quoted includes are reserved for local project/native headers. Angle brackets are semantic Strut module loads, not a promise to inject a same-named C++ header.</p>
-    <h2>Standard and package includes</h2>
-    <pre><code class="language-strut">include &lt;filesystem&gt;; // Strut standard module
-include &lt;example&gt;;    // dependency declared by this project's strut.json</code></pre>
-    <p>HTTP and SQLite are currently dependency-driven runtime APIs and need no include; their documentation lists the native development libraries required at link time. An angle-bracket name that is not a standard module is resolved as a project dependency.</p>
-    <h2>Local include</h2>
-    <pre><code class="language-strut">include "auth.h";
-include "models/user.h";</code></pre>
-    <h2>Package direction</h2>
-    <p>Official packages are intended to live under a dedicated Strut packages organisation. HTTP, SQLite, PostgreSQL, TLS, and WebSocket support are examples of functionality that can evolve independently from the language runtime.</p>
-    <p>Core facilities that directly define the language experience—such as strings, collections, JSON, basic IO, process execution, and concurrency primitives—remain available without turning every small program into a dependency-management exercise.</p>
-    <h2>Project manifest</h2>
-    <p>Strut projects and packages use a JSON <code>strut.json</code> manifest. JSONIC is used by the bootstrap compiler to parse and validate the format.</p>
+    <p>Strut resolves local and immutable Git packages into a deterministic lock graph. Builds and editor tooling consume exact locked, checksum-verified cache entries; dependency code is never executed during acquisition.</p>
+    <h2>Using packages</h2>
+    <pre><code class="language-strut">include &lt;example&gt;;
+include &lt;example/helpers.p&gt;;</code></pre>
+    <p>The first form loads the package's declared <code>entry</code>. The second loads an explicit relative file. A locked transitive package can be imported by another package, so diamond graphs share one verified package instance. Standard modules such as <code>filesystem</code> use the same syntax but require no manifest entry.</p>
+    <h2>Manifest</h2>
+    <p>Projects and packages use <code>strut.json</code>. A local dependency can be added with <code>strut add ../checkout</code>. Reproducible remote dependencies declare a semantic requirement, Git URL, and exact hexadecimal commit:</p>
     <pre><code class="language-json">{
   "name": "todo-service",
   "version": "0.1.0",
   "entry": "src/main.p",
   "dependencies": {
-    "http": "^0.2.0",
-    "sqlite": "~0.3.1"
+    "local-tools": "1.2.3",
+    "example": {
+      "version": "^1.4.0",
+      "git": "https://github.com/example/example-strut.git",
+      "rev": "0123456789abcdef0123456789abcdef01234567"
+    }
   }
 }</code></pre>
-    <h2>Version requirements</h2>
-    <p>Initial requirements deliberately stay small: exact <code>1.2.3</code>, compatible <code>^1.2.3</code>, patch-compatible <code>~1.2.3</code>, and <code>*</code>. Floating labels such as <code>latest</code> are not part of the reproducible package contract.</p>
-    <h2>Lockfile</h2>
-    <p><code>strut.lock.json</code> records exact versions, immutable source revisions, content checksums, and transitive dependency edges. Normal builds consume the lock without silently upgrading dependencies.</p>
-    <h2>Shared cache</h2>
-    <p>Packages are cached once per user rather than copied into every project. <code>STRUT_HOME</code> can override the base location; otherwise Strut follows the platform cache convention on Linux, macOS, and Windows.</p>
-    <p>Run <code>strut project</code> to see the exact project root and cache path currently in use. If a declared dependency is unavailable, <code>strut install</code> reports the missing package and requirement; local packages enter the cache through <code>strut add &lt;path&gt;</code>. Remote registry acquisition is not yet supported.</p>
-    
-    <h2>Package CLI</h2>
-    <p>The current package CLI supports deterministic local/cache workflows. Strut now has an HTTP client, but remote package fetching is intentionally still separate from the package resolver until its registry/security contract is designed.</p>
-    <pre><code class="language-bash">strut add ../http
-strut list
-strut install
-strut remove http</code></pre>
-    <p><code>include &lt;name&gt;</code> resolves the package entry declared by the cached version selected from the project manifest. <code>include &lt;name/path.h&gt;</code> resolves an explicit package file.</p>
-    <h2>Authoring a package</h2>
-    <p>An official-style package has a <code>strut.json</code> manifest, a declared entry header, source/header files, tests, and documentation. Package paths are validated so metadata cannot escape the package root.</p>
-    <pre><code class="language-json">{
-  "name": "example",
-  "version": "0.1.0",
-  "include": "include/example.h"
-}</code></pre>
-    <h3>Dogfood workflow</h3>
-    <p>The repository includes clean-environment package dogfood fixtures. They initialise a fresh project, add local packages, install them into an isolated shared cache, resolve <code>include &lt;package&gt;</code>, compile the application, and execute it.</p>
+    <p>Requirements support exact <code>1.2.3</code>, compatible <code>^1.2.3</code>, patch-compatible <code>~1.2.3</code>, and <code>*</code>. Git branches, tags, <code>latest</code>, and install scripts are not resolution identities.</p>
+    <h2>Install, update, and offline use</h2>
+    <pre><code class="language-bash">strut install
+strut install --offline
+strut update</code></pre>
+    <p><code>strut install</code> preserves a valid <code>strut.lock.json</code>, verifies every cached digest, and restores missing or corrupt Git packages from their locked commits. With no lockfile, it resolves one. <code>strut update</code> explicitly re-resolves the manifest and rewrites the lock.</p>
+    <p><code>strut install --offline</code> performs no acquisition. It succeeds only when every locked checksum is verified in the cache. A failure names the package, version, revision, expected cache identity, and normal install command.</p>
+    <h2>Lockfile and transitive graph</h2>
+    <p>Commit <code>strut.lock.json</code> for applications. Schema version 2 records every direct and transitive package with its original requirement, exact version, logical source, immutable revision, SHA-256 checksum, and exact dependency edges. Entries and edges are serialized deterministically and contain no machine-specific paths or timestamps.</p>
+    <p>Shared dependencies are deduplicated when version and source requirements agree. Conflicts identify both requesters and requirements. Cycles report the complete deterministic chain.</p>
+    <h2>Content-addressed cache and integrity</h2>
+    <p>Entries use <code>name/version/sha256</code> beneath the platform cache directory. <code>STRUT_HOME</code> overrides the base for CI. Acquisition stages content beside the cache, rejects symlinks and unsafe paths, verifies SHA-256, and atomically promotes the result. Concurrent installers verify and reuse the winner.</p>
+    <p>A checksum mismatch is always fatal offline. Normal install can reacquire and repair a locked Git package. Package names, paths, URLs, and exact revisions are validated before filesystem or Git operations.</p>
+    <h2>Inspecting package state</h2>
+    <pre><code class="language-bash">strut packages
+strut packages --json
+strut project --json</code></pre>
+    <p><code>strut packages</code> reports direct/transitive status, requested and resolved versions, immutable revision, checksum, source, verified cache state, and offline availability. Project JSON adds the lockfile path/schema, counts, graph resolution, cache health, stale/corrupt state, and offline readiness.</p>
+    <h2>Reproducible CI</h2>
+    <pre><code class="language-bash">strut install
+strut install --offline
+strut make</code></pre>
+    <p>A clean worker can reproduce a committed lock from immutable Git revisions. Cache the directory reported by <code>strut project --json</code>; once populated, the offline command proves the build requires no package network. Do not run <code>strut update</code> in a locked build job.</p>
+    <h2>Editor behavior</h2>
+    <p>The language server indexes symbols only from the validated lock and verified cache. Completion, hover, signature help, and go-to-definition work without acquisition. Missing entries produce an actionable <code>strut install</code> diagnostic; opening a project never contacts a package remote.</p>
+    <h2>Troubleshooting</h2>
+    <table><thead><tr><th>State</th><th>Action</th></tr></thead><tbody>
+    <tr><td>Missing or corrupt cached Git package</td><td>Run <code>strut install</code> to restore the exact locked commit.</td></tr>
+    <tr><td>Offline package missing</td><td>Populate the cache online first; offline mode refuses acquisition.</td></tr>
+    <tr><td>Stale lock after editing dependencies</td><td>Run <code>strut update</code>, review, and commit the lock diff.</td></tr>
+    <tr><td>Version/source conflict</td><td>Reconcile the requirements named in the diagnostic.</td></tr>
+    <tr><td>Unexpected graph</td><td>Inspect <code>strut packages --json</code> and exact lock edges.</td></tr>
+    </tbody></table>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

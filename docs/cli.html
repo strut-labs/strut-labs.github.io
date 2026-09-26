@@ -231,7 +231,12 @@ strut api --json checked-errors</code></pre>
     <pre><code class="language-bash">strut add ../my-package
 strut list
 strut install
+strut install --offline
+strut update
+strut packages
+strut packages --json
 strut remove my-package</code></pre>
+    <p><code>install</code> preserves and verifies an existing lock, <code>update</code> explicitly re-resolves it, and <code>install --offline</code> forbids acquisition. Use <code>packages --json</code> for deterministic graph, revision, checksum, source, and cache-health data.</p>
     
     <h2>Command help</h2>
     <pre><code class="language-bash">strut help
