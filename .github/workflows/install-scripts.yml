@@ -1,0 +1,38 @@
+name: Installation scripts
+
+on:
+  push:
+    paths: ['install.sh', 'update.sh', 'uninstall.sh', 'download.sh', '.github/workflows/install-scripts.yml']
+  pull_request:
+    paths: ['install.sh', 'update.sh', 'uninstall.sh', 'download.sh', '.github/workflows/install-scripts.yml']
+
+jobs:
+  linux-x64:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install, update, relocate, download, and uninstall
+        shell: bash
+        run: |
+          set -euo pipefail
+          root="$RUNNER_TEMP/strut install smoke"
+          export STRUT_INSTALL_DIR="$root/installed/strut"
+          export STRUT_BIN_DIR="$root/bin"
+          ./install.sh
+          "$STRUT_BIN_DIR/strut" --version | grep -Fx 'strut 0.0.1'
+          ./update.sh | grep -F 'already current'
+          archive=$(./download.sh 0.0.1 "$root/downloads")
+          test -f "$archive"
+          mv "$STRUT_INSTALL_DIR" "$root/relocated strut"
+          "$root/relocated strut/bin/strut" --version | grep -Fx 'strut 0.0.1'
+          mv "$root/relocated strut" "$STRUT_INSTALL_DIR"
+          ./uninstall.sh
+          test ! -e "$STRUT_INSTALL_DIR"
+          test ! -L "$STRUT_BIN_DIR/strut"
+          ./uninstall.sh
+      - name: Reject unsupported architecture
+        shell: bash
+        run: |
+          if STRUT_TEST_ARCH=sparc64 ./download.sh 0.0.1 "$RUNNER_TEMP/unsupported"; then
+            exit 1
+          fi
