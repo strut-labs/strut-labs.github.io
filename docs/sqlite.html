@@ -149,9 +149,13 @@
   <article class="docs-content">
     <h1>SQLite</h1>
     <p>The official SQLite package surface uses the system/native SQLite library rather than embedding SQLite into the Strut compiler or runtime. Connections are deterministic resources and close automatically when their last handle is released, or explicitly with <code>close()</code>.</p>
+    <p>The current SQLite API is selected automatically when these functions are used; do not add <code>include &lt;sqlite&gt;;</code>. Operations use the checked <code>SqliteError</code> type, and native compilation requires the SQLite development package.</p>
     <h2>Open a database</h2>
-    <pre><code class="language-strut">db := sqlite_open("app.db");
-</code></pre>
+    <pre><code class="language-strut">function main() -&gt; int : SqliteError {
+    db := sqlite_open("app.db");
+    db.close();
+    return 0;
+}</code></pre>
     <h2>Execute statements</h2>
     <p>Parameter arrays are bound through SQLite prepared statements. Prefer parameters over constructing SQL strings manually.</p>
     <pre><code class="language-strut">db.exec("CREATE TABLE IF NOT EXISTS users(id INTEGER, name TEXT)");

@@ -177,9 +177,9 @@ if (!weak.expired()) {
     User* locked := weak.lock();
 }</code></pre>
     <h2>Unsafe raw pointers</h2>
-    <p><code>ptr&lt;T&gt;</code> is the unmanaged raw-pointer type. Raw pointers exist for FFI and specialised low-level work and are restricted to explicit <code>unsafe</code> regions. Both <code>*raw</code> and familiar <code>raw-&gt;member</code> access are supported.</p>
+    <p><code>raw_ptr&lt;T&gt;</code> is the unmanaged raw-pointer type. Convert a safe pointer with <code>ptr(owner)</code>. Raw pointers exist for FFI and specialised low-level work and are restricted to explicit <code>unsafe</code> regions. Both <code>*raw</code> and familiar <code>raw-&gt;member</code> access are supported.</p>
     <pre><code class="language-strut">unsafe {
-    ptr&lt;User&gt; raw_user := ptr(user);
+    raw_ptr&lt;User&gt; raw_user := ptr(user);
     print(raw_user-&gt;name);
 }</code></pre>
     <h2>Reference cycles</h2>
