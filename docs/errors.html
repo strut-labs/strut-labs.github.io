@@ -177,6 +177,21 @@ function main() -&gt; int {
     return 0;
 }</code></pre>
     <!-- strut-example:custom-checked-errors:end -->
+    <h2>Across a module boundary</h2>
+    <p>Error declarations and checked-error contracts remain nominal when imported from another source module. Here <code>module-error.h</code> declares <code>ModuleError</code> and <code>module_failure</code>; this calling source is compiled and run by the documentation suite.</p>
+    <!-- strut-example:custom-error-module:start -->
+    <pre><code class="language-strut">include "module-error.h";
+
+function main() -&gt; int {
+    try {
+        module_failure();
+    } catch (ModuleError err) {
+        println(err.message);
+        println(err.code);
+    }
+    return 0;
+}</code></pre>
+    <!-- strut-example:custom-error-module:end -->
     <h2>Declare checked errors</h2>
     <pre><code class="language-strut">function load(string path) -> Config : IOError {
     // ...

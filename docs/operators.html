@@ -159,8 +159,8 @@
         <tr><td>Infix comparison</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>Yes</td><td>Two parameters; return <code>bool</code>.</td></tr>
         <tr><td>Infix logical/bitwise</td><td><code>||</code> <code>&amp;&amp;</code> <code>|</code> <code>^</code> <code>&amp;</code></td><td>Yes</td><td>Two parameters. Logical overloads return <code>bool</code>; bitwise overloads may return a domain type.</td></tr>
         <tr><td>Infix shifts</td><td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td><td>Yes</td><td>Two parameters; return the shifted or stream type.</td></tr>
-        <tr><td>Prefix</td><td><code>+</code> <code>-</code> <code>!</code> <code>~</code> <code>*</code></td><td>Yes</td><td>One parameter; return type is explicit.</td></tr>
-        <tr><td>Postfix</td><td><code>++</code> <code>--</code></td><td>No</td><td>Expressions are language-defined; source overload declarations are not enabled yet.</td></tr>
+        <tr><td>Prefix</td><td><code>+</code> <code>-</code> <code>!</code> <code>~</code> <code>*</code> <code>++</code> <code>--</code></td><td>Yes</td><td>One parameter; return type is explicit.</td></tr>
+        <tr><td>Postfix</td><td><code>++</code> <code>--</code></td><td>Yes</td><td>One parameter followed by the compiler marker <code>postfix</code>.</td></tr>
         <tr><td>Assignment</td><td><code>=</code> <code>:=</code></td><td>Yes</td><td>Two parameters. The destination is first; use a reference destination for <code>=</code>.</td></tr>
         <tr><td>Null coalescing</td><td><code>??</code></td><td>No</td><td>Language-defined nullable semantics.</td></tr>
         <tr><td>Index and call</td><td><code>[]</code> <code>()</code></td><td>No</td><td>Reserved syntax; source overload declarations are not enabled yet.</td></tr>
@@ -192,6 +192,17 @@ operator -(Number value) -&gt; Number {
     return Number { value: -value.value };
 }
 
+operator ++(Number&amp; value) -&gt; Number&amp; {
+    value.value = value.value + 1;
+    return value;
+}
+
+operator ++(Number&amp; value, postfix) -&gt; Number {
+    previous := Number { value: value.value };
+    value.value = value.value + 1;
+    return previous;
+}
+
 operator :=(Number destination, Config source) -&gt; void {
     destination.value = source.value;
 }
@@ -208,16 +219,21 @@ function main() -&gt; int {
     masked := sum &amp; Number { value: 1 };
     shifted := masked &lt;&lt; 2;
     negative := -shifted;
+    before := sum++;
+    updated := ++sum;
     Number configured := Config { value: 7 };
     configured = Config { value: 9 };
     println(same);
     println(negative.value);
+    println(before.value);
+    println(updated.value);
     println(configured.value);
     return 0;
 }</code></pre>
     <!-- strut-example:operator-overloads:end -->
     <h2>Resolution rules</h2>
     <p>Binary overloads are ordered: <code>operator +(Left, Right)</code> does not imply <code>operator +(Right, Left)</code>. Declare both when an operation is intentionally symmetric across different types. The declared return type controls the expression type and may differ from either operand.</p>
+    <p>Prefix and postfix increment/decrement are separate overload identities. <code>++value</code> selects only <code>operator ++(T&amp; value)</code>, while <code>value++</code> selects only <code>operator ++(T&amp; value, postfix)</code>. The <code>postfix</code> word is compile-time signature syntax: it is not a type, runtime argument, or body-visible parameter. Conventionally prefix returns the updated <code>T&amp;</code> and postfix returns the previous <code>T</code>; return types do not determine which overload is selected.</p>
     <p><code>=</code> mutates existing storage and therefore normally takes <code>T&amp;</code> as its first parameter. <code>:=</code> constructs new storage and receives a destination value plus its source. These are dedicated language lowering points rather than native C++ assignment declarations.</p>
     <h2>Generic overloads</h2>
     <pre><code class="language-strut">operator[T] +(Vector&lt;T&gt; a, Vector&lt;T&gt; b) -&gt; Vector&lt;T&gt; {
