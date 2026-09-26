@@ -150,7 +150,7 @@
     <h1>Implementation status</h1>
     <p>The documentation describes the implemented language contract unless a page explicitly marks something as deferred. This page is the quick implementation snapshot.</p>
     
-    <h2>Local implementation through CP114 (except platform certification)</h2>
+    <h2>Strut 0.0.1 implementation</h2>
     <ul>
       <li>Portable C++20/CMake bootstrap with Linux, macOS, and Windows treated as first-class targets.</li>
       <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation behind a backend boundary.</li>
@@ -179,9 +179,9 @@
     <p>The CP86 one-binary todo application established a development-host baseline for compile time, stripped executable size, startup, idle RSS, and localhost HTTP throughput. Those numbers are intentionally treated as profiling baselines rather than external performance claims until the dedicated benchmark phase begins.</p>
     
     <h2>Platform certification</h2>
-    <p>Linux x64 is exercised locally with GCC and Clang. GitHub Actions workflows are prepared for Linux x64/arm64, macOS arm64, and Windows x64; macOS/Windows checkpoints remain pending until those runners are actually green.</p>
+    <p>The compiler and generated C++ are certified in GitHub Actions on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is also green across Ubuntu, macOS, and Windows.</p>
     <h2>Stability work</h2>
-    <p>The language design, compatibility/versioning, and security/reliability audits are complete locally. CP115 release-candidate certification remains blocked on the full CI/platform matrix and complete independent regression results.</p>
+    <p>The language design, compatibility/versioning, security/reliability, and release-candidate audits are complete for 0.0.1. The certified baseline contains 111 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, and dogfood coverage.</p>
     <h2>Still deferred</h2>
     <p>Server-side HTTPS is not yet shipped. OpenSSL is approved for that work, but the server TLS integration has not been implemented. Remote package fetching/registry policy is also intentionally separate from the already-working local/cache package model.</p>
   </article>
