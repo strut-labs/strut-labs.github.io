@@ -111,6 +111,11 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/api-schema",
+      "title": "API discovery schema",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "docs/examples",
       "title": "Examples",
       "template": "templates/docs.html"

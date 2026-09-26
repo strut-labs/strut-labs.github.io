@@ -1,0 +1,47 @@
+<h1>API discovery schema</h1>
+<p><code>strut api --json [query]</code> exposes the same callable registry used by semantic analysis, lowering, runtime-component selection, and editor features. It is intended for agents and other tooling that need language knowledge without scraping documentation.</p>
+
+<h2>Versioning</h2>
+<p>The top-level <code>schema_version</code> is currently <code>1</code>. New optional fields may be added within version 1. Removing a field, changing its type, or changing its meaning requires a new schema version. <code>language_version</code> identifies the Strut release that produced the catalog.</p>
+
+<h2>Top-level fields</h2>
+<table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody>
+<tr><td><code>schema_version</code></td><td>Integer contract version for this JSON document.</td></tr>
+<tr><td><code>language_version</code></td><td>Compiler/language version.</td></tr>
+<tr><td><code>query</code></td><td>The applied filter, or an empty string for the complete catalog.</td></tr>
+<tr><td><code>functions</code>, <code>methods</code></td><td>Matching free callables and owner-qualified methods.</td></tr>
+<tr><td><code>standard_modules</code></td><td>Modules recognized by the compiler.</td></tr>
+<tr><td><code>cli_commands</code></td><td>Stable command discovery names.</td></tr>
+<tr><td><code>language_notes</code></td><td>Small syntax/compatibility facts useful to generated code.</td></tr>
+</tbody></table>
+
+<h2>Callable fields</h2>
+<p>Each callable has <code>name</code>, <code>category</code>, <code>module</code>, <code>owner</code>, <code>summary</code>, a convenience <code>signature</code>, all <code>signatures</code>, <code>checked_errors</code>, <code>runtime_components</code>, and <code>native_dependencies</code>. An empty owner denotes a free function. Signatures use canonical Strut type spelling.</p>
+
+<h2>Filtering</h2>
+<pre><code class="language-bash">strut api http
+strut api --json sqlite
+strut api --json filesystem
+strut api --json checked-errors</code></pre>
+<p>Matching is case-insensitive across names, categories, modules, owners, and summaries. The special <code>checked-errors</code> filter selects callables with checked-error contracts.</p>
+
+<h2>Example</h2>
+<pre><code class="language-json">{
+  "schema_version": 1,
+  "language_version": "0.0.1",
+  "query": "sqlite",
+  "functions": [{
+    "name": "sqlite_open",
+    "category": "function",
+    "module": "sqlite",
+    "owner": "",
+    "signature": "sqlite_open(string path) -&gt; sqlite_db",
+    "signatures": ["sqlite_open(string path) -&gt; sqlite_db"],
+    "checked_errors": ["SqliteError"],
+    "runtime_components": ["sqlite"],
+    "native_dependencies": ["SQLite3"]
+  }],
+  "methods": []
+}</code></pre>
+
+<p><code>strut project --json</code> follows the same convention: an integer <code>schema_version</code>, stable snake-case field names, JSON on standard output, diagnostics on standard error, and exit status <code>0</code> only for success.</p>
