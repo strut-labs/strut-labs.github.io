@@ -149,6 +149,21 @@
   <article class="docs-content">
     <h1>Operators</h1>
     <p>Strut has a fixed, language-defined operator table. Packages may overload supported operators, but they cannot invent punctuation or change precedence, which keeps parsing predictable for people, formatters, and coding agents.</p>
+    <h2>Overloadable operators</h2>
+    <table>
+      <thead><tr><th>Form</th><th>Operators</th><th>Overloadable</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Infix arithmetic</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td>Yes</td><td>Two parameters.</td></tr>
+        <tr><td>Infix comparison</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>Yes</td><td>Two parameters.</td></tr>
+        <tr><td>Infix logical/bitwise</td><td><code>||</code> <code>&amp;&amp;</code> <code>|</code> <code>^</code> <code>&amp;</code></td><td>Yes</td><td>Two parameters.</td></tr>
+        <tr><td>Infix shifts</td><td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td><td>Yes</td><td>Two parameters; <code>&lt;&lt;</code> is also used by stream insertion overloads.</td></tr>
+        <tr><td>Prefix</td><td><code>+</code> <code>-</code> <code>!</code> <code>~</code> <code>*</code></td><td>Yes</td><td>One parameter.</td></tr>
+        <tr><td>Postfix</td><td><code>++</code> <code>--</code></td><td>Yes</td><td>One parameter.</td></tr>
+        <tr><td>Assignment</td><td><code>=</code> <code>:=</code></td><td>Yes</td><td><code>=</code> updates an existing destination; <code>:=</code> initializes new storage.</td></tr>
+        <tr><td>Null coalescing</td><td><code>??</code></td><td>No</td><td>Language-defined nullable semantics.</td></tr>
+        <tr><td>Index and call</td><td><code>[]</code> <code>()</code></td><td>Reserved</td><td>Reserved overload points; source declarations are not enabled yet.</td></tr>
+      </tbody>
+    </table>
     <h2>Arithmetic and comparison</h2>
     <pre><code class="language-strut">total := price * quantity + shipping;
 ready := total >= 100 && enabled;</code></pre>
