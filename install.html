@@ -163,7 +163,7 @@
     <h2>Download only</h2>
     <pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/download.sh -o download-strut.sh
 sh download-strut.sh
-sh download-strut.sh 0.0.1 ./downloads</code></pre>
+sh download-strut.sh 0.0.2 ./downloads</code></pre>
     <p>This selects the correct archive without installing it. Archives are also available from <a href="https://github.com/strut-labs/strut/releases">GitHub Releases</a>.</p>
     <h2>Custom locations</h2>
     <pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/install.sh | \
@@ -177,7 +177,7 @@ STRUT_INSTALL_DIR="$HOME/tools/strut" STRUT_BIN_DIR="$HOME/bin" sh</code></pre>
     <li>macOS Apple Silicon (<code>arm64</code>)</li>
     <li>Windows x64 through the manual ZIP download; scripted PowerShell installation is planned.</li>
     </ul>
-    <p>Unsupported systems fail explicitly. Scripts verify <code>SHA256SUMS</code> whenever a release publishes it; future releases will include this file automatically. Version 0.0.1 predates it and is transferred over verified HTTPS.</p>
+    <p>Unsupported systems fail explicitly. Scripts verify the published <code>SHA256SUMS</code>; version 0.0.1 predates checksums and remains available over verified HTTPS.</p>
     <h2>Toolchain requirement</h2>
     <p>The compiler invokes a native C++20 toolchain to produce executables, so install GCC or Clang on Linux, Apple Clang on macOS, or Visual Studio 2022/MSVC on Windows.</p>
     <h2>Build from source</h2>
@@ -188,7 +188,7 @@ STRUT_INSTALL_DIR="$HOME/tools/strut" STRUT_BIN_DIR="$HOME/bin" sh</code></pre>
     <h2>Run compiler tests</h2>
     <pre><code class="language-bash">ctest --test-dir build --output-on-failure</code></pre>
     <h2>Install a source build</h2>
-    <pre><code class="language-bash">cmake --install build --config Release --prefix ./strut-0.0.1</code></pre>
+    <pre><code class="language-bash">cmake --install build --config Release --prefix ./strut-0.0.2</code></pre>
     <h2>Compiler dependencies</h2>
     <p>JSONIC is embedded for Strut's built-in JSON implementation. libcurl is approved for HTTP/client TLS and OpenSSL is approved for server-side TLS work. Additional third-party components are not added implicitly.</p>
   </article>
