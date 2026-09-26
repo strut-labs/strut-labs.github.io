@@ -1,41 +1,77 @@
 <h1>Operators</h1>
-<p>Strut has a fixed, language-defined operator table. Packages may overload supported operators, but they cannot invent punctuation or change precedence, which keeps parsing predictable for people, formatters, and coding agents.</p>
-<h2>Overloadable operators</h2>
+<p>Strut has a fixed, language-defined operator table. Packages may overload the enabled operators, but they cannot invent punctuation or change precedence. Overloads are free declarations, not methods, so operand order and symmetry are explicit.</p>
+<h2>Overload table</h2>
 <table>
-  <thead><tr><th>Form</th><th>Operators</th><th>Overloadable</th><th>Notes</th></tr></thead>
+  <thead><tr><th>Form</th><th>Operators</th><th>Overloadable</th><th>Declaration contract</th></tr></thead>
   <tbody>
-    <tr><td>Infix arithmetic</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td>Yes</td><td>Two parameters.</td></tr>
-    <tr><td>Infix comparison</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>Yes</td><td>Two parameters.</td></tr>
-    <tr><td>Infix logical/bitwise</td><td><code>||</code> <code>&amp;&amp;</code> <code>|</code> <code>^</code> <code>&amp;</code></td><td>Yes</td><td>Two parameters.</td></tr>
-    <tr><td>Infix shifts</td><td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td><td>Yes</td><td>Two parameters; <code>&lt;&lt;</code> is also used by stream insertion overloads.</td></tr>
-    <tr><td>Prefix</td><td><code>+</code> <code>-</code> <code>!</code> <code>~</code> <code>*</code></td><td>Yes</td><td>One parameter.</td></tr>
-    <tr><td>Postfix</td><td><code>++</code> <code>--</code></td><td>Yes</td><td>One parameter.</td></tr>
-    <tr><td>Assignment</td><td><code>=</code> <code>:=</code></td><td>Yes</td><td><code>=</code> updates an existing destination; <code>:=</code> initializes new storage.</td></tr>
+    <tr><td>Infix arithmetic</td><td><code>+</code> <code>-</code> <code>*</code> <code>/</code> <code>%</code></td><td>Yes</td><td>Two parameters; any declared return type.</td></tr>
+    <tr><td>Infix comparison</td><td><code>==</code> <code>!=</code> <code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>Yes</td><td>Two parameters; return <code>bool</code>.</td></tr>
+    <tr><td>Infix logical/bitwise</td><td><code>||</code> <code>&amp;&amp;</code> <code>|</code> <code>^</code> <code>&amp;</code></td><td>Yes</td><td>Two parameters. Logical overloads return <code>bool</code>; bitwise overloads may return a domain type.</td></tr>
+    <tr><td>Infix shifts</td><td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td><td>Yes</td><td>Two parameters; return the shifted or stream type.</td></tr>
+    <tr><td>Prefix</td><td><code>+</code> <code>-</code> <code>!</code> <code>~</code> <code>*</code></td><td>Yes</td><td>One parameter; return type is explicit.</td></tr>
+    <tr><td>Postfix</td><td><code>++</code> <code>--</code></td><td>No</td><td>Expressions are language-defined; source overload declarations are not enabled yet.</td></tr>
+    <tr><td>Assignment</td><td><code>=</code> <code>:=</code></td><td>Yes</td><td>Two parameters. The destination is first; use a reference destination for <code>=</code>.</td></tr>
     <tr><td>Null coalescing</td><td><code>??</code></td><td>No</td><td>Language-defined nullable semantics.</td></tr>
-    <tr><td>Index and call</td><td><code>[]</code> <code>()</code></td><td>Reserved</td><td>Reserved overload points; source declarations are not enabled yet.</td></tr>
+    <tr><td>Index and call</td><td><code>[]</code> <code>()</code></td><td>No</td><td>Reserved syntax; source overload declarations are not enabled yet.</td></tr>
   </tbody>
 </table>
-<h2>Arithmetic and comparison</h2>
-<pre><code class="language-strut">total := price * quantity + shipping;
-ready := total >= 100 && enabled;</code></pre>
-<h2>Dereference</h2>
-<p>Prefix <code>*</code> dereferences a safe <code>T*</code> and remains overloadable for user-defined pointer-like types.</p>
-<pre><code class="language-strut">int* value := new(7);
-print(*value);</code></pre>
-<h2>Normal overload declarations</h2>
-<pre><code class="language-strut">operator +(Vector a, Vector b) -> Vector {
-    return Vector { x: a.x + b.x, y: a.y + b.y };
+<h2>Certified examples for every enabled family</h2>
+<p>This single example declares and executes arithmetic, comparison, bitwise/logical-family, shift, prefix, initialization, and assignment overloads. It is compiled and run by the documentation suite, so every “Yes” row above has executable proof.</p>
+<!-- strut-example:operator-overloads:start -->
+<pre><code class="language-strut">struct Number { int value; }
+struct Config { int value; }
+
+operator +(Number a, Number b) -&gt; Number {
+    return Number { value: a.value + b.value };
+}
+
+operator ==(Number a, Number b) -&gt; bool {
+    return a.value == b.value;
+}
+
+operator &amp;(Number a, Number b) -&gt; Number {
+    return Number { value: a.value &amp; b.value };
+}
+
+operator &lt;&lt;(Number value, int amount) -&gt; Number {
+    return Number { value: value.value &lt;&lt; amount };
+}
+
+operator -(Number value) -&gt; Number {
+    return Number { value: -value.value };
+}
+
+operator :=(Number destination, Config source) -&gt; void {
+    destination.value = source.value;
+}
+
+operator =(Number&amp; destination, Config source) -&gt; void {
+    destination.value = source.value;
+}
+
+function main() -&gt; int {
+    one := Number { value: 1 };
+    two := Number { value: 2 };
+    sum := one + two;
+    same := sum == Number { value: 3 };
+    masked := sum &amp; Number { value: 1 };
+    shifted := masked &lt;&lt; 2;
+    negative := -shifted;
+    Number configured := Config { value: 7 };
+    configured = Config { value: 9 };
+    println(same);
+    println(negative.value);
+    println(configured.value);
+    return 0;
 }</code></pre>
-<h2>Generic operator overloads</h2>
-<pre><code class="language-strut">operator[T] +(Vector&lt;T&gt; a, Vector&lt;T&gt; b) -> Vector&lt;T&gt; {
+<!-- strut-example:operator-overloads:end -->
+<h2>Resolution rules</h2>
+<p>Binary overloads are ordered: <code>operator +(Left, Right)</code> does not imply <code>operator +(Right, Left)</code>. Declare both when an operation is intentionally symmetric across different types. The declared return type controls the expression type and may differ from either operand.</p>
+<p><code>=</code> mutates existing storage and therefore normally takes <code>T&amp;</code> as its first parameter. <code>:=</code> constructs new storage and receives a destination value plus its source. These are dedicated language lowering points rather than native C++ assignment declarations.</p>
+<h2>Generic overloads</h2>
+<pre><code class="language-strut">operator[T] +(Vector&lt;T&gt; a, Vector&lt;T&gt; b) -&gt; Vector&lt;T&gt; {
     return Vector&lt;T&gt; { x: a.x + b.x, y: a.y + b.y };
 }</code></pre>
-<h2>Lambda operator declarations</h2>
-<pre><code class="language-strut">operator&lt;(Vector, Vector) -> Vector&gt; + :=
-    (a, b) => Vector { x: a.x + b.x, y: a.y + b.y };</code></pre>
-<h2>Assignment and initialization</h2>
-<p><code>=</code> operates on an existing destination. <code>:=</code> represents construction into new storage when an explicit destination type makes overload resolution meaningful.</p>
-<pre><code class="language-strut">operator =(Widget&amp; dst, Widget&amp; const src) -> Widget&amp; {
-    dst.value = src.value;
-    return dst;
-}</code></pre>
+<h2>Callable-form declarations</h2>
+<pre><code class="language-strut">operator&lt;(Vector, Vector) -&gt; Vector&gt; + :=
+    (a, b) =&gt; Vector { x: a.x + b.x, y: a.y + b.y };</code></pre>

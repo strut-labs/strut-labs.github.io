@@ -1,6 +1,31 @@
 <h1>Errors</h1>
 <p>Checked error types are part of a function signature. A function either handles a checked error or declares that it may propagate it.</p>
-<p>Use the checked-error types exposed by the API that can fail, such as <code>HttpError</code>, <code>SqliteError</code>, <code>NetworkError</code>, and <code>FilesystemError</code>. User-declared custom error types are not implemented yet; <code>strut api --json</code> lists the contracts for built-in APIs.</p>
+<p>Use the checked-error types exposed by the API that can fail, such as <code>HttpError</code>, <code>SqliteError</code>, <code>NetworkError</code>, and <code>FilesystemError</code>, or declare an application-specific error with <code>error Name { ... }</code>. <code>strut api --json</code> lists the contracts for built-in APIs.</p>
+<h2>Custom checked errors</h2>
+<p>A custom error is nominal: only values declared with <code>error</code> can appear in checked-error contracts, <code>throw</code>, and typed catches. The first runtime model standardizes optional <code>message</code> and <code>code</code> payload fields; other fields remain useful to the declaring type but are not yet preserved by a caught runtime payload.</p>
+<!-- strut-example:custom-checked-errors:start -->
+<pre><code class="language-strut">error ValidationError {
+    string message;
+    int code;
+}
+
+function validate(int value) -&gt; int : ValidationError {
+    if (value &lt; 0) {
+        throw ValidationError { message: "negative value", code: 42 };
+    }
+    return value;
+}
+
+function main() -&gt; int {
+    try {
+        validate(-1);
+    } catch (ValidationError err) {
+        println(err.message);
+        println(err.code);
+    }
+    return 0;
+}</code></pre>
+<!-- strut-example:custom-checked-errors:end -->
 <h2>Declare checked errors</h2>
 <pre><code class="language-strut">function load(string path) -> Config : IOError {
     // ...
