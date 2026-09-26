@@ -7,6 +7,6 @@
 <h2>Processes and packages</h2>
 <p><code>exec</code> is argv-based by default rather than silently invoking a shell. Package paths are validated against escaping package roots, and lock metadata is intended to make dependency selection reproducible.</p>
 <h2>TLS</h2>
-<p>HTTP client TLS uses libcurl with certificate and hostname verification enabled by default. The built-in server remains plain HTTP. OpenSSL is approved for future server-side TLS, but HTTPS server support is not claimed until it is implemented and certified.</p>
+<p>HTTP client TLS uses libcurl with certificate and hostname verification enabled by default. HTTPS servers use OpenSSL with TLS 1.2 or newer, validate the certificate/private-key pair before binding, and never fall back silently to plaintext. Plain HTTP does not pull the OpenSSL runtime component.</p>
 <h2>Hardening</h2>
 <p>The project includes frontend fuzz smoke tests, sanitizer-backed memory/runtime stress, concurrency stress, FFI ABI fixtures, and cross-platform CI workflows. Platform release certification remains separate from implementing the feature.</p>

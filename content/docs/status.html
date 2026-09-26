@@ -14,7 +14,7 @@
   <li>Native threads, mutexes/scoped locking, typed channels, a shared multithreaded async executor, and documented cross-thread safety policy.</li>
   <li>C ABI FFI, static/dynamic native libraries, and static, dynamic, or mixed final linking with release dead-code elimination/stripping where supported.</li>
   <li><code>strut.json</code> package manifests, lock/cache handling, local package workflows, explicit angle-bracket standard modules, and <code>include &lt;package&gt;</code> resolution; quoted includes remain local/native dependencies.</li>
-  <li>Cross-platform TCP networking, verified client TLS through libcurl, HTTP client APIs, plain HTTP server routing, JSON requests/responses, and system SQLite integration.</li>
+  <li>Cross-platform TCP networking, verified client TLS through libcurl, direct HTTPS serving through OpenSSL, concurrent HTTP routing, bounded graceful shutdown, request limits, JSON requests/responses, and system SQLite integration.</li>
   <li>Compile-time file/directory embedding and static-asset serving for one-binary applications.</li>
   <li><code>strut init</code>, persistent <code>.o</code>/<code>.obj</code> files, per-object <code>.info.json</code> dependencies, Nift-style modified-time invalidation, and <code>strut make</code>.</li>
   <li><code>strut test</code> test discovery/filtering and <code>strut fmt</code>/<code>--check</code> canonical formatting.</li>
@@ -32,6 +32,6 @@
 <h2>Platform certification</h2>
 <p>The compiler and generated C++ are certified in GitHub Actions on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is also green across Ubuntu, macOS, and Windows.</p>
 <h2>Stability work</h2>
-<p>The language design, compatibility/versioning, security/reliability, and release-candidate audits are complete for 0.0.1. The certified baseline contains 111 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, and dogfood coverage.</p>
+<p>The language design, compatibility/versioning, security/reliability, and release-candidate audits are complete for 0.0.1. The current development baseline contains 139 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, package, and backend dogfood coverage.</p>
 <h2>Still deferred</h2>
-<p>Server-side HTTPS is not yet shipped. OpenSSL is approved for that work, but the server TLS integration has not been implemented. Remote package fetching/registry policy is also intentionally separate from the already-working local/cache package model.</p>
+<p>HTTP/2, WebSockets, ACME/certificate automation, reverse-proxy behavior, and a centralized package registry remain deliberately deferred.</p>

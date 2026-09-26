@@ -28,8 +28,8 @@ response := http_request("POST", "https://example.com/api/users", options);</cod
 response := await pending;</code></pre>
 <h2>Streaming policy</h2>
 <p>HTTP responses are currently buffered. A public streaming response API is deliberately deferred rather than exposing libcurl callbacks as language API prematurely.</p>
-<h2>TLS server note</h2>
-<p>Client TLS is backed by libcurl. OpenSSL is approved as Strut's server-side TLS backend, but HTTPS server support is not implemented yet; the current server surface is plain HTTP.</p>
+<h2>Verified HTTPS client with a private CA</h2>
+<p><code>http_get_ca(url, ca_file)</code> trusts an explicit PEM CA bundle while retaining certificate and hostname verification. There is no insecure convenience mode.</p>
 <h2>HTTP server</h2>
 <p>Strut's server API is built on the cross-platform TCP substrate. Routes support path parameters, query values, headers, request bodies, JSON parsing, and synchronous or async handlers.</p>
 <pre><code class="language-strut">function main() -&gt; int : NetworkError {
@@ -57,6 +57,24 @@ response := await pending;</code></pre>
     return 0;
 }</code></pre>
 <!-- strut-example:sqlite-http-service:end -->
+<h2>Lifecycle and operational limits</h2>
+<p>The server accepts requests concurrently. <code>stop()</code> closes the listener and drains active handlers up to the configured shutdown timeout; it is safe before start and idempotent. <code>running()</code> reports whether the server is accepting or draining.</p>
+<pre><code class="language-strut">app.timeouts(30000, 30000, 5000, 5000);
+app.limits(1048576, 65536, 100, 1024);
+
+listener := thread(() =&gt; { app.listen("127.0.0.1", 8080); });
+wait_for_shutdown_signal();
+app.stop();
+listener.join();</code></pre>
+<p>The timeout values are read, write, idle, and graceful-shutdown milliseconds. Limits cover request-body bytes, header bytes, header count, and active connections. Malformed or oversized requests receive controlled HTTP responses.</p>
+<h2>HTTPS server</h2>
+<p><code>listen_tls</code> loads a PEM certificate chain and matching private key before opening the listener. Missing, invalid, unreadable, or mismatched material produces <code>TlsError</code>; Strut never falls back to plaintext. OpenSSL is linked only when this API is used.</p>
+<pre><code class="language-strut">function main(string command, string[] args) -&gt; int : (NetworkError, TlsError) {
+    app := http_server();
+    app.get("/health", (http_request request) =&gt; { return http_text("secure"); });
+    app.listen_tls("127.0.0.1", 8443, args[0], args[1]);
+    return 0;
+}</code></pre>
 <h2>Async handlers</h2>
 <p>Use <code>get_async</code> or <code>post_async</code> when a handler performs async work. The server awaits the returned Strut future before writing the response.</p>
 <pre><code class="language-strut">app.get_async("/api/items", async (http_request req) =&gt; {
