@@ -26,7 +26,13 @@ print(json.pretty(config));</code></pre>
 <h2>Safe pointers</h2>
 <pre><code class="language-strut">int* value := new(7);
 int* copy := value;
-print(*copy);</code></pre><h2>Tuple and collections</h2>
+print(*copy);</code></pre>
+<p>Raw extraction is explicit and limited to unsafe code:</p>
+<pre><code class="language-strut">unsafe {
+    ptr&lt;int&gt; raw := ptr(value);
+    print(*raw);
+}</code></pre>
+<h2>Tuple and collections</h2>
 <pre><code class="language-strut">include &lt;tuple&gt;;
 include &lt;map&gt;;
 include &lt;priority_queue&gt;;
@@ -44,7 +50,7 @@ include &lt;filesystem&gt;;
 
 make_dir("dist/assets");
 copy(["css/*.css", "js/*.js"], "dist/assets");
-write_file("dist/version.txt", "0.1.0\n");
+write_file("dist/version.txt", "0.0.1\n");
 
 for (path : walk("dist")) {
     print(path);
