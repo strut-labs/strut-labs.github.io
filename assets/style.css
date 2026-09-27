@@ -236,3 +236,35 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
 .about-page .perf-row strong { color:var(--neon-cyan); }
 @media (max-width:980px){.hero-machine{max-width:760px}}
 @media (max-width:650px){.hero-machine{height:440px}.hero-art{inset:-5px -55px 0;width:calc(100% + 110px)}.native-chip{bottom:30px}.machine-status{bottom:0}}
+
+/* About image-led composition */
+.about-page .about-hero { display:block; min-height:690px; max-width:1320px; padding-top:100px; }
+.about-page .about-hero::before,.about-page .about-hero::after { display:none; }
+.about-page .about-hero-copy { position:relative; z-index:2; width:48%; }
+.about-page .hero-machine { position:absolute; inset:0; z-index:0; width:100%; max-width:none; height:100%; }
+.about-page .hero-art { position:static; width:100%; height:100%; object-fit:cover; object-position:center; border-radius:0; }
+.about-page .about-art { display:block; max-width:100%; }
+.about-page .section-art { width:100%; aspect-ratio:3/2; object-fit:cover; border:1px solid #2f322b; border-radius:14px; box-shadow:0 30px 80px rgba(0,0,0,.3); }
+.about-page .about-band { background:#131411; }
+.about-page .code-stage { background:#11120f; }
+.about-page .use-card { min-height:0; padding:25px; background:#171815; box-shadow:none; }
+.about-page .use-card h3 { margin-top:0; }
+.about-page .tool-console { background:#0c0d0b; }
+.about-page .package-story,.about-page .performance-story { background:#171815; }
+.about-page .bars i { background:#34362e; }.about-page .bars em { background:var(--neon-cyan); box-shadow:none; }
+.about-page .install-command { background:#0b0c0a; }
+.about-page .closing-grid i { background:var(--line); }
+.about-page .package-story p { margin-bottom:0; }
+@media(max-width:980px){
+  .about-page .about-hero { min-height:980px; padding-top:76px; }
+  .about-page .about-hero-copy { width:70%; }
+  .about-page .hero-machine { top:360px; height:620px; }
+  .about-page .hero-art { object-position:66% center; }
+}
+@media(max-width:650px){
+  .about-page .about-hero { min-height:970px; padding-top:58px; }
+  .about-page .about-hero-copy { width:100%; }
+  .about-page .hero-machine { top:560px; height:410px; }
+  .about-page .hero-art { width:100%; object-position:70% center; }
+  .about-page .section-art { border-radius:10px; }
+}
