@@ -163,7 +163,7 @@
     <h2>Download only</h2>
     <pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/download.sh -o download-strut.sh
 sh download-strut.sh
-sh download-strut.sh 0.0.2 ./downloads</code></pre>
+sh download-strut.sh 0.0.3 ./downloads</code></pre>
     <p>This selects the correct archive without installing it. Archives are also available from <a href="https://github.com/strut-labs/strut/releases">GitHub Releases</a>.</p>
     <h2>Custom locations</h2>
     <pre><code class="language-bash">curl -fsSL https://strut-labs.github.io/install.sh | \
@@ -188,7 +188,7 @@ STRUT_INSTALL_DIR="$HOME/tools/strut" STRUT_BIN_DIR="$HOME/bin" sh</code></pre>
     <h2>Run compiler tests</h2>
     <pre><code class="language-bash">ctest --test-dir build --output-on-failure</code></pre>
     <h2>Install a source build</h2>
-    <pre><code class="language-bash">cmake --install build --config Release --prefix ./strut-0.0.2</code></pre>
+    <pre><code class="language-bash">cmake --install build --config Release --prefix ./strut-0.0.3</code></pre>
     <h2>Compiler dependencies</h2>
     <p>JSONIC is embedded for Strut's built-in JSON implementation. libcurl is approved for HTTP/client TLS and OpenSSL is approved for server-side TLS work. Additional third-party components are not added implicitly.</p>
   </article>
