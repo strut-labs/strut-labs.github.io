@@ -102,7 +102,7 @@
       <div class="hero-signals" aria-label="Strut qualities"><span><b>Native</b> C++20 output</span><span><b>Safe</b> explicit ownership</span><span><b>Useful</b> batteries included</span></div>
     </div>
     <div class="hero-machine" aria-label="Strut compilation visualized as layered native components">
-      <img class="about-art hero-art" src="assets/about-hero.webp" alt="Three floating neon-edged native computing layers above a dark reflective landscape">
+      <img class="about-art hero-art" src="assets/pyramid-hero.png" alt="Three floating neon-edged native computing layers above a dark reflective landscape">
     </div>
   </section>
 
@@ -128,17 +128,17 @@ function main() -> int {
   <section class="about-section use-section">
     <div class="section-heading"><div class="eyebrow">What can you build?</div><h2>One language. Real projects.</h2><p>Use Strut for focused native tools or compose the built-in surfaces into larger applications.</p></div>
     <div class="use-grid">
-      <article class="use-card"><img src="assets/about-card-cli.webp" alt="A stylized terminal and developer tool"><div class="use-copy"><h3>CLI & developer tools</h3><p>Argument-aware entry points, filesystem APIs, child processes, streams and static or dynamic linking.</p></div></article>
-      <article class="use-card"><img src="assets/about-card-backend.webp" alt="A stylized native service and connected endpoint"><div class="use-copy"><h3>Backends & HTTPS APIs</h3><p>HTTP servers and clients, TLS, checked errors, JSON and SQLite in a native service.</p></div></article>
-      <article class="use-card"><img src="assets/about-card-data.webp" alt="Stylized data, database and file forms"><div class="use-copy"><h3>Data applications</h3><p>Parse, transform, persist and serve structured data without assembling a framework first.</p></div></article>
-      <article class="use-card"><img src="assets/about-card-concurrency.webp" alt="Three connected concurrent nodes around an atomic core"><div class="use-copy"><h3>Concurrent native programs</h3><p>Native threads, atomics, mutexes, channels and async work with explicit crossing rules.</p></div></article>
-      <article class="use-card"><img src="assets/about-card-packages.webp" alt="Four interlocking package modules"><div class="use-copy"><h3>Package-backed projects</h3><p>Multi-module builds with immutable commits, SHA-256 verification, lockfiles and an offline cache.</p></div></article>
-      <article class="use-card"><img src="assets/about-card-agents.webp" alt="A stylized editor connected to an intelligent crystal"><div class="use-copy"><h3>Agent-driven development</h3><p>Stable diagnostics, JSON inspection commands and authoritative metadata make feedback easy to consume.</p></div></article>
+      <article class="use-card"><img src="assets/glass-house.png" alt="A stylized terminal and developer tool"><div class="use-copy"><h3>CLI & developer tools</h3><p>Argument-aware entry points, filesystem APIs, child processes, streams and static or dynamic linking.</p></div></article>
+      <article class="use-card"><img src="assets/server-blocks.png" alt="A stylized native service and connected endpoint"><div class="use-copy"><h3>Backends & HTTPS APIs</h3><p>HTTP servers and clients, TLS, checked errors, JSON and SQLite in a native service.</p></div></article>
+      <article class="use-card"><img src="assets/data-blocks.png" alt="Stylized data, database and file forms"><div class="use-copy"><h3>Data applications</h3><p>Parse, transform, persist and serve structured data without assembling a framework first.</p></div></article>
+      <article class="use-card"><img src="assets/suspension-bridge.png" alt="Three connected concurrent nodes around an atomic core"><div class="use-copy"><h3>Concurrent native programs</h3><p>Native threads, atomics, mutexes, channels and async work with explicit crossing rules.</p></div></article>
+      <article class="use-card"><img src="assets/illuminated-road.png" alt="Four interlocking package modules"><div class="use-copy"><h3>Package-backed projects</h3><p>Multi-module builds with immutable commits, SHA-256 verification, lockfiles and an offline cache.</p></div></article>
+      <article class="use-card"><img src="assets/ai-robot.png" alt="A stylized editor connected to an intelligent crystal"><div class="use-copy"><h3>Agent-driven development</h3><p>Stable diagnostics, JSON inspection commands and authoritative metadata make feedback easy to consume.</p></div></article>
     </div>
   </section>
 
   <section class="about-band pipeline-section">
-    <img class="about-art section-art" src="assets/about-runtime.webp" alt="A luminous compiler core selecting connected runtime modules">
+    <img class="about-art section-art" src="assets/alpine-runtime-landscape.png" alt="A luminous compiler core selecting connected runtime modules">
     <div class="section-copy"><div class="eyebrow">Native by construction</div><h2>A transparent compilation pipeline.</h2><p>The compiler resolves and checks Strut source, selects the runtime components the program actually needs, then hands focused C++20 to the native toolchain. There is no bytecode VM and no hidden application server.</p><p>Conservative fallbacks preserve correctness for complex combinations while small programs stay small.</p></div>
   </section>
 
@@ -160,7 +160,7 @@ unsafe {
   </section>
 
   <section class="about-band tooling-section">
-    <img class="about-art section-art" src="assets/about-tooling.webp" alt="A neon crystalline toolchain core connected to editor, package, data and concurrency modules">
+    <img class="about-art section-art" src="assets/developer-workstation.png" alt="A neon crystalline toolchain core connected to editor, package, data and concurrency modules">
     <div class="section-copy"><div class="eyebrow">Tooling & AI-DX</div><h2>Designed to be inspected.</h2><p>The compiler, API registry and language server share authoritative language metadata. Humans get completions and diagnostics; agents get stable JSON surfaces and exact project context.</p><p>Controlled AI-DX benchmarks certify representative tasks and diagnostics. They are project tests—not claims that every model or workflow behaves identically.</p></div>
   </section>
 
@@ -169,7 +169,7 @@ unsafe {
     <div class="performance-story"><div class="eyebrow">0.0.3 performance</div><h2>Less runtime. Faster feedback.</h2><div class="perf-chart"><div class="perf-row"><div><b>Hello World</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">1,659 ms</i><em style="--bar:19%">315 ms</em></div><strong>~81% faster</strong></div><div class="perf-row"><div><b>Plain threads</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">2,112 ms</i><em style="--bar:38%">795 ms</em></div><strong>~62% faster</strong></div></div><p>Measured against immutable <code>v0.0.2</code> in the documented certification environment. The Strut frontend is sub-millisecond for these small fixtures; native C++ compilation now dominates. Results vary by machine and toolchain.</p><a class="text-link" href="docs/performance.html">Read the methodology →</a></div>
   </section>
 
-  <section class="about-closing"><div class="closing-grid" aria-hidden="true"><span>SOURCE</span><i></i><span>CHECK</span><i></i><span>SLICE</span><i></i><span>COMPILE</span><i></i><span>SHIP</span></div><div class="eyebrow">A language in active development</div><h2>Build close to the machine.<br><span>Keep the code human.</span></h2><p>Strut is young and intentionally honest about its status. The implemented surface is already useful for native tools, services and experiments—and every release makes the path from source to shipped binary clearer.</p><div class="hero-actions"><a class="primary" href="./getting-started.html">Install Strut</a><a href="https://github.com/strut-labs">View on GitHub</a></div></section>
+  <section class="about-closing"><img class="closing-art" src="assets/explorer-overlook.png" alt="A lone explorer overlooking an alpine lake and mountain range at sunset"><div class="closing-content"><div class="closing-grid" aria-hidden="true"><span>SOURCE</span><i></i><span>CHECK</span><i></i><span>SLICE</span><i></i><span>COMPILE</span><i></i><span>SHIP</span></div><div class="eyebrow">A language in active development</div><h2>Build close to the machine.<br><span>Keep the code human.</span></h2><p>Strut is young and intentionally honest about its status. The implemented surface is already useful for native tools, services and experiments—and every release makes the path from source to shipped binary clearer.</p><div class="hero-actions"><a class="primary" href="./getting-started.html">Install Strut</a><a href="https://github.com/strut-labs">View on GitHub</a></div></div></section>
 </div>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
