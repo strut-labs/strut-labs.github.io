@@ -59,7 +59,7 @@ atomic&lt;int&gt; completed = 0;
 
 unsafe {
     raw_ptr&lt;Job&gt; view = raw(owner);
-    println(view-&gt;name);
+    print(view-&gt;name);
 }</code></pre></div>
       <div class="safety-notes"><p><strong><code>T*</code></strong> Reference-counted ownership.</p><p><strong><code>weak_ptr&lt;T&gt;</code></strong> Non-owning observation.</p><p><strong><code>raw_ptr&lt;T&gt;</code></strong> Available inside explicit <code>unsafe</code>.</p><p><strong><code>atomic&lt;T&gt;</code></strong> Shared state across native threads.</p></div>
     </div>
