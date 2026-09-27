@@ -273,7 +273,7 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
 .about-page .use-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
 .about-page .use-card { min-height:285px; padding:27px; isolation:isolate; background:#10110f; }
 .about-page .use-card > img { position:absolute; inset:0; z-index:0; width:100%; height:100%; object-fit:cover; }
-.about-page .use-copy { position:relative; z-index:1; width:52%; padding:15px 16px; margin:-15px -16px; border:1px solid rgba(255,255,255,.07); border-radius:10px; background:rgba(5,9,11,.86); }
+.about-page .use-copy { position:relative; z-index:1; width:46%; text-shadow:0 1px 2px #050709,0 2px 8px #050709,0 0 18px #050709; }
 .about-page .use-card h3,
 .about-page .use-card p { max-width:none; }
 .about-page .use-card h3 { margin:0 0 9px; }
@@ -281,9 +281,9 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
 @media(max-width:760px){
   .about-page .use-grid { grid-template-columns:1fr; }
   .about-page .use-card { min-height:300px; }
-  .about-page .use-copy { width:60%; }
+  .about-page .use-copy { width:54%; }
 }
 @media(max-width:430px){
   .about-page .use-card { min-height:310px; padding:22px; }
-  .about-page .use-copy { width:66%; }
+  .about-page .use-copy { width:58%; }
 }
