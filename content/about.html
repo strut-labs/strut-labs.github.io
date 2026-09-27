@@ -8,42 +8,7 @@
       <div class="hero-signals" aria-label="Strut qualities"><span><b>Native</b> C++20 output</span><span><b>Safe</b> explicit ownership</span><span><b>Useful</b> batteries included</span></div>
     </div>
     <div class="hero-machine" aria-label="Strut compilation visualized as layered native components">
-      <svg class="hero-art" viewBox="0 0 760 590" role="img" aria-label="Strut source, runtime layers and native executable">
-        <defs>
-          <radialGradient id="skyGlow" cx="68%" cy="30%" r="62%"><stop offset="0" stop-color="#9b7cff" stop-opacity=".24"/><stop offset=".42" stop-color="#4de7d4" stop-opacity=".1"/><stop offset="1" stop-color="#10110f" stop-opacity="0"/></radialGradient>
-          <linearGradient id="tileTop" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#5b4876"/><stop offset=".45" stop-color="#28283b"/><stop offset="1" stop-color="#171622"/></linearGradient>
-          <linearGradient id="tileMid" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#16564f"/><stop offset="1" stop-color="#101d1c"/></linearGradient>
-          <linearGradient id="tileLow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#30264a"/><stop offset="1" stop-color="#12101b"/></linearGradient>
-          <linearGradient id="goldLine" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#d7c58c" stop-opacity="0"/><stop offset=".5" stop-color="#f0dc98"/><stop offset="1" stop-color="#d7c58c" stop-opacity="0"/></linearGradient>
-          <filter id="softGlow"><feGaussianBlur stdDeviation="14"/></filter>
-          <filter id="tileShadow" x="-40%" y="-40%" width="180%" height="200%"><feDropShadow dx="0" dy="25" stdDeviation="24" flood-color="#000" flood-opacity=".65"/><feDropShadow dx="0" dy="0" stdDeviation="10" flood-color="#9b7cff" flood-opacity=".38"/></filter>
-          <filter id="tinyGlow"><feGaussianBlur stdDeviation="3"/></filter>
-          <pattern id="microGrid" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="#d7c58c" stroke-opacity=".045" stroke-width="1"/></pattern>
-        </defs>
-        <rect width="760" height="590" fill="url(#skyGlow)"/><rect x="40" y="18" width="680" height="540" rx="34" fill="url(#microGrid)" opacity=".75"/>
-        <circle cx="574" cy="121" r="70" fill="#9b7cff" opacity=".18" filter="url(#softGlow)"/><circle cx="574" cy="121" r="38" fill="#d9d0ff" opacity=".86"/>
-        <path d="M34 356L151 239l74 65 101-132 94 121 72-72 92 86 78-91 83 140z" fill="#141813" stroke="#394438" stroke-width="1"/>
-        <path d="M34 357L151 239l20 81 54-16 101-132 34 135 60-14 72-72 29 102 63-16 78-91 18 141z" fill="#0d0f0c" opacity=".9"/>
-        <path d="M78 405C210 358 528 359 693 413" fill="none" stroke="url(#goldLine)" stroke-width="2" opacity=".45"/>
-        <ellipse cx="390" cy="452" rx="250" ry="70" fill="#d7c58c" opacity=".055" filter="url(#softGlow)"/>
-        <g filter="url(#tileShadow)">
-          <path d="M195 351L376 263a32 32 0 0 1 29 0l181 88a18 18 0 0 1 0 33l-181 88a32 32 0 0 1-29 0l-181-88a18 18 0 0 1 0-33z" fill="url(#tileLow)" stroke="#9b7cff" stroke-opacity=".56" stroke-width="2"/>
-          <path d="M207 306L377 223a30 30 0 0 1 27 0l170 83a17 17 0 0 1 0 31l-170 83a30 30 0 0 1-27 0l-170-83a17 17 0 0 1 0-31z" fill="url(#tileMid)" stroke="#4de7d4" stroke-opacity=".82" stroke-width="2"/>
-          <path d="M222 250L378 174a28 28 0 0 1 25 0l156 76a16 16 0 0 1 0 29l-156 76a28 28 0 0 1-25 0l-156-76a16 16 0 0 1 0-29z" fill="url(#tileTop)" stroke="#b9a6ff" stroke-opacity=".94" stroke-width="2"/>
-        </g>
-        <path d="M223 265L390 346l168-81" fill="none" stroke="#b9a6ff" stroke-opacity=".9" stroke-width="3" filter="url(#tinyGlow)"/>
-        <path d="M210 321L390 409l181-88" fill="none" stroke="#4de7d4" stroke-opacity=".8" stroke-width="3" filter="url(#tinyGlow)"/>
-        <g transform="translate(327 214) skewY(-1)"><path d="M42 0h44L67 26H43L29 43h40L52 70H8l19-27h24L66 26H24z" fill="#f4e6b5" filter="url(#tinyGlow)"/><path d="M42 0h44L67 26H43L29 43h40L52 70H8l19-27h24L66 26H24z" fill="#f4e6b5"/></g>
-        <g font-family="JetBrains Mono, monospace" font-size="11" fill="#c8c8be">
-          <text x="104" y="165" fill="#d7c58c">SOURCE</text><text x="104" y="186">function main()</text><text x="104" y="203">→ int</text>
-          <text x="588" y="302" fill="#9fc6b2">RUNTIME</text><text x="588" y="323">string</text><text x="588" y="340">io</text>
-          <text x="95" y="456" fill="#d7c58c">NATIVE</text><text x="95" y="477">arm64 / x64</text>
-        </g>
-        <g fill="#d7c58c"><circle cx="184" cy="266" r="3"/><circle cx="585" cy="322" r="3"/><circle cx="192" cy="440" r="3"/></g>
-        <g stroke="#d7c58c" stroke-opacity=".35" fill="none"><path d="M187 266H115v-52"/><path d="M581 322h-16"/><path d="M196 440h-50"/></g>
-      </svg>
-      <div class="native-chip"><span class="chip-mark">S</span><div><b>native executable</b><small>focused runtime · no VM</small></div></div>
-      <div class="machine-status"><i></i> compiled for this machine</div>
+      <img class="about-art hero-art" src="@path('public/assets/about-hero.webp')" alt="Three floating neon-edged native computing layers above a dark reflective landscape">
     </div>
   </section>
 
@@ -69,19 +34,17 @@ function main() -> int {
   <section class="about-section use-section">
     <div class="section-heading"><div class="eyebrow">What can you build?</div><h2>One language. Real projects.</h2><p>Use Strut for focused native tools or compose the built-in surfaces into larger applications.</p></div>
     <div class="use-grid">
-      <article class="use-card"><div class="use-visual terminal-mini"><span>$ strut build --release</span><b>✓ app ready</b><i>12.4 MB · native</i></div><h3>CLI & developer tools</h3><p>Argument-aware entry points, filesystem APIs, child processes, streams and static or dynamic linking.</p></article>
-      <article class="use-card"><div class="use-visual route-map"><span>GET</span><b>/api/items</b><i>200 JSON</i><em></em></div><h3>Backends & HTTPS APIs</h3><p>HTTP servers and clients, TLS, checked errors, JSON and SQLite in a native service.</p></article>
-      <article class="use-card"><div class="use-visual data-stack"><span>{ JSON }</span><span>SQLite</span><span>files</span></div><h3>Data applications</h3><p>Parse, transform, persist and serve structured data without assembling a framework first.</p></article>
-      <article class="use-card"><div class="use-visual thread-lines"><b>main</b><span></span><i>T1</i><span></span><i>T2</i><em>atomic</em></div><h3>Concurrent native programs</h3><p>Native threads, atomics, mutexes, channels and async work with explicit crossing rules.</p></article>
-      <article class="use-card"><div class="use-visual module-graph"><b>app</b><span>core</span><span>sqlite</span><span>net</span></div><h3>Package-backed projects</h3><p>Multi-module builds with immutable commits, SHA-256 verification, lockfiles and an offline cache.</p></article>
-      <article class="use-card"><div class="use-visual editor-mini"><span>function main</span><i>completion</i><b>0 diagnostics</b></div><h3>Agent-driven development</h3><p>Stable diagnostics, JSON inspection commands and authoritative metadata make feedback easy to consume.</p></article>
+      <article class="use-card"><h3>CLI & developer tools</h3><p>Argument-aware entry points, filesystem APIs, child processes, streams and static or dynamic linking.</p></article>
+      <article class="use-card"><h3>Backends & HTTPS APIs</h3><p>HTTP servers and clients, TLS, checked errors, JSON and SQLite in a native service.</p></article>
+      <article class="use-card"><h3>Data applications</h3><p>Parse, transform, persist and serve structured data without assembling a framework first.</p></article>
+      <article class="use-card"><h3>Concurrent native programs</h3><p>Native threads, atomics, mutexes, channels and async work with explicit crossing rules.</p></article>
+      <article class="use-card"><h3>Package-backed projects</h3><p>Multi-module builds with immutable commits, SHA-256 verification, lockfiles and an offline cache.</p></article>
+      <article class="use-card"><h3>Agent-driven development</h3><p>Stable diagnostics, JSON inspection commands and authoritative metadata make feedback easy to consume.</p></article>
     </div>
   </section>
 
   <section class="about-band pipeline-section">
-    <div class="pipeline-graphic" aria-label="Strut compilation pipeline">
-      <div class="pipe-node"><small>01</small><b>Strut source</b><span>clear project intent</span></div><i></i><div class="pipe-node"><small>02</small><b>Parser + TypeId</b><span>semantic analysis</span></div><i></i><div class="pipe-node"><small>03</small><b>Runtime slices</b><span>only what is used</span></div><i></i><div class="pipe-node"><small>04</small><b>Generated C++</b><span>portable C++20</span></div><i></i><div class="pipe-node final"><small>05</small><b>Native binary</b><span>ship anywhere</span></div>
-    </div>
+    <img class="about-art section-art" src="@path('public/assets/about-runtime.webp')" alt="A luminous compiler core selecting connected runtime modules">
     <div class="section-copy"><div class="eyebrow">Native by construction</div><h2>A transparent compilation pipeline.</h2><p>The compiler resolves and checks Strut source, selects the runtime components the program actually needs, then hands focused C++20 to the native toolchain. There is no bytecode VM and no hidden application server.</p><p>Conservative fallbacks preserve correctness for complex combinations while small programs stay small.</p></div>
   </section>
 
@@ -98,17 +61,17 @@ unsafe {
     raw_ptr&lt;Job&gt; view = raw(owner);
     println(view-&gt;name);
 }</code></pre></div>
-      <div class="safety-map"><div class="safety-core">value<span>Job</span></div><div class="safety-item owns"><b>T*</b><span>reference-counted owner</span></div><div class="safety-item weak"><b>weak_ptr&lt;T&gt;</b><span>non-owning observation</span></div><div class="safety-item raw"><b>raw_ptr&lt;T&gt;</b><span>inside explicit unsafe</span></div><div class="safety-item atomic"><b>atomic&lt;T&gt;</b><span>thread-safe shared state</span></div></div>
+      <div class="safety-notes"><p><strong><code>T*</code></strong> Reference-counted ownership.</p><p><strong><code>weak_ptr&lt;T&gt;</code></strong> Non-owning observation.</p><p><strong><code>raw_ptr&lt;T&gt;</code></strong> Available inside explicit <code>unsafe</code>.</p><p><strong><code>atomic&lt;T&gt;</code></strong> Shared state across native threads.</p></div>
     </div>
   </section>
 
   <section class="about-band tooling-section">
-    <div class="tool-console"><div class="console-tabs"><b>TOOLCHAIN</b><span>metadata</span><span>editor</span></div><div class="console-row"><i>$</i><code>strut api --json</code><span>language contracts</span></div><div class="console-row"><i>$</i><code>strut project --json</code><span>project graph</span></div><div class="console-row"><i>$</i><code>strut packages --json</code><span>resolved dependencies</span></div><div class="console-row active"><i>$</i><code>strut lsp</code><span>editor intelligence</span></div><div class="metadata-pulse"><span></span><b>one authoritative registry</b><span></span></div></div>
+    <img class="about-art section-art" src="@path('public/assets/about-tooling.webp')" alt="A neon crystalline toolchain core connected to editor, package, data and concurrency modules">
     <div class="section-copy"><div class="eyebrow">Tooling & AI-DX</div><h2>Designed to be inspected.</h2><p>The compiler, API registry and language server share authoritative language metadata. Humans get completions and diagnostics; agents get stable JSON surfaces and exact project context.</p><p>Controlled AI-DX benchmarks certify representative tasks and diagnostics. They are project tests—not claims that every model or workflow behaves identically.</p></div>
   </section>
 
   <section class="about-section package-performance">
-    <div class="package-story"><div class="eyebrow">Packages that stay put</div><h2>Short name in. Immutable build out.</h2><div class="install-command"><span>$</span><code>strut install sqlite</code><b>↵</b></div><div class="package-flow"><span><b>sqlite</b><small>official shorthand</small></span><i>→</i><span><b>strut-packages</b><small>official repository</small></span><i>→</i><span><b>Git commit</b><small>immutable source</small></span><i>→</i><span><b>SHA-256</b><small>verified lock + cache</small></span></div></div>
+    <div class="package-story"><div class="eyebrow">Packages that stay put</div><h2>Short name in. Immutable build out.</h2><div class="install-command"><span>$</span><code>strut install sqlite</code><b>↵</b></div><p>Official shorthand resolves through the <code>strut-packages</code> repository to an immutable Git commit, verified SHA-256, lockfile and offline cache.</p></div>
     <div class="performance-story"><div class="eyebrow">0.0.3 performance</div><h2>Less runtime. Faster feedback.</h2><div class="perf-chart"><div class="perf-row"><div><b>Hello World</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">1,659 ms</i><em style="--bar:19%">315 ms</em></div><strong>~81% faster</strong></div><div class="perf-row"><div><b>Plain threads</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">2,112 ms</i><em style="--bar:38%">795 ms</em></div><strong>~62% faster</strong></div></div><p>Measured against immutable <code>v0.0.2</code> in the documented certification environment. The Strut frontend is sub-millisecond for these small fixtures; native C++ compilation now dominates. Results vary by machine and toolchain.</p><a class="text-link" href="@path('docs/performance')">Read the methodology →</a></div>
   </section>
 
