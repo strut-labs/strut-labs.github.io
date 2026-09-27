@@ -16,13 +16,10 @@
     <div class="section-copy"><div class="eyebrow">What is Strut?</div><h2>A concise route from intent to native code.</h2><p>Strut pairs a structured type system and checked errors with owning safe pointers, explicit raw-pointer escape hatches, threads and atomics.</p><p>The project also ships the practical surroundings: packages, offline locks and caches, a language server, machine-readable API metadata, JSON, SQLite, networking, HTTPS, filesystem and process APIs.</p></div>
     <div class="code-stage">
       <div class="stage-head"><span class="stage-dots"><i></i><i></i><i></i></span><span>server.p</span><b>STRUT</b></div>
-      <pre><code class="language-strut">include &lt;http&gt;
-include &lt;json&gt;
-
-function main() -> int {
-    http_server app = http_server();
-    app.get("/health", function() -> json {
-        return {"status": "ready"};
+      <pre><code class="language-strut">function main() -&gt; int : NetworkError {
+    app := http_server();
+    app.get("/health", (http_request req) =&gt; {
+        return http_text("ready");
     });
     app.listen("127.0.0.1", 8080);
     return 0;
@@ -53,12 +50,12 @@ function main() -> int {
     <div class="safety-layout">
       <div class="safety-code code-stage"><div class="stage-head"><span class="stage-dots"><i></i><i></i><i></i></span><span>memory.p</span><b>SAFE BY DEFAULT</b></div><pre><code class="language-strut">struct Job { string name; }
 
-Job* owner = new(Job{"compile"});
-weak_ptr&lt;Job&gt; observer = owner;
-atomic&lt;int&gt; completed = 0;
+Job* owner := new(Job { name: "compile" });
+weak_ptr&lt;Job&gt; observer := weak(owner);
+atomic&lt;int&gt; completed := 0;
 
 unsafe {
-    raw_ptr&lt;Job&gt; view = raw(owner);
+    raw_ptr&lt;Job&gt; view := ptr(owner);
     print(view-&gt;name);
 }</code></pre></div>
       <div class="safety-notes"><p><strong><code>T*</code></strong> Reference-counted ownership.</p><p><strong><code>weak_ptr&lt;T&gt;</code></strong> Non-owning observation.</p><p><strong><code>raw_ptr&lt;T&gt;</code></strong> Available inside explicit <code>unsafe</code>.</p><p><strong><code>atomic&lt;T&gt;</code></strong> Shared state across native threads.</p></div>
@@ -75,5 +72,5 @@ unsafe {
     <div class="performance-story"><div class="eyebrow">0.0.3 performance</div><h2>Less runtime. Faster feedback.</h2><div class="perf-chart"><div class="perf-row"><div><b>Hello World</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">1,659 ms</i><em style="--bar:19%">315 ms</em></div><strong>~81% faster</strong></div><div class="perf-row"><div><b>Plain threads</b><span>direct A/B compile</span></div><div class="bars"><i style="--bar:100%">2,112 ms</i><em style="--bar:38%">795 ms</em></div><strong>~62% faster</strong></div></div><p>Measured against immutable <code>v0.0.2</code> in the documented certification environment. The Strut frontend is sub-millisecond for these small fixtures; native C++ compilation now dominates. Results vary by machine and toolchain.</p><a class="text-link" href="@path('docs/performance')">Read the methodology →</a></div>
   </section>
 
-  <section class="about-closing"><img class="closing-art" src="@path('public/assets/explorer-overlook.png')" alt="A lone explorer overlooking an alpine lake and mountain range at sunset"><div class="closing-content"><div class="closing-grid" aria-hidden="true"><span>SOURCE</span><i></i><span>CHECK</span><i></i><span>SLICE</span><i></i><span>COMPILE</span><i></i><span>SHIP</span></div><div class="eyebrow">A language in active development</div><h2>Build close to the machine.<br><span>Keep the code human.</span></h2><p>Strut is young and intentionally honest about its status. The implemented surface is already useful for native tools, services and experiments—and every release makes the path from source to shipped binary clearer.</p><div class="hero-actions"><a class="primary" href="@path('getting-started')">Install Strut</a><a href="https://github.com/strut-labs">View on GitHub</a></div></div></section>
+  <section class="about-closing"><img class="closing-art" src="@path('public/assets/explorer-overlook.png')" alt="A lone explorer overlooking an alpine lake and mountain range at sunset"><div class="closing-content"><div class="eyebrow">A language in active development</div><h2>Build close to the machine.<br><span>Keep the code human.</span></h2><p>Strut is young and intentionally honest about its status. The implemented surface is already useful for native tools, services and experiments—and every release makes the path from source to shipped binary clearer.</p><div class="hero-actions"><a class="primary" href="@path('getting-started')">Install Strut</a><a href="https://github.com/strut-labs">View on GitHub</a></div></div></section>
 </div>
