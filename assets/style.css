@@ -395,3 +395,136 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
   .about-page .closing-content { padding:64px 18px; }
   .about-page .closing-grid { display:none; }
 }
+
+/* About poster edge-to-edge artwork: preserve generated panoramas uncropped. */
+@media (min-width:981px) {
+  .about-page .about-hero {
+    position:relative;
+    display:flex;
+    align-items:center;
+    width:min(1320px, 100%);
+    max-width:1320px;
+    min-height:0;
+    aspect-ratio:1983 / 793;
+    margin:0 auto;
+    padding:0;
+    overflow:hidden;
+  }
+  .about-page .hero-machine {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+  }
+  .about-page .hero-art {
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .about-page .about-hero-copy {
+    position:relative;
+    z-index:2;
+    width:49%;
+    padding-left:max(54px, calc((100% - 1180px)/2));
+    padding-right:24px;
+  }
+  .about-page .about-hero h1 {
+    font-size:clamp(3.5rem, 5.5vw, 5.6rem);
+    line-height:.91;
+    margin:12px 0 20px;
+  }
+  .about-page .about-hero-copy > p {
+    font-size:1rem;
+    line-height:1.5;
+    max-width:540px;
+  }
+  .about-page .hero-signals { margin-top:22px; }
+
+  .about-page .about-closing {
+    position:relative;
+    display:flex;
+    align-items:center;
+    width:min(1320px, 100%);
+    max-width:1320px;
+    min-height:0;
+    aspect-ratio:1983 / 793;
+    margin:0 auto;
+    padding:0;
+    overflow:hidden;
+  }
+  .about-page .closing-art {
+    position:absolute;
+    inset:0;
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    object-position:center;
+  }
+  .about-page .closing-content {
+    width:100%;
+    margin:0;
+    padding:42px max(54px, calc((100% - 1180px)/2));
+  }
+  .about-page .about-closing .closing-grid { margin-bottom:24px; }
+  .about-page .about-closing h2 {
+    max-width:650px;
+    font-size:clamp(3.2rem, 5.4vw, 5rem);
+    margin:10px 0 18px;
+  }
+  .about-page .about-closing > .closing-content > p {
+    max-width:590px;
+    line-height:1.5;
+  }
+}
+
+@media (max-width:980px) {
+  .about-page .about-hero {
+    display:block;
+    min-height:0;
+    padding:58px 24px 0;
+  }
+  .about-page .about-hero-copy { width:100%; }
+  .about-page .hero-machine {
+    position:relative;
+    inset:auto;
+    top:auto;
+    width:calc(100% + 48px);
+    height:auto;
+    margin:44px -24px 0;
+  }
+  .about-page .hero-machine::after { display:none; }
+  .about-page .hero-art {
+    display:block;
+    width:100%;
+    height:auto;
+    object-fit:contain;
+    object-position:center;
+  }
+
+  .about-page .about-closing {
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    padding:0;
+    background:var(--bg);
+  }
+  .about-page .closing-art {
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto;
+    object-fit:contain;
+    object-position:center;
+    order:2;
+  }
+  .about-page .about-closing::after { display:none; }
+  .about-page .closing-content {
+    order:1;
+    width:100%;
+    padding:68px 28px 42px;
+    background:var(--bg);
+  }
+}
