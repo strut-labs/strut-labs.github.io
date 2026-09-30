@@ -56,6 +56,7 @@
             <a href="docs/operators.html">Operators</a>
             <a href="docs/collections.html">Collections</a>
             <a href="docs/json.html">JSON</a>
+            <a href="docs/crypto.html">Bytes, encoding &amp; crypto</a>
             <a href="docs/structs.html">Structs</a>
             <a href="docs/memory.html">Memory</a>
             <a href="docs/errors.html">Errors</a>
@@ -66,10 +67,15 @@
           <div class="docs-nav-links">
             <a href="docs/streams.html">Streams</a>
             <a href="docs/system.html">Filesystem & system</a>
+            <a href="docs/cancellation.html">Cancellation</a>
+            <a href="docs/processes.html">Processes</a>
+            <a href="docs/pty.html">Pseudo-terminals</a>
             <a href="docs/concurrency.html">Concurrency</a>
             <a href="docs/async.html">Async</a>
             <a href="docs/networking.html">Networking</a>
-            <a href="docs/http.html">HTTP</a>
+            <a href="docs/http.html">HTTP client</a>
+            <a href="docs/http-server.html">HTTP server</a>
+            <a href="docs/websockets.html">WebSockets</a>
             <a href="docs/sqlite.html">SQLite</a>
             <a href="docs/embedding.html">Embedded resources</a>
             <a href="docs/linking.html">Linking & FFI</a>
@@ -84,6 +90,7 @@
             <a href="docs/editor.html">Editor & LSP</a>
             <a href="docs/cross-compilation.html">Cross compilation</a>
             <a href="docs/performance.html">Performance</a>
+            <a href="docs/architecture.html">Architecture</a>
             <a href="docs/security.html">Security</a>
             <a href="docs/compatibility.html">Compatibility</a>
             <a href="docs/examples.html">Examples</a>
@@ -109,7 +116,7 @@
   </section>
 
   <section class="about-band about-intro">
-    <div class="section-copy"><div class="eyebrow">What is Strut?</div><h2>A concise route from intent to native code.</h2><p>Strut pairs a structured type system and checked errors with owning safe pointers, explicit raw-pointer escape hatches, threads and atomics.</p><p>The project also ships the practical surroundings: packages, offline locks and caches, a language server, machine-readable API metadata, JSON, SQLite, networking, HTTPS, filesystem and process APIs.</p></div>
+    <div class="section-copy"><div class="eyebrow">What is Strut?</div><h2>A concise route from intent to native code.</h2><p>Strut pairs a structured type system and checked errors with owning safe pointers, explicit raw-pointer escape hatches, threads and atomics.</p><p>Current development also composes practical backend surfaces: strict HTTP/TLS servers, buffered and streaming clients, cancellation, crypto, SQLite, WebSockets, subprocess ownership, and POSIX PTYs. These post-<code>v0.0.3</code> capabilities are certified development work, not a claim that the complete stack is production-grade.</p></div>
     <div class="code-stage">
       <div class="stage-head"><span class="stage-dots"><i></i><i></i><i></i></span><span>server.p</span><b>STRUT</b></div>
       <pre><code class="language-strut">function main() -&gt; int : NetworkError {
@@ -128,7 +135,7 @@
     <div class="section-heading"><div class="eyebrow">What can you build?</div><h2>One language. Real projects.</h2><p>Use Strut for focused native tools or compose the built-in surfaces into larger applications.</p></div>
     <div class="use-grid">
       <article class="use-card"><img src="assets/glass-house.png" alt="A stylized terminal and developer tool"><div class="use-copy"><h3>CLI & developer tools</h3><p>Argument-aware entry points, filesystem APIs, child processes, streams and static or dynamic linking.</p></div></article>
-      <article class="use-card"><img src="assets/server-blocks.png" alt="A stylized native service and connected endpoint"><div class="use-copy"><h3>Backends & HTTPS APIs</h3><p>HTTP servers and clients, TLS, checked errors, JSON and SQLite in a native service.</p></div></article>
+      <article class="use-card"><img src="assets/server-blocks.png" alt="A stylized native service and connected endpoint"><div class="use-copy"><h3>Backends &amp; full-stack services</h3><p>HTTP/TLS, streaming bodies, NDJSON, outbound requests, WebSockets, cancellation, crypto and SQLite in a native service.</p></div></article>
       <article class="use-card"><img src="assets/data-blocks.png" alt="Stylized data, database and file forms"><div class="use-copy"><h3>Data applications</h3><p>Parse, transform, persist and serve structured data without assembling a framework first.</p></div></article>
       <article class="use-card"><img src="assets/suspension-bridge.png" alt="Three connected concurrent nodes around an atomic core"><div class="use-copy"><h3>Concurrent native programs</h3><p>Native threads, atomics, mutexes, channels and async work with explicit crossing rules.</p></div></article>
       <article class="use-card"><img src="assets/illuminated-road.png" alt="Four interlocking package modules"><div class="use-copy"><h3>Package-backed projects</h3><p>Multi-module builds with immutable commits, SHA-256 verification, lockfiles and an offline cache.</p></div></article>

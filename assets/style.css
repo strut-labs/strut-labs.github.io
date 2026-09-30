@@ -111,7 +111,7 @@ code { font-family: "JetBrains Mono", "SFMono-Regular", Consolas, monospace; }
 
 
 /* Tables */
-.docs-content table { width: 100%; border-collapse: collapse; margin: 24px 0 30px; font-size: .92rem; }
+.docs-content table { display: block; width: 100%; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 24px 0 30px; font-size: .92rem; }
 .docs-content th, .docs-content td { padding: 11px 13px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; }
 .docs-content th { color: var(--text); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; }
 .docs-content td { color: var(--muted); }

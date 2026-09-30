@@ -56,6 +56,7 @@
             <a href="docs/operators.html">Operators</a>
             <a href="docs/collections.html">Collections</a>
             <a href="docs/json.html">JSON</a>
+            <a href="docs/crypto.html">Bytes, encoding &amp; crypto</a>
             <a href="docs/structs.html">Structs</a>
             <a href="docs/memory.html">Memory</a>
             <a href="docs/errors.html">Errors</a>
@@ -66,10 +67,15 @@
           <div class="docs-nav-links">
             <a href="docs/streams.html">Streams</a>
             <a href="docs/system.html">Filesystem & system</a>
+            <a href="docs/cancellation.html">Cancellation</a>
+            <a href="docs/processes.html">Processes</a>
+            <a href="docs/pty.html">Pseudo-terminals</a>
             <a href="docs/concurrency.html">Concurrency</a>
             <a href="docs/async.html">Async</a>
             <a href="docs/networking.html">Networking</a>
-            <a href="docs/http.html">HTTP</a>
+            <a href="docs/http.html">HTTP client</a>
+            <a href="docs/http-server.html">HTTP server</a>
+            <a href="docs/websockets.html">WebSockets</a>
             <a href="docs/sqlite.html">SQLite</a>
             <a href="docs/embedding.html">Embedded resources</a>
             <a href="docs/linking.html">Linking & FFI</a>
@@ -84,6 +90,7 @@
             <a href="docs/editor.html">Editor & LSP</a>
             <a href="docs/cross-compilation.html">Cross compilation</a>
             <a href="docs/performance.html">Performance</a>
+            <a href="docs/architecture.html">Architecture</a>
             <a href="docs/security.html">Security</a>
             <a href="docs/compatibility.html">Compatibility</a>
             <a href="docs/examples.html">Examples</a>
@@ -115,6 +122,7 @@
           <a href="docs/operators.html">Operators</a>
           <a href="docs/collections.html">Collections</a>
           <a href="docs/json.html">JSON</a>
+          <a href="docs/crypto.html">Bytes, encoding &amp; crypto</a>
           <a href="docs/structs.html">Structs</a>
           <a href="docs/memory.html">Memory</a>
           <a href="docs/errors.html">Errors</a>
@@ -125,10 +133,15 @@
         <div class="docs-nav-links">
           <a href="docs/streams.html">Streams</a>
           <a href="docs/system.html">Filesystem & system</a>
+          <a href="docs/cancellation.html">Cancellation</a>
+          <a href="docs/processes.html">Processes</a>
+          <a href="docs/pty.html">Pseudo-terminals</a>
           <a href="docs/concurrency.html">Concurrency</a>
           <a href="docs/async.html">Async</a>
           <a href="docs/networking.html">Networking</a>
-          <a href="docs/http.html">HTTP</a>
+          <a href="docs/http.html">HTTP client</a>
+          <a href="docs/http-server.html">HTTP server</a>
+          <a href="docs/websockets.html">WebSockets</a>
           <a href="docs/sqlite.html">SQLite</a>
           <a href="docs/embedding.html">Embedded resources</a>
           <a href="docs/linking.html">Linking & FFI</a>
@@ -143,6 +156,7 @@
           <a href="docs/editor.html">Editor & LSP</a>
           <a href="docs/cross-compilation.html">Cross compilation</a>
           <a href="docs/performance.html">Performance</a>
+          <a href="docs/architecture.html">Architecture</a>
           <a href="docs/security.html">Security</a>
           <a href="docs/compatibility.html">Compatibility</a>
           <a href="docs/examples.html">Examples</a>
@@ -151,20 +165,27 @@
     </nav>
   </aside>
   <article class="docs-content">
+    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
     <h1>Documentation</h1>
-    <p>Start with the language surface, then move into the systems features you need. Each page explains the relevant model before showing focused examples.</p>
+    <p>This site documents current development <code>main</code>. The latest tagged release is <code>v0.0.3</code>; current-main pages visibly label APIs that have not shipped in a release.</p>
     <div class="docs-cards">
       <a class="docs-card" href="docs/syntax.html"><strong>Syntax</strong><span>Declarations, control flow, functions, includes, and the basic grammar.</span></a>
       <a class="docs-card" href="docs/types.html"><strong>Types</strong><span>Numeric widths, vectors, maps/sets, queues, tuples, JSON, nullability, and pointer types.</span></a>
       <a class="docs-card" href="docs/functions.html"><strong>Functions & lambdas</strong><span>Named functions, callable values, closures, and explicit function types.</span></a>
       <a class="docs-card" href="docs/collections.html"><strong>Collections</strong><span>Vectors, deques, lists, hash and ordered maps/sets, queues, priority queues, and tuples.</span></a>
       <a class="docs-card" href="docs/system.html"><strong>Filesystem & system</strong><span>Fast whole-file IO, paths, wildcards, traversal, environment access, and process execution.</span></a>
+      <a class="docs-card" href="docs/crypto.html"><strong>Bytes, encoding &amp; crypto</strong><span>Owned binary values, strict Base64/Base64url, secure randomness, SHA-256, and HMAC.</span></a>
+      <a class="docs-card" href="docs/http.html"><strong>HTTP client</strong><span>Buffered and streaming requests, TLS policy, redirects, limits, callbacks, and cancellation.</span></a>
+      <a class="docs-card" href="docs/http-server.html"><strong>HTTP server</strong><span>Strict framing, persistence, streaming bodies, files, NDJSON, lifecycle, and TLS.</span></a>
+      <a class="docs-card" href="docs/websockets.html"><strong>WebSockets</strong><span>Explicit server upgrades, text/binary messages, limits, backpressure, and shutdown.</span></a>
+      <a class="docs-card" href="docs/processes.html"><strong>Processes</strong><span>Argv-safe execution, cancellable pipes, process-tree ownership, pipelines, and cleanup.</span></a>
+      <a class="docs-card" href="docs/pty.html"><strong>Pseudo-terminals</strong><span>Linux/macOS binary PTYs, resize, signals, cancellation, and lifecycle ownership.</span></a>
       <a class="docs-card" href="docs/memory.html"><strong>Memory</strong><span>Reference counting, safe references, weak pointers, and explicit unsafe raw access.</span></a>
       <a class="docs-card" href="docs/editor.html"><strong>Editor & LSP</strong><span>Diagnostics, definition, completion, hover, and formatter integration.</span></a>
       <a class="docs-card" href="docs/cross-compilation.html"><strong>Cross compilation</strong><span>Supported target names, toolchains, caches, and native dependencies.</span></a>
     </div>
     <h2>Implementation status</h2>
-    <p>The language is under active implementation. The status page distinguishes working compiler behaviour from syntax that is designed but scheduled for a later checkpoint.</p>
+    <p><a href="docs/status.html">The status page</a> separates the latest release, current development, platform-specific support, and planned work.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

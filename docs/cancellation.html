@@ -166,26 +166,27 @@
   </aside>
   <article class="docs-content">
     <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
-    <h1>Embedded resources</h1>
-    <p>Strut can compile files and directories into the generated executable. Literal embed paths are read at compile time, so the deployed program does not need the original asset files.</p>
-    <h2>Embed one file</h2>
-    <pre><code class="language-strut">page := embed_file("public/index.html");
-</code></pre>
-    <h2>Embed a directory</h2>
-    <p><code>embed_dir()</code> returns a map from relative paths to embedded byte strings. Files are enumerated in deterministic path order during compilation.</p>
-    <pre><code class="language-strut">assets := embed_dir("public");
-print(assets["app.js"]);
-</code></pre>
-    <h2>Serve embedded assets</h2>
-    <p>The HTTP server can serve an embedded asset map directly. Paths are normalized defensively, traversal attempts are rejected, common MIME types are detected, and responses receive ETag and cache headers.</p>
-    <pre><code class="language-strut">assets := embed_dir("public");
+    <h1>Cancellation</h1>
+    <p class="status-note"><strong>Release status:</strong> Unreleased. This page documents the unified cancellation API at compiler HEAD <code>84458dd</code>; it is not part of the published <code>v0.0.3</code> contract.</p>
+    <p>Cancellation is cooperative and subsystem-neutral. A source requests cancellation, while any number of copied tokens observe the same shared state. Process pipes, pseudo-terminals, HTTP operations, and application code use this one token type rather than defining per-subsystem cancellation objects.</p>
+    <h2>API</h2>
+    <pre><code class="language-strut">cancellation_source source;
+cancellation_token token := source.token();
 
-http_server app := http_server();
-app.static("/", assets, "index.html");
-app.listen("127.0.0.1", 8080);
-</code></pre>
-    <h2>Incremental builds</h2>
-    <p>Embedded files are build dependencies. The persistent object build system records them in per-object <code>.strut/info</code> metadata, so changing an embedded asset invalidates the affected object on the next build.</p>
+bool requested := token.cancelled();
+token.wait();
+token.throw_if_cancelled(); // CancellationError
+
+source.cancel();</code></pre>
+    <p><code>cancelled()</code> is a non-blocking observation. <code>wait()</code> sleeps without busy-spinning until cancellation is requested. <code>throw_if_cancelled()</code> returns normally before cancellation and otherwise raises the checked <code>CancellationError</code> with message <code>operation cancelled</code>.</p>
+    <h2>Ownership and concurrency</h2>
+    <p>Sources and tokens are cheap, copyable handles over reference-counted shared state. Every source copy can call <code>cancel()</code>; tokens can only observe. Destroying a source does not cancel, and tokens remain valid after all sources are destroyed. Cancellation is one-way, thread-safe, and idempotent: concurrent or repeated calls to <code>cancel()</code> produce the same terminal state and wake all waiters.</p>
+    <p>There is no reset operation, implicit process-global token, or thread-local current token. Pass a token explicitly to an operation that supports cancellation, or capture it in application work and check it at suitable cooperative boundaries.</p>
+    <h2>Bound operations</h2>
+    <p>Native facilities copy the token when an operation is created. Their public read, write, and wait methods do not take another token. A token passed to <code>process</code> wakes blocked process-pipe I/O with <code>ExecError("process I/O cancelled", 125)</code>; it does not terminate or wait for the child. A token passed to <code>pty_spawn</code> also cancels blocked PTY I/O and PTY <code>wait()</code>, but does not signal the child. HTTP APIs retain their documented subsystem error type when cancellation is observed.</p>
+    <p>A token that is already cancelled fails before cancellable I/O begins. Native completion already observed in the same wake cycle wins over cancellation. Cancellation requests observation; it is not a timeout, EOF, peer close, process signal, or resource cleanup operation.</p>
+    <h2>Lifetime producers</h2>
+    <p>Runtime-owned lifetimes use the same token type. For example, each dispatched HTTP request has a fresh read-only <code>request.cancellation</code> token, cancelled when that request lifetime ends. Passing it to <code>process</code> or <code>pty_spawn</code> links blocked I/O to the request lifetime without granting the handler cancellation authority.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

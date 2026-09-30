@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#10110f">
+<title>Strut</title>
+<link rel="icon" href="../assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon.png">
+<link rel="stylesheet" href="../assets/style.css">
+<script defer src="../assets/site.js?v=2"></script>
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="../"><img src="../assets/logo.png" alt=""><span>Strut</span></a>
+    <nav class="primary-nav" aria-label="Primary">
+      <a href="../about.html">About</a>
+      <a href="../docs.html">Docs</a>
+      <a href="https://gantry.cv">Gantry</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+      <a class="button-link" href="../getting-started.html">Get started</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-label="Toggle navigation" aria-expanded="false" data-menu-toggle><span></span></button>
+  </div>
+</header>
+<div class="mobile-menu" data-mobile-menu hidden>
+  <div class="mobile-menu-inner">
+    <nav class="mobile-main-nav" aria-label="Mobile">
+      <a href="../">Home</a>
+      <a href="../about.html">About</a>
+      <a href="../docs.html">Docs</a>
+      <a href="../getting-started.html">Get started</a>
+      <a href="https://gantry.cv">Gantry</a>
+      <a href="https://github.com/strut-labs">GitHub</a>
+    </nav>
+    <div class="mobile-docs-nav">
+      <div class="mobile-docs-label">Documentation</div>
+      <nav class="docs-nav" aria-label="Documentation">
+        <a class="docs-home" href="../docs.html">Documentation home</a>
+        <details>
+          <summary>Start here</summary>
+          <div class="docs-nav-links">
+            <a href="../getting-started.html">Getting started</a>
+            <a href="../install.html">Install & build</a>
+            <a href="./syntax.html">Syntax</a>
+            <a href="./types.html">Types</a>
+            <a href="./status.html">Implementation status</a>
+          </div>
+        </details>
+        <details>
+          <summary>Language</summary>
+          <div class="docs-nav-links">
+            <a href="./functions.html">Functions & lambdas</a>
+            <a href="./generics.html">Generics</a>
+            <a href="./operators.html">Operators</a>
+            <a href="./collections.html">Collections</a>
+            <a href="./json.html">JSON</a>
+            <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
+            <a href="./structs.html">Structs</a>
+            <a href="./memory.html">Memory</a>
+            <a href="./errors.html">Errors</a>
+          </div>
+        </details>
+        <details>
+          <summary>Systems</summary>
+          <div class="docs-nav-links">
+            <a href="./streams.html">Streams</a>
+            <a href="./system.html">Filesystem & system</a>
+            <a href="./cancellation.html">Cancellation</a>
+            <a href="./processes.html">Processes</a>
+            <a href="./pty.html">Pseudo-terminals</a>
+            <a href="./concurrency.html">Concurrency</a>
+            <a href="./async.html">Async</a>
+            <a href="./networking.html">Networking</a>
+            <a href="./http.html">HTTP client</a>
+            <a href="./http-server.html">HTTP server</a>
+            <a href="./websockets.html">WebSockets</a>
+            <a href="./sqlite.html">SQLite</a>
+            <a href="./embedding.html">Embedded resources</a>
+            <a href="./linking.html">Linking & FFI</a>
+            <a href="./packages.html">Packages</a>
+          </div>
+        </details>
+        <details>
+          <summary>Tools</summary>
+          <div class="docs-nav-links">
+            <a href="./cli.html">CLI</a>
+            <a href="./api-schema.html">API schema</a>
+            <a href="./editor.html">Editor & LSP</a>
+            <a href="./cross-compilation.html">Cross compilation</a>
+            <a href="./performance.html">Performance</a>
+            <a href="./architecture.html">Architecture</a>
+            <a href="./security.html">Security</a>
+            <a href="./compatibility.html">Compatibility</a>
+            <a href="./examples.html">Examples</a>
+          </div>
+        </details>
+      </nav>
+    </div>
+  </div>
+</div>
+<main class="docs-shell">
+  <aside class="docs-sidebar">
+    <nav class="docs-nav" aria-label="Documentation">
+      <a class="docs-home" href="../docs.html">Documentation home</a>
+      <details>
+        <summary>Start here</summary>
+        <div class="docs-nav-links">
+          <a href="../getting-started.html">Getting started</a>
+          <a href="../install.html">Install & build</a>
+          <a href="./syntax.html">Syntax</a>
+          <a href="./types.html">Types</a>
+          <a href="./status.html">Implementation status</a>
+        </div>
+      </details>
+      <details>
+        <summary>Language</summary>
+        <div class="docs-nav-links">
+          <a href="./functions.html">Functions & lambdas</a>
+          <a href="./generics.html">Generics</a>
+          <a href="./operators.html">Operators</a>
+          <a href="./collections.html">Collections</a>
+          <a href="./json.html">JSON</a>
+          <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
+          <a href="./structs.html">Structs</a>
+          <a href="./memory.html">Memory</a>
+          <a href="./errors.html">Errors</a>
+        </div>
+      </details>
+      <details>
+        <summary>Systems</summary>
+        <div class="docs-nav-links">
+          <a href="./streams.html">Streams</a>
+          <a href="./system.html">Filesystem & system</a>
+          <a href="./cancellation.html">Cancellation</a>
+          <a href="./processes.html">Processes</a>
+          <a href="./pty.html">Pseudo-terminals</a>
+          <a href="./concurrency.html">Concurrency</a>
+          <a href="./async.html">Async</a>
+          <a href="./networking.html">Networking</a>
+          <a href="./http.html">HTTP client</a>
+          <a href="./http-server.html">HTTP server</a>
+          <a href="./websockets.html">WebSockets</a>
+          <a href="./sqlite.html">SQLite</a>
+          <a href="./embedding.html">Embedded resources</a>
+          <a href="./linking.html">Linking & FFI</a>
+          <a href="./packages.html">Packages</a>
+        </div>
+      </details>
+      <details>
+        <summary>Tools</summary>
+        <div class="docs-nav-links">
+          <a href="./cli.html">CLI</a>
+          <a href="./api-schema.html">API schema</a>
+          <a href="./editor.html">Editor & LSP</a>
+          <a href="./cross-compilation.html">Cross compilation</a>
+          <a href="./performance.html">Performance</a>
+          <a href="./architecture.html">Architecture</a>
+          <a href="./security.html">Security</a>
+          <a href="./compatibility.html">Compatibility</a>
+          <a href="./examples.html">Examples</a>
+        </div>
+      </details>
+    </nav>
+  </aside>
+  <article class="docs-content">
+    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
+    <h1>HTTP server</h1>
+    <p><strong>Release status:</strong> routing, buffered responses, lifecycle controls, TLS, async handlers, and embedded assets are available in <code>v0.0.3</code>. Strict framing, persistence, streaming, request cancellation, application helpers, file ranges, and NDJSON document current development at accepted baseline <code>84458dd</code> and are not yet released.</p>
+    <p>The built-in server provides bounded concurrent HTTP/1.0 and HTTP/1.1 handling over TCP or TLS. It includes the earlier routing, async, embedded-static, SQLite-composition, lifecycle, and HTTPS features plus current-main strict framing, streaming, persistence, cancellation, application helpers, file ranges, and NDJSON work. The implementation is extensively tested, but this documentation makes no production-grade or internet-scale deployment claim.</p>
+    <h2>Routes and responses</h2>
+    <pre><code class="language-strut">function main() -&gt; int : (NetworkError, HttpError) {
+    app := http_server();
+    app.get("/hello/:name", (http_request request) =&gt; {
+        return http_text("hello " + request.params["name"]);
+    });
+    app.post("/items", (http_request request) =&gt; {
+        return http_json_response(request.json());
+    });
+    app.listen("127.0.0.1", 8080);
+    return 0;
+}</code></pre>
+    <p><code>get</code> and <code>post</code> register handlers that return buffered <code>http_server_response</code> values. <code>http_text</code>, <code>http_html</code>, and <code>http_json_response</code> create common responses. A response exposes <code>status</code>, <code>body</code>, <code>content_type</code>, validated custom <code>headers</code>, and ordered structured <code>cookies</code>. <code>get_async</code> and <code>post_async</code> await handlers returning <code>future&lt;http_server_response&gt;</code>.</p>
+    <p><code>http_request</code> exposes <code>method</code>, <code>path</code>, lowercase single-valued <code>headers</code>, raw last-value <code>query</code>, decoded repeated-value <code>query_values</code>, validated repeated-name <code>cookies</code>, route <code>params</code>, buffered <code>body</code>, and a read-only request-lifetime <code>cancellation</code> token. <code>http_values.get(name)</code>, <code>values(name)</code>, and <code>has(name)</code> provide first, all-in-wire-order, and presence lookup.</p>
+    <p>Handlers are ordinary closures, so they can capture an opened <code>sqlite_db</code> and return <code>http_json_response(db.query(...))</code>; SQLite failures remain checked <code>SqliteError</code> values. Embedded static maps and direct filesystem responses are described below.</p>
+    <!-- strut-example:sqlite-http-service:start -->
+    <pre><code class="language-strut">function main() -&gt; int : (NetworkError, SqliteError) {
+    db := sqlite_open(":memory:");
+    db.exec("CREATE TABLE notes(id INTEGER PRIMARY KEY, text TEXT)");
+
+    app := http_server();
+    app.get("/notes", (http_request req) =&gt; {
+        return http_json_response(db.query("SELECT * FROM notes"));
+    });
+    app.listen("127.0.0.1", 8080);
+    return 0;
+}</code></pre>
+    <!-- strut-example:sqlite-http-service:end -->
+    <h2>Lifecycle and limits</h2>
+    <pre><code class="language-strut">app := http_server();
+app.timeouts(30000, 30000, 5000, 5000);
+app.limits(1048576, 65536, 100, 1024);
+app.get("/health", (http_request request) =&gt; { return http_text("ok"); });
+app.listen("127.0.0.1", 8080);</code></pre>
+    <p><code>listen(host, port, max_requests?)</code> blocks until <code>stop()</code> or the optional number of admitted connections is reached. Connections run through a lazily grown reusable worker pool; queued plus running work is bounded by the connection limit. Saturated plaintext admission receives 503. <code>max_requests</code> is primarily useful for tests: admitted malformed requests count, while saturation rejections do not.</p>
+    <p><code>timeouts</code> configures read, write, persistent-idle, and graceful-shutdown milliseconds. <code>limits</code> configures decoded request-body bytes, request-head/framing bytes, field or query-pair count, and admitted connections. The values shown are the defaults.</p>
+    <p><code>stop()</code> is safe before start and idempotent. It closes admission and drains accepted work against one shared shutdown deadline, then interrupts remaining sockets. <code>running()</code> remains true while accepting or draining. A handler may initiate stop without waiting on itself. A handler that outlives the deadline keeps its retired generation alive and prevents restart or reconfiguration until it returns.</p>
+    <pre><code class="language-strut">listener := thread(() =&gt; { app.listen("127.0.0.1", 8080); });
+wait_for_shutdown_signal();
+app.stop();
+listener.join();</code></pre>
+    <h2>Request framing and persistence</h2>
+    <p>The parser accepts strict HTTP/1.0 and HTTP/1.1 origin-form requests. HTTP/1.1 requires exactly one valid Host. Controls, folded fields, ambiguous lines, repeated field names, conflicting or malformed lengths, and every Transfer-Encoding/Content-Length combination fail before dispatch. A sole HTTP/1.1 <code>chunked</code> coding is decoded; chunk syntax and cumulative framing are bounded, non-empty trailers are rejected, and <code>Expect</code> receives 417. Unsupported coding chains receive 501 where distinguishable.</p>
+    <p>HTTP/1.1 persists by default; HTTP/1.0 requires <code>Connection: keep-alive</code> and a self-delimited response. Pipelined requests execute sequentially in wire order on one connection. Reuse requires validated body EOF and a finished self-delimited response. Unread bodies, malformed framing, close-delimited output, failure, timeout, explicit close, or shutdown end reuse. HEAD uses the GET route and suppresses body bytes.</p>
+    <p>Every dispatched request receives a fresh cancellation state, including consecutive requests on one connection. It is cancelled at normal completion and on framing, handler, response, transport, timeout, abort, or shutdown termination. Peer-disconnect observation is cooperative; CPU-only work that performs no transport operation is not promised immediate notification. Passing the token to <code>process</code> cancels process-pipe I/O, not the child process.</p>
+    <h2>Buffered body helpers</h2>
+    <p><code>request.text(limit?)</code>, <code>json(limit?)</code>, and <code>form(limit?)</code> operate repeatedly on the already-buffered body. Limits are non-negative byte limits. Form parsing requires exactly <code>application/x-www-form-urlencoded</code>, supports at most 1024 pairs, and does not support media-type parameters or multipart. In request-stream handlers these helpers raise <code>HttpError</code>, because <code>http_request_body</code> is the sole body consumer.</p>
+    <h2>Streaming responses</h2>
+    <!-- strut-example:http-server-streaming:start -->
+    <pre><code class="language-strut">function configure() -&gt; void : NetworkError {
+    app := http_server();
+    app.get_stream("/events", (http_request request, http_response_writer response) =&gt; {
+        response.status(200);
+        response.content_type("application/octet-stream");
+        response.header("X-Source", "live");
+        response.write_bytes(bytes.from_string("first"));
+        response.flush();
+        response.write_bytes(bytes.from_string("second"));
+        response.finish();
+    });
+}
+function main() -&gt; int {
+    return 0;
+}</code></pre>
+    <!-- strut-example:http-server-streaming:end -->
+    <p><code>get_stream</code> and <code>post_stream</code> retain a buffered request and supply an incremental writer. Before commitment it accepts <code>status</code>, <code>header</code>, <code>cookie</code>, <code>content_type</code>, and transport-owned <code>content_length</code>. The first write or flush commits. <code>finish</code> is idempotent; flush after finish is a no-op; late metadata, writes after finish, and a declared-length mismatch raise <code>NetworkError</code>.</p>
+    <p>Without a declared length, HTTP/1.1 uses transport-generated chunking and HTTP/1.0 closes to delimit output. Writes are synchronous and apply socket backpressure without an unbounded response queue. Failure before commitment can become a fixed safe 500; failure after commitment closes the connection without a second response.</p>
+    <h2>Streaming requests</h2>
+    <pre><code class="language-strut">app.post_request_stream("/upload", (http_request request,
+        http_request_body body, http_response_writer response) =&gt; {
+    bytes data := body.read_all_bytes(1048576);
+    response.content_type("application/octet-stream");
+    response.content_length(data.length());
+    response.write_bytes(data);
+    response.finish();
+});</code></pre>
+    <p><code>get_request_stream</code> and <code>post_request_stream</code> supply the validated, decoded body reader and a response writer. The reader supports <code>read_bytes(max_bytes)</code>, <code>read_all_bytes(limit?)</code>, <code>eof()</code>, and idempotent <code>close()</code>. It does not expose chunk boundaries. Copies share one state, concurrent reads fail, and handles become inactive when the handler returns.</p>
+    <p>The body must reach EOF or be closed before the response commits. Commitment during an active read fails, and no later reads are allowed. Returning with an unread body may complete the response but closes the connection rather than draining hidden input. Framing, transport, interruption, and normalized TLS read failures use <code>NetworkError</code>.</p>
+    <h2>Response validation and helpers</h2>
+    <p>Buffered and streamed responses share one validator. Status must be 200 through 599. Header names must be tokens; values reject response-splitting controls; content types require media-type syntax. Case-insensitive duplicates are rejected. Generic <code>Content-Type</code>, <code>Content-Length</code>, <code>Transfer-Encoding</code>, <code>Connection</code>, and <code>Set-Cookie</code> are reserved for dedicated APIs. Invalid precommit metadata produces a safe 500. Responses 204, 205, and 304 reject non-empty bodies.</p>
+    <p><code>http_cookie(name, value)</code> creates a structured cookie with optional <code>path</code>, <code>domain</code>, <code>max_age</code>, <code>expires</code>, <code>secure</code>, <code>http_only</code>, and <code>same_site</code>. SameSite None requires Secure. Up to 64 cookies of at most 4096 serialized bytes each are emitted as distinct fields. <code>http_redirect(location, status?)</code> validates safe Location metadata and accepts only 301, 302, 303, 307, or 308; it does not authorize a URL.</p>
+    <h2>Files, NDJSON, and embedded assets</h2>
+    <p><code>http_serve_file(request, writer, path, content_type?)</code> streams one explicit regular-file path in bounded 64 KiB reads. GET supports one closed, open-ended, or suffix byte range, returning 206 or 416 as appropriate; malformed, unknown-unit, and multipart ranges are ignored. HEAD returns full-representation metadata without reading the body. The helper does no URL decoding, traversal cleanup, root containment, symlink policy, authorization, cache validation, compression, or path normalization. Use immutable application-owned paths that the application has already authorized.</p>
+    <p><code>http_write_ndjson(request, writer, value)</code> validates and serializes one JSONIC value, appends exactly one LF, writes, and flushes it. The first record selects <code>application/x-ndjson</code>; an empty stream must set that content type itself. Memory is bounded by the largest record, not the complete stream. HTTP chunking is independent of NDJSON record boundaries, and consumers must treat a truncated final record as incomplete.</p>
+    <p><code>app.static(prefix, files, fallback?)</code> serves an application-provided map of embedded paths to contents. It remains distinct from <code>http_serve_file</code>, which reads an explicit filesystem path at request time.</p>
+    <h2>HTTPS and deployment boundaries</h2>
+    <pre><code class="language-strut">function main(string command, string[] args) -&gt; int : (NetworkError, TlsError) {
+    app := http_server();
+    app.get("/health", (http_request request) =&gt; { return http_text("secure"); });
+    app.listen_tls("127.0.0.1", 8443, args[0], args[1]);
+    return 0;
+}</code></pre>
+    <p><code>listen_tls(host, port, certificate, private_key, max_requests?)</code> uses OpenSSL, requires TLS 1.2 or newer, and validates a PEM certificate chain and matching PEM private key before opening the listener. Missing, unreadable, invalid, or mismatched material raises <code>TlsError</code>; there is no plaintext fallback. The handshake has one absolute deadline equal to the shortest configured read, write, or idle timeout. Saturated TLS connections close before handshake.</p>
+    <p>Certificate issuance, rotation, ACME, HTTP/2, reverse-proxy interpretation, Unix-domain listeners, and server-side client-certificate/mTLS validation are not provided. Forwarded headers are ordinary untrusted request headers unless the application validates them. Place the server behind a proxy only with an explicit application and network trust policy.</p>
+    <h2>Related</h2>
+    <ul>
+      <li><a href="./http.html">Outbound HTTP client</a></li>
+      <li><a href="./websockets.html">WebSocket server</a></li>
+    </ul>
+  </article>
+</main>
+<footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
+</body>
+</html>

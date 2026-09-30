@@ -56,6 +56,7 @@
             <a href="./operators.html">Operators</a>
             <a href="./collections.html">Collections</a>
             <a href="./json.html">JSON</a>
+            <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
             <a href="./structs.html">Structs</a>
             <a href="./memory.html">Memory</a>
             <a href="./errors.html">Errors</a>
@@ -66,10 +67,15 @@
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
             <a href="./system.html">Filesystem & system</a>
+            <a href="./cancellation.html">Cancellation</a>
+            <a href="./processes.html">Processes</a>
+            <a href="./pty.html">Pseudo-terminals</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
-            <a href="./http.html">HTTP</a>
+            <a href="./http.html">HTTP client</a>
+            <a href="./http-server.html">HTTP server</a>
+            <a href="./websockets.html">WebSockets</a>
             <a href="./sqlite.html">SQLite</a>
             <a href="./embedding.html">Embedded resources</a>
             <a href="./linking.html">Linking & FFI</a>
@@ -84,6 +90,7 @@
             <a href="./editor.html">Editor & LSP</a>
             <a href="./cross-compilation.html">Cross compilation</a>
             <a href="./performance.html">Performance</a>
+            <a href="./architecture.html">Architecture</a>
             <a href="./security.html">Security</a>
             <a href="./compatibility.html">Compatibility</a>
             <a href="./examples.html">Examples</a>
@@ -115,6 +122,7 @@
           <a href="./operators.html">Operators</a>
           <a href="./collections.html">Collections</a>
           <a href="./json.html">JSON</a>
+          <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
           <a href="./structs.html">Structs</a>
           <a href="./memory.html">Memory</a>
           <a href="./errors.html">Errors</a>
@@ -125,10 +133,15 @@
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
           <a href="./system.html">Filesystem & system</a>
+          <a href="./cancellation.html">Cancellation</a>
+          <a href="./processes.html">Processes</a>
+          <a href="./pty.html">Pseudo-terminals</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
-          <a href="./http.html">HTTP</a>
+          <a href="./http.html">HTTP client</a>
+          <a href="./http-server.html">HTTP server</a>
+          <a href="./websockets.html">WebSockets</a>
           <a href="./sqlite.html">SQLite</a>
           <a href="./embedding.html">Embedded resources</a>
           <a href="./linking.html">Linking & FFI</a>
@@ -143,6 +156,7 @@
           <a href="./editor.html">Editor & LSP</a>
           <a href="./cross-compilation.html">Cross compilation</a>
           <a href="./performance.html">Performance</a>
+          <a href="./architecture.html">Architecture</a>
           <a href="./security.html">Security</a>
           <a href="./compatibility.html">Compatibility</a>
           <a href="./examples.html">Examples</a>
@@ -151,18 +165,50 @@
     </nav>
   </aside>
   <article class="docs-content">
+    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
     <h1>Security model</h1>
-    <p>Strut separates the safe language surface from explicit unsafe/native boundaries. The goal is deterministic native programs without a tracing garbage collector while preventing lifetime errors promised by the safe type system.</p>
+    <p class="status-note"><strong>Version:</strong> This page documents <strong>current-main / unreleased</strong> at baseline <code>84458dd</code>. Stable <code>v0.0.3</code> predates the current-main crypto/encoding, streaming HTTP, WebSocket, cancellation, process-pipe, and PTY additions; those claims do not describe the stable release.</p>
+    <p>Strut separates the safe language surface from explicit unsafe and native boundaries. The goal is deterministic native programs without a tracing garbage collector while preventing the lifetime errors covered by the safe type system. It is not a sandbox, capability system, process supervisor, package registry trust service, or substitute for application authorization.</p>
     <h2>Safe memory</h2>
-    <p><code>T*</code> owns through reference counting, <code>T&amp;</code> is a compiler-checked non-owning/non-null borrow, and <code>weak_ptr&lt;T&gt;</code> provides non-owning access to shared ownership. Safe null dereferences are checked rather than becoming native undefined behaviour.</p>
+    <p><code>T*</code> owns through reference counting, <code>T&amp;</code> is a compiler-checked non-owning/non-null borrow, and <code>weak_ptr&lt;T&gt;</code> provides non-owning access to shared ownership. Safe null dereferences are checked rather than becoming native undefined behaviour. These guarantees target dangling references, use-after-free, double free, and covered null/lifetime errors.</p>
+    <p>Reference counting protects object lifetime, not logical invariants or unsynchronised shared mutation. Cross-thread state still requires mutexes, atomics, channels, or another documented synchronization strategy. Cycles of strong pointers must be broken explicitly with weak ownership.</p>
     <h2>Unsafe and FFI</h2>
-    <p><code>ptr&lt;T&gt;</code> operations and C ABI calls require an explicit <code>unsafe</code> boundary. Strut cannot prove the behaviour of external native code; unsafe regions should remain small and be wrapped by safe APIs.</p>
-    <h2>Processes and packages</h2>
-    <p><code>exec</code> is argv-based by default rather than silently invoking a shell. Package paths are validated against escaping package roots, and lock metadata is intended to make dependency selection reproducible.</p>
-    <h2>TLS</h2>
-    <p>HTTP client TLS uses libcurl with certificate and hostname verification enabled by default. HTTPS servers use OpenSSL with TLS 1.2 or newer, validate the certificate/private-key pair before binding, and never fall back silently to plaintext. Plain HTTP does not pull the OpenSSL runtime component.</p>
+    <p><code>ptr&lt;T&gt;</code> operations and C ABI calls require an explicit <code>unsafe</code> boundary. Strut cannot prove that external native code respects lifetimes, bounds, thread safety, or ABI contracts. Static and dynamic native libraries inherit their own security properties. Keep unsafe regions small, validate data crossing them, and wrap them behind narrow safe APIs.</p>
+    <p>JSONIC, libcurl, and OpenSSL are the approved embedded third-party dependencies. SQLite can be consumed as an external/system library. This boundary limits dependency scope; it does not eliminate upstream vulnerabilities or deployment patching requirements.</p>
+    <h2>Cryptography and encoding</h2>
+    <p>The current-main public cryptographic surface is intentionally narrow and binary-first. <code>secure_random_bytes</code> uses OpenSSL <code>RAND_bytes</code> with no weak fallback. SHA-256 and HMAC-SHA-256 return raw 32-byte values. Equal-length secret comparisons use <code>CRYPTO_memcmp</code>; unequal public lengths can return false immediately.</p>
+    <p>OpenSSL failures become checked <code>CryptoError</code> values without exposing its error queue. Base64 and unpadded Base64url decoders reject whitespace, mixed alphabets, malformed lengths, misplaced or noncanonical padding, and non-zero unused trailing bits through <code>EncodingError</code>. Encoding alone has no OpenSSL dependency; crypto links <code>libcrypto</code> without <code>libssl</code>.</p>
+    <p>These primitives do not provide password hashing, key storage or rotation, authenticated encryption, certificate management, or protocol design. SHA-1 is not a public API. Its internal RFC 6455 handshake use does not make it available for application cryptography.</p>
+    <h2>HTTP client limits</h2>
+    <p>The current-main outbound client has one libcurl-backed policy. It accepts absolute HTTP(S) URLs, keeps certificate and hostname verification enabled, prevents an initially HTTPS request from redirecting to HTTP, validates methods/headers/options, reserves transport framing headers, and bounds buffered or streamed bodies and cumulative headers. Automatic content decoding is disabled so limits apply to delivered representation bytes.</p>
+    <p>Redirect handling does not constitute SSRF protection. Loopback, private, link-local, proxy-routed, and DNS-rebound destinations remain reachable unless the application authorizes destinations. When a URL is untrusted, disable automatic redirects and authorize every destination. Authorization and Cookie are not forwarded across a changed origin, but arbitrary custom headers can follow redirects and must not contain destination-bound secrets.</p>
+    <p>Streaming callbacks are synchronous and are the backpressure boundary. They must not retain borrowed assumptions or perform unbounded work. Cancellation is cooperative. A streamed body that cannot be rewound is not silently replayed for 307/308 redirects, and only final-response bytes are delivered.</p>
+    <h2>HTTP server and WebSocket limits</h2>
+    <p>The built-in server validates HTTP/1.0 and HTTP/1.1 request lines, fields, Host, Content-Length, Transfer-Encoding, chunk syntax, and framing before dispatch. Ambiguous TE/CL combinations, duplicate lengths, folded fields, controls, unsupported coding chains, malformed chunks, and non-empty trailers fail closed. Decoded body size and framing overhead are bounded separately. Response framing fields are transport-owned, and invalid handler metadata becomes a safe error or closes an already committed connection.</p>
+    <p>Connection and worker admission is bounded; synchronous streaming applies socket backpressure without an unbounded response queue. Pipelined requests run sequentially. Persistent reuse occurs only after validated request-body EOF and a complete self-delimited response. Limits reduce resource amplification but are not workload-specific rate limiting, authentication, authorization, or denial-of-service protection.</p>
+    <p>Request cancellation is scoped per request and is cooperative. Disconnect discovery can be delayed when a handler performs CPU-only work and no transport operation. Passing a request token to a child process cancels blocked pipe I/O; it does not terminate or reap that child.</p>
+    <p>RFC 6455 server handling validates masking, RSV/opcodes, canonical lengths, fragmentation, close codes, UTF-8, and configured frame/message limits before delivery or oversized allocation. One reader is supported and writes are serialized without an unbounded queue. Extensions, compression, and an outbound WebSocket client are absent. TLS WebSockets share the server transport lock; plaintext WebSockets add no OpenSSL dependency.</p>
+    <p>Static-file responses accept an explicit trusted path. The helper does not safely map an untrusted request path, enforce a document root, prevent symlink escape, or protect a checked file from concurrent local replacement. Applications own path authorization and local filesystem threat policy.</p>
+    <h2>TLS boundary</h2>
+    <p>Outbound HTTPS uses libcurl and its configured TLS backend. Inbound HTTPS uses OpenSSL with TLS 1.2 or newer, validates the PEM certificate chain/private-key pair before opening the listener, and never falls back silently to plaintext. Plain HTTP and plaintext WebSockets do not select the OpenSSL server component. Certificate issuance, storage, rotation, revocation policy, ACME, and deployment termination topology remain operational responsibilities.</p>
+    <h2>Processes</h2>
+    <p><code>exec</code>, <code>process</code>, and <code>pty_spawn</code> are argv-based: program names and arguments are not silently evaluated as shell text. <code>exec_shell</code> is a visibly explicit opt-in and must not interpolate untrusted data. Environment variables, working directories, executable search paths, inherited credentials, and the launched program itself remain trusted deployment inputs.</p>
+    <p>Process cancellation wakes blocked Strut pipe I/O but does not kill or wait for the child. Process pipes currently have no timeout. Callers must define termination, waiting, output limits, and descendant cleanup appropriate to their service. An argv-safe launch prevents shell injection; it does not make an invoked program safe against malicious arguments or input.</p>
+    <h2>PTY limits</h2>
+    <p>The current-main PTY API is binary-only and adds no terminal parser or emulator dependency. It does not decode text or sanitize terminal escape sequences. Applications that render untrusted PTY output must handle control sequences according to their own terminal/UI threat model. A PTY combines standard input, output, and error and therefore cannot preserve separate-channel assumptions.</p>
+    <p>Cancellation wakes blocked PTY I/O or wait with <code>PtyError</code>; it does not signal the child. Close performs bounded TERM/KILL cleanup, but POSIX cannot atomically query and signal a foreground process group or signal every process in a session. Foreground transitions can race delivery, and background or detached groups can escape leader-group cleanup. Strong descendant containment requires an external supervisor or cgroup.</p>
+    <p>PTY support is implemented for Linux with glibc 2.34 or newer and macOS. Windows operations that require ConPTY report unsupported behavior in this baseline. External <code>SIGCHLD</code> reaping is not supported by the PTY lifecycle.</p>
+    <h2>Packages and supply chain</h2>
+    <p>Package names, paths, URLs, and revisions are validated before filesystem or Git operations. Package paths cannot escape roots; symlinks and unsafe staged paths are rejected. Remote dependencies resolve to immutable Git commits, lockfiles record exact versions/revisions/SHA-256 content checksums and dependency edges, and verified cache entries are promoted atomically. Acquisition does not execute package-provided build scripts.</p>
+    <p>Official shorthand resolves only under the <code>strut-packages</code> organization; third-party Git dependencies require an explicit source. This is provenance policy, not a claim that official or locked code is benign. A checksum proves bytes match the lock, not that those bytes are secure. Review lock changes and dependency code, protect Git and release credentials, and patch/re-resolve when a trusted revision is vulnerable.</p>
+    <p>Offline install verifies existing locked cache content and performs no acquisition. Normal install may reacquire a missing or corrupt locked Git package at the same immutable revision. Local dependencies still rely on the integrity of their selected source and the machine performing acquisition.</p>
+    <h2>Input and concurrency hardening</h2>
+    <p>The compiler frontend has deterministic malformed-source fuzz smoke coverage. JSON, network, database, file, package, process, and PTY data remains untrusted and requires application-level size and semantic validation.</p>
+    <p>The async executor uses fixed workers and bounded queue admission with caller-runs saturation. This prevents an unbounded executor queue but can move work onto the submitting thread and does not replace endpoint-specific concurrency or rate limits.</p>
     <h2>Hardening</h2>
-    <p>The project includes frontend fuzz smoke tests, sanitizer-backed memory/runtime stress, concurrency stress, FFI ABI fixtures, and cross-platform CI workflows. Platform release certification remains separate from implementing the feature.</p>
+    <p>The project includes frontend fuzz smoke tests, sanitizer-backed bytes/crypto/HTTP/runtime checks, concurrency stress, FFI ABI fixtures, package certification, and cross-platform CI workflows. Release gates cover supported package targets, while some checks remain platform-specific: Windows PTY is compile/unsupported-path coverage at this baseline, and ThreadSanitizer depends on a usable host runtime. Implemented behavior and local tests are not substitutes for a successful release matrix.</p>
+    <h2>Security posture</h2>
+    <p>Strut remains pre-1.0. Applications remain responsible for authorization, secret handling, resource policy, dependency updates, operating-system isolation, and deployment configuration.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>

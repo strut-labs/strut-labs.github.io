@@ -56,6 +56,7 @@
             <a href="./operators.html">Operators</a>
             <a href="./collections.html">Collections</a>
             <a href="./json.html">JSON</a>
+            <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
             <a href="./structs.html">Structs</a>
             <a href="./memory.html">Memory</a>
             <a href="./errors.html">Errors</a>
@@ -66,10 +67,15 @@
           <div class="docs-nav-links">
             <a href="./streams.html">Streams</a>
             <a href="./system.html">Filesystem & system</a>
+            <a href="./cancellation.html">Cancellation</a>
+            <a href="./processes.html">Processes</a>
+            <a href="./pty.html">Pseudo-terminals</a>
             <a href="./concurrency.html">Concurrency</a>
             <a href="./async.html">Async</a>
             <a href="./networking.html">Networking</a>
-            <a href="./http.html">HTTP</a>
+            <a href="./http.html">HTTP client</a>
+            <a href="./http-server.html">HTTP server</a>
+            <a href="./websockets.html">WebSockets</a>
             <a href="./sqlite.html">SQLite</a>
             <a href="./embedding.html">Embedded resources</a>
             <a href="./linking.html">Linking & FFI</a>
@@ -84,6 +90,7 @@
             <a href="./editor.html">Editor & LSP</a>
             <a href="./cross-compilation.html">Cross compilation</a>
             <a href="./performance.html">Performance</a>
+            <a href="./architecture.html">Architecture</a>
             <a href="./security.html">Security</a>
             <a href="./compatibility.html">Compatibility</a>
             <a href="./examples.html">Examples</a>
@@ -115,6 +122,7 @@
           <a href="./operators.html">Operators</a>
           <a href="./collections.html">Collections</a>
           <a href="./json.html">JSON</a>
+          <a href="./crypto.html">Bytes, encoding &amp; crypto</a>
           <a href="./structs.html">Structs</a>
           <a href="./memory.html">Memory</a>
           <a href="./errors.html">Errors</a>
@@ -125,10 +133,15 @@
         <div class="docs-nav-links">
           <a href="./streams.html">Streams</a>
           <a href="./system.html">Filesystem & system</a>
+          <a href="./cancellation.html">Cancellation</a>
+          <a href="./processes.html">Processes</a>
+          <a href="./pty.html">Pseudo-terminals</a>
           <a href="./concurrency.html">Concurrency</a>
           <a href="./async.html">Async</a>
           <a href="./networking.html">Networking</a>
-          <a href="./http.html">HTTP</a>
+          <a href="./http.html">HTTP client</a>
+          <a href="./http-server.html">HTTP server</a>
+          <a href="./websockets.html">WebSockets</a>
           <a href="./sqlite.html">SQLite</a>
           <a href="./embedding.html">Embedded resources</a>
           <a href="./linking.html">Linking & FFI</a>
@@ -143,6 +156,7 @@
           <a href="./editor.html">Editor & LSP</a>
           <a href="./cross-compilation.html">Cross compilation</a>
           <a href="./performance.html">Performance</a>
+          <a href="./architecture.html">Architecture</a>
           <a href="./security.html">Security</a>
           <a href="./compatibility.html">Compatibility</a>
           <a href="./examples.html">Examples</a>
@@ -151,8 +165,10 @@
     </nav>
   </aside>
   <article class="docs-content">
+    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
     <h1>API discovery schema</h1>
     <p><code>strut api --json [query]</code> exposes the same callable registry used by semantic analysis, lowering, runtime-component selection, and editor features. It is intended for agents and other tooling that need language knowledge without scraping documentation.</p>
+    <p>The website's <a href="/llms.txt"><code>llms.txt</code></a> links the current major API pages and records the current-main versus release boundary. Use the compiler's JSON output for authoritative signatures and this website for lifecycle, policy, and platform semantics.</p>
     
     <h2>Versioning</h2>
     <p>The top-level <code>schema_version</code> is currently <code>1</code>. New optional fields may be added within version 1. Removing a field, changing its type, or changing its meaning requires a new schema version. <code>language_version</code> identifies the Strut release that produced the catalog.</p>

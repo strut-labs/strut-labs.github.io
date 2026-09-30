@@ -166,26 +166,78 @@
   </aside>
   <article class="docs-content">
     <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
-    <h1>Embedded resources</h1>
-    <p>Strut can compile files and directories into the generated executable. Literal embed paths are read at compile time, so the deployed program does not need the original asset files.</p>
-    <h2>Embed one file</h2>
-    <pre><code class="language-strut">page := embed_file("public/index.html");
-</code></pre>
-    <h2>Embed a directory</h2>
-    <p><code>embed_dir()</code> returns a map from relative paths to embedded byte strings. Files are enumerated in deterministic path order during compilation.</p>
-    <pre><code class="language-strut">assets := embed_dir("public");
-print(assets["app.js"]);
-</code></pre>
-    <h2>Serve embedded assets</h2>
-    <p>The HTTP server can serve an embedded asset map directly. Paths are normalized defensively, traversal attempts are rejected, common MIME types are detected, and responses receive ETag and cache headers.</p>
-    <pre><code class="language-strut">assets := embed_dir("public");
+    <h1>Processes</h1>
+    <p class="status-note"><strong>Release status:</strong> <code>exec</code>, <code>exec_shell</code>, the two-argument <code>process</code>, and an earlier pipeline form are available in <code>v0.0.3</code>. The options/token process overloads, current four-argument <code>pipe_exec</code>, P6 lifecycle hardening, and cancellable pipes described here are <strong>Unreleased</strong> at accepted baseline <code>84458dd</code>.</p>
+    <h2>Buffered execution</h2>
+    <pre><code class="language-strut">exec(string program, string[] args) -&gt; exec_result : ExecError
+exec(string program, string[] args, json options) -&gt; exec_result : ExecError</code></pre>
+    <p><code>exec</code> passes an argv array directly, waits for completion, drains standard output and standard error concurrently, and returns <code>exit_code</code>, <code>stdout</code>, and <code>stderr</code>. It never interprets the program or arguments as shell text, including empty arguments and arguments containing spaces, quotes, or trailing backslashes.</p>
+    <p>Options are a JSON object:</p>
+    <ul>
+      <li><code>cwd</code>: child working directory.</li>
+      <li><code>env</code>: string-valued entries overlaid on the inherited environment.</li>
+      <li><code>capture</code>: capture stdout and stderr; defaults to <code>true</code>.</li>
+      <li><code>inherit_stdio</code>: attach inherited standard I/O and disable capture.</li>
+    </ul>
+    <pre><code class="language-strut">result := exec("git", ["status", "--short"], {
+    "cwd": "/srv/project",
+    "env": {"LANG": "C.UTF-8"}
+});</code></pre>
+    <p>On Windows, program, argv, environment, and cwd are converted from UTF-8 to UTF-16 and launched with <code>CreateProcessW</code>. Microsoft argv quoting preserves empty and Unicode arguments. Captured Windows output retains the v0.0.3 compatibility behavior of normalizing CRLF to LF. POSIX uses parent-built argv and environment with <code>posix_spawnp</code>; cwd is atomic on macOS and glibc 2.29 or newer, while unsupported POSIX libcs reject non-empty cwd.</p>
+    <h2>Streaming processes</h2>
+    <pre><code class="language-strut">process(string program, string[] args) -&gt; process : ExecError
+process(string program, string[] args, json options) -&gt; process : ExecError
+process(string program, string[] args, cancellation_token token) -&gt; process : ExecError
+process(string program, string[] args, json options, cancellation_token token) -&gt; process : ExecError</code></pre>
+    <p>The options and token overloads are Unreleased. Streaming options support only <code>cwd</code> and string-valued <code>env</code>; <code>capture</code> and <code>inherit_stdio</code> are rejected because <code>process</code> always creates the three pipe endpoints <code>in</code>, <code>out</code>, and <code>err</code>.</p>
+    <!-- strut-example:process-streaming:start -->
+    <pre><code class="language-strut">function run_child(cancellation_token token) -&gt; int : ExecError {
+    child := process("worker", ["--stream"], {
+        "cwd": ".",
+        "env": {"MODE": "batch"}
+    }, token);
+    child.in.write_line("first job");
+    child.close_input();
+    child.terminate();
+    return child.wait();
+}
+function main() -&gt; int {
+    return 0;
+}</code></pre>
+    <!-- strut-example:process-streaming:end -->
+    <h3>Pipe methods</h3>
+    <pre><code class="language-strut">child.in.write(string)          // ExecError
+child.in.write_line(string)     // ExecError
+child.in.write_bytes(bytes)     // ExecError
+child.in.flush()
+child.in.close()
 
-http_server app := http_server();
-app.static("/", assets, "index.html");
-app.listen("127.0.0.1", 8080);
-</code></pre>
-    <h2>Incremental builds</h2>
-    <p>Embedded files are build dependencies. The persistent object build system records them in per-object <code>.strut/info</code> metadata, so changing an embedded asset invalidates the affected object on the next build.</p>
+child.out.read(int)             // string : ExecError
+child.out.read_line()           // string : ExecError
+child.out.read_all()            // string : ExecError
+child.out.read_bytes(int_64)    // bytes : ExecError
+child.out.read_all_bytes()      // bytes : ExecError
+child.out.read_all_bytes(limit) // bytes : ExecError
+child.out.eof()
+child.out.close()</code></pre>
+    <p><code>err</code> has the same methods as <code>out</code>. Byte reads return at most the requested count; an empty result denotes EOF only when <code>eof()</code> is true. Byte writes complete fully or raise an error. Pipes are blocking and apply operating-system backpressure: no unbounded user-space queue is inserted. Drain stdout and stderr concurrently when a child may fill both pipes; waiting or draining one stream first can deadlock. One operation may be active on an endpoint at a time, while stdin, stdout, and stderr may progress concurrently.</p>
+    <p>Cancelling the token bound at spawn wakes blocked reads and writes with <code>ExecError("process I/O cancelled", 125)</code>. It does not terminate or wait for the process. Pre-cancellation fails before I/O; observed native completion or EOF wins in the same wake cycle. If cancellation and close or another I/O failure are both pending at interruption, cancellation wins. Closing an endpoint alone wakes its active operation with a distinct closed-pipe error.</p>
+    <h3>Process lifecycle</h3>
+    <pre><code class="language-strut">child.close_input();
+child.terminate();  // ExecError
+int status := child.wait(); // ExecError
+bool live := child.running();
+int code := child.exit_code(); // -1 while running</code></pre>
+    <p>On POSIX, each process owns a new process group. On Windows it owns a kill-on-close Job Object. <code>terminate()</code> requests termination of that group or Job. <code>wait()</code> waits for the direct child, cleans up members still in the owned group or Job, and returns the direct child's exit status; concurrent status checks refresh direct-child state without blocking.</p>
+    <p>Destruction closes stdin, requests graceful termination, performs bounded graceful and force-wait intervals, then transfers a still-live child to a detached reaper or handle closer. If that final native thread cannot be created, cleanup reaps synchronously rather than leaking a zombie, so only that resource-exhaustion fallback is not latency-bounded.</p>
+    <p>Containment has platform limits. A POSIX descendant can escape with <code>setsid()</code> or <code>setpgid()</code>. A Windows Job is stronger but can be unavailable under external Job policy. Children must not be reaped independently through native SIGCHLD handling because Strut owns direct-child identity and reaping.</p>
+    <h2>Two-stage pipelines</h2>
+    <pre><code class="language-strut">pipe_exec(string first, string[] first_args,
+          string second, string[] second_args) -&gt; exec_result : ExecError</code></pre>
+    <p>This four-argument form is current-main and differs from the earlier release signature. <code>pipe_exec</code> connects the first stdout to the second stdin without a shell. It concurrently pumps that connection and drains both stderr streams plus the second stdout, so outputs larger than pipe capacity do not deadlock. The result uses the second process exit code and stdout; stderr is the first stderr followed by the second stderr. It constructs exactly two stages and has no cwd, environment, or cancellation options.</p>
+    <h2>Shell opt-in</h2>
+    <pre><code class="language-strut">result := exec_shell("printf '%s\\n' shell-is-explicit");</code></pre>
+    <p><code>exec_shell(command)</code> is the explicit shell-evaluation API. Prefer argv-based <code>exec</code>, <code>process</code>, or <code>pipe_exec</code> whenever values are data rather than trusted shell syntax.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
