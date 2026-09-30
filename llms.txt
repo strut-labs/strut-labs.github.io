@@ -1,6 +1,6 @@
 # Strut
 
-Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler baseline 84458dd4c6e550c829f354dd0813f73188b73adf. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
+Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler checkpoint d98fcea. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
 
 ## Start here
 
@@ -18,7 +18,7 @@ Strut is an experimental memory-safe compiled language that emits native C++20. 
 - HTTP and HTTPS server: https://strut-labs.github.io/docs/http-server.html
 - WebSocket server: https://strut-labs.github.io/docs/websockets.html
 - Processes and lifecycle ownership: https://strut-labs.github.io/docs/processes.html
-- POSIX pseudo-terminals: https://strut-labs.github.io/docs/pty.html
+- Cross-platform pseudo-terminals, including Windows ConPTY: https://strut-labs.github.io/docs/pty.html
 - Architecture and dependency boundaries: https://strut-labs.github.io/docs/architecture.html
 - Security model and limits: https://strut-labs.github.io/docs/security.html
 - API discovery schema: https://strut-labs.github.io/docs/api-schema.html
@@ -26,7 +26,8 @@ Strut is an experimental memory-safe compiled language that emits native C++20. 
 ## Important limits
 
 - Current-main APIs are not automatically available in the latest tagged v0.0.3 release.
-- Windows ConPTY is not implemented. PTY execution is supported on Linux with glibc 2.34+ and on macOS; Windows exposes an unsupported stub until P9.
+- PTY execution is supported on Linux with glibc 2.34+, macOS, and Windows 10 1809 / Windows Server 2019 or newer through native ConPTY. Older Windows fails only `pty_spawn` with a deterministic checked error.
+- ConPTY carries UTF-8/virtual-terminal traffic and its controls are Windows terminal/lifecycle approximations, not POSIX signals or arbitrary binary transparency.
 - WebSockets are server-side only and have no compression/extensions.
 - The HTTP client has no public client-certificate, explicit-proxy, or Unix-domain-socket option.
 - The certified backend stack is not yet described as production-grade.
