@@ -1,6 +1,6 @@
 # Strut
 
-Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler checkpoint 378fce4. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
+Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler checkpoint d9279af. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
 
 ## Start here
 
