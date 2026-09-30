@@ -1,5 +1,5 @@
-<h1>Filesystem, processes &amp; environment</h1>
-<p>Strut's standard library provides direct access to environment variables, clocks, sleeping, and external programs. Process execution is argv-based by default: arguments are passed as arguments rather than interpolated into a shell command.</p>
+<h1>Filesystem &amp; environment</h1>
+<p>Strut's standard library provides filesystem operations, environment variables, clocks, and sleeping. Process execution now has a dedicated <a href="@path('docs/processes')">processes page</a> covering current-main cancellation and lifecycle ownership.</p>
 <h2>Read environment variables</h2>
 <p><code>env()</code> returns a nullable string because a variable may not exist. Use <code>??</code> when a default is appropriate.</p>
 <pre><code class="language-strut">home := env("HOME") ?? "";
@@ -18,31 +18,6 @@ print(home);</code></pre>
 sleep_ms(25);
 after := now_ms();
 print(after - before);</code></pre>
-<h2>Run an external program</h2>
-<p><code>exec(program, args)</code> launches the program directly and captures stdout and stderr. It returns an <code>exec_result</code> containing <code>exit_code</code>, <code>stdout</code>, and <code>stderr</code>.</p>
-<pre><code class="language-strut">function main() -&gt; int : ExecError {
-    result := exec("git", ["status", "--short"]);
-    print(result.exit_code);
-    print(result.stdout);
-    return result.exit_code;
-}</code></pre>
-<h2>Working directory and environment overrides</h2>
-<p>An options object can set the child's working directory and add or replace environment variables without changing the argv-safe launch model.</p>
-<pre><code class="language-strut">result := exec("tool", ["input.txt"], {
-    "cwd": "/tmp/work",
-    "env": {
-        "MODE": "test"
-    }
-});</code></pre>
-<h2>Inherited standard streams</h2>
-<p>Set <code>inherit_stdio</code> when the child should use the parent's terminal or redirected streams instead of being captured.</p>
-<pre><code class="language-strut">result := exec("tool", [], {
-    "inherit_stdio": true
-});</code></pre>
-<h2>Shell execution is explicit</h2>
-<p>Normal <code>exec</code> never requires shell interpolation. When shell syntax itself is intentionally required, use the visibly different <code>exec_shell</code> API.</p>
-<pre><code class="language-strut">result := exec_shell("printf 'hello\n'");</code></pre>
-<p>Prefer <code>exec</code> whenever possible, especially when any argument contains external or user-provided data.</p>
 <h2>Filesystem</h2>
 <p>Filesystem operations live in the explicit <code>&lt;filesystem&gt;</code> standard module and use checked <code>FilesystemError</code> failures.</p>
 <pre><code class="language-strut">include &lt;filesystem&gt;;

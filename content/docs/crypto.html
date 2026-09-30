@@ -1,0 +1,57 @@
+<h1>Cryptography &amp; binary encoding</h1>
+<p class="status-note"><strong>Version:</strong> This page documents <strong>current-main / unreleased</strong> at baseline <code>84458dd</code>. These APIs are post-release work and are not part of the stable <code>v0.0.3</code> API.</p>
+<p>Strut provides a deliberately small, binary-first cryptographic surface. Include <code>&lt;crypto&gt;</code> for secure random bytes, SHA-256, HMAC-SHA-256, and constant-time comparison. Include <code>&lt;encoding&gt;</code> for dependency-free Base64 and Base64url conversion.</p>
+<h2>Bytes are the boundary</h2>
+<p><code>bytes</code> is an owned binary value. <code>bytes()</code> creates an empty value, <code>bytes(size)</code> creates a zero-filled value, and a contextually typed literal accepts byte values from 0 through 255. Assignment deep-copies, comparison compares contents, and values support mutable integer indexing, <code>length()</code>, <code>empty()</code>, and the half-open copying operation <code>slice(begin, end)</code>.</p>
+<p>Indexes and lengths use <code>int_64</code> and bounds are checked. <code>bytes.from_string(text)</code> and <code>value.to_string()</code> copy string code units losslessly; they do not validate or imply UTF-8. There is no implicit conversion between <code>string</code> and <code>bytes</code>.</p>
+<h2>Exact API</h2>
+<pre><code class="language-text">secure_random_bytes(int_64 count) -&gt; bytes : CryptoError
+sha256(bytes data) -&gt; bytes : CryptoError
+hmac_sha256(bytes key, bytes data) -&gt; bytes : CryptoError
+constant_time_equal(bytes left, bytes right) -&gt; bool
+
+base64_encode(bytes data) -&gt; string
+base64_decode(string text) -&gt; bytes : EncodingError
+base64url_encode(bytes data) -&gt; string
+base64url_decode(string text) -&gt; bytes : EncodingError</code></pre>
+<table><thead><tr><th>Function</th><th>Result</th><th>Checked error</th></tr></thead><tbody>
+<tr><td><code>secure_random_bytes(int_64 count)</code></td><td><code>bytes</code></td><td><code>CryptoError</code></td></tr>
+<tr><td><code>sha256(bytes data)</code></td><td>raw 32-byte digest</td><td><code>CryptoError</code></td></tr>
+<tr><td><code>hmac_sha256(bytes key, bytes data)</code></td><td>raw 32-byte authenticator</td><td><code>CryptoError</code></td></tr>
+<tr><td><code>constant_time_equal(bytes left, bytes right)</code></td><td><code>bool</code></td><td>none</td></tr>
+<tr><td><code>base64_encode(bytes data)</code></td><td><code>string</code></td><td>none</td></tr>
+<tr><td><code>base64_decode(string text)</code></td><td><code>bytes</code></td><td><code>EncodingError</code></td></tr>
+<tr><td><code>base64url_encode(bytes data)</code></td><td><code>string</code></td><td>none</td></tr>
+<tr><td><code>base64url_decode(string text)</code></td><td><code>bytes</code></td><td><code>EncodingError</code></td></tr>
+</tbody></table>
+<p>Digests and authenticators are returned as raw bytes, not hexadecimal or Base64 text. Encode them explicitly when a textual representation is required.</p>
+<h2>Generate, authenticate, and encode</h2>
+<!-- strut-example:crypto-encoding:start -->
+<pre><code class="language-strut">include &lt;crypto&gt;;
+include &lt;encoding&gt;;
+function main() -&gt; int : (CryptoError, EncodingError) {
+    bytes message := bytes.from_string("hello");
+    bytes key := secure_random_bytes(32);
+    bytes digest := sha256(message);
+    bytes authenticator := hmac_sha256(key, message);
+    string token := base64url_encode(authenticator);
+    bytes decoded := base64url_decode(token);
+    if (digest.length() != 32 || !constant_time_equal(authenticator, decoded)) {
+        return 1;
+    }
+    return 0;
+}</code></pre>
+<!-- strut-example:crypto-encoding:end -->
+<p>The example is compile/run-capable. It emits no output; the HMAC key is freshly generated on each run and the exit status verifies digest length and round-trip equality.</p>
+<h2>Checked errors</h2>
+<p><code>CryptoError</code> reports an invalid random-byte count, random-byte allocation failure, or native OpenSSL operation failure. <code>EncodingError</code> reports malformed or noncanonical encoded text. The encoding functions cannot fail for a valid <code>bytes</code> input, and <code>constant_time_equal</code> has no checked error.</p>
+<h2>Secure randomness</h2>
+<p><code>secure_random_bytes</code> uses OpenSSL <code>RAND_bytes</code> and has no non-cryptographic fallback. A count of zero returns empty bytes. A negative, unrepresentable, allocation-failing, or native-generator request raises <code>CryptoError</code>.</p>
+<h2>Canonical Base64</h2>
+<p><code>base64_encode</code> emits canonical RFC 4648 Base64 with the standard <code>+</code>/<code>/</code> alphabet and required <code>=</code> padding. <code>base64url_encode</code> uses <code>-</code>/<code>_</code> and emits no padding.</p>
+<p>Decoding is strict rather than forgiving. The decoders reject whitespace, characters from the other alphabet, malformed lengths, misplaced or noncanonical padding, and non-zero unused trailing bits. Standard Base64 must have canonical padding; Base64url must be unpadded. Invalid input raises <code>EncodingError</code> instead of being partially decoded.</p>
+<h2>Comparison and limits</h2>
+<p><code>constant_time_equal</code> uses OpenSSL <code>CRYPTO_memcmp</code> for equal-length values. Length is treated as public: unequal lengths return <code>false</code> immediately. This avoids content-dependent early exit for equal-length secret values, but does not make surrounding application logic constant-time.</p>
+<p>SHA-256 is a digest, not password hashing. HMAC authenticates only when keys are generated, stored, rotated, and scoped correctly. The public API does not provide SHA-1, password hashing, key management, certificate management, or general encryption. SHA-1 used internally for the RFC 6455 WebSocket handshake is not exposed as a callable public API.</p>
+<h2>Native dependency boundary</h2>
+<p><code>&lt;encoding&gt;</code> is implemented by the generated runtime and adds no native library. <code>&lt;crypto&gt;</code> requires OpenSSL 3.0 or newer and links <code>libcrypto</code>, but not <code>libssl</code>. OpenSSL failures are translated to checked <code>CryptoError</code> values without exposing its native error queue. TLS is a separate runtime component.</p>

@@ -66,6 +66,11 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/crypto",
+      "title": "Bytes, encoding & cryptography",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "docs/structs",
       "title": "Structs",
       "template": "templates/docs.html"
@@ -131,13 +136,38 @@
       "template": "templates/docs.html"
     },
     {
+      "name": "docs/http-server",
+      "title": "HTTP server",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/websockets",
+      "title": "WebSockets",
+      "template": "templates/docs.html"
+    },
+    {
       "name": "404",
       "title": "Page Not Found",
       "template": "templates/404.html"
     },
     {
       "name": "docs/system",
-      "title": "Processes & environment",
+      "title": "Filesystem & environment",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/cancellation",
+      "title": "Cancellation",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/processes",
+      "title": "Processes",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/pty",
+      "title": "Pseudo-terminals",
       "template": "templates/docs.html"
     },
     {
@@ -163,6 +193,11 @@
     {
       "name": "docs/performance",
       "title": "Performance",
+      "template": "templates/docs.html"
+    },
+    {
+      "name": "docs/architecture",
+      "title": "Architecture",
       "template": "templates/docs.html"
     },
     {

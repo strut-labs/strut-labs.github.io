@@ -1,85 +1,57 @@
-<h1>HTTP client</h1>
-<p>The official HTTP client uses libcurl, keeps TLS certificate and hostname verification enabled, follows redirects by default, and integrates with Strut's JSON and async facilities.</p>
-<p>The current HTTP client API is selected automatically when these functions are used; do not add <code>include &lt;http&gt;;</code>. Native compilation requires the libcurl development package.</p>
-<h2>GET request</h2>
+<h1>HTTP</h1>
+<p><strong>Release status:</strong> buffered requests are available in <code>v0.0.3</code>. Hardened policy, expanded limits, streaming callbacks, and cancellation document current development at accepted baseline <code>84458dd</code> and are not yet released.</p>
+<p>Strut provides a libcurl-backed outbound HTTP client, a built-in <a href="@path('docs/http-server')">HTTP/HTTPS server</a>, and an RFC 6455 <a href="@path('docs/websockets')">WebSocket server</a>. The current-main implementation has focused protocol and resource certification, but it is not presented as production-grade or as internet-scale soak evidence.</p>
+<p>HTTP APIs are selected automatically when referenced; do not add <code>include &lt;http&gt;;</code>. Native client builds require libcurl 7.64.0 or newer and dynamic final linking.</p>
+<h2>Buffered client (P2)</h2>
 <pre><code class="language-strut">function main() -&gt; int : HttpError {
     response := http_get("https://example.com/api/status");
     print(response.status);
     print(response.body);
     return 0;
 }</code></pre>
-<h2>JSON response</h2>
-<pre><code class="language-strut">function main() -&gt; int : HttpError {
-    body := http_get_json("https://example.com/api/user");
-    print(body["name"]);
-    return 0;
-}</code></pre>
-<h2>Custom requests</h2>
-<p><code>http_request</code> accepts a method, URL, and JSON options object for headers, request bodies, timeouts, and redirect policy.</p>
-<pre><code class="language-strut">options := {
+<p><code>http_get(url)</code>, <code>http_get_ca(url, ca_file)</code>, <code>http_get_json(url)</code>, <code>http_request(method, url, options?)</code>, <code>http_get_async(url)</code>, and <code>http_request_async(method, url, options)</code> use one bounded request engine. A buffered <code>http_response</code> has <code>status</code>, <code>body</code>, lowercase single-valued <code>headers</code>, and <code>json()</code>. HTTP 4xx and 5xx statuses are responses, not checked errors.</p>
+<h3>Request options</h3>
+<pre><code class="language-strut">response := http_request("POST", "https://example.com/api/users", {
     "headers": {"Authorization": "Bearer token"},
-    "body": {"name": "Nick"},
+    "body": {"name": "Ada"},
     "timeout_ms": 5000,
-    "follow_redirects": true
-};
-response := http_request("POST", "https://example.com/api/users", options);</code></pre>
-<h2>Async requests</h2>
-<pre><code class="language-strut">pending := http_get_async("https://example.com/api/status");
-response := await pending;</code></pre>
-<h2>Streaming policy</h2>
-<p>HTTP responses are currently buffered. A public streaming response API is deliberately deferred rather than exposing libcurl callbacks as language API prematurely.</p>
-<h2>Verified HTTPS client with a private CA</h2>
-<p><code>http_get_ca(url, ca_file)</code> trusts an explicit PEM CA bundle while retaining certificate and hostname verification. There is no insecure convenience mode.</p>
-<h2>HTTP server</h2>
-<p>Strut's server API is built on the cross-platform TCP substrate. Routes support path parameters, query values, headers, request bodies, JSON parsing, and synchronous or async handlers.</p>
-<pre><code class="language-strut">function main() -&gt; int : NetworkError {
-    http_server app := http_server();
-
-    app.get("/hello/:name", (http_request req) =&gt; {
-        name := req.params["name"];
-        return http_text("hello " + name);
-    });
-
-    app.listen("127.0.0.1", 8080);
-    return 0;
-}</code></pre>
-<h3>SQLite-backed route</h3>
-<!-- strut-example:sqlite-http-service:start -->
-<pre><code class="language-strut">function main() -&gt; int : (NetworkError, SqliteError) {
-    db := sqlite_open(":memory:");
-    db.exec("CREATE TABLE notes(id INTEGER PRIMARY KEY, text TEXT)");
-
-    app := http_server();
-    app.get("/notes", (http_request req) =&gt; {
-        return http_json_response(db.query("SELECT * FROM notes"));
-    });
-    app.listen("127.0.0.1", 8080);
-    return 0;
-}</code></pre>
-<!-- strut-example:sqlite-http-service:end -->
-<h2>Lifecycle and operational limits</h2>
-<p>The server accepts requests concurrently. <code>stop()</code> closes the listener and drains active handlers up to the configured shutdown timeout; it is safe before start and idempotent. <code>running()</code> reports whether the server is accepting or draining.</p>
-<pre><code class="language-strut">app.timeouts(30000, 30000, 5000, 5000);
-app.limits(1048576, 65536, 100, 1024);
-
-listener := thread(() =&gt; { app.listen("127.0.0.1", 8080); });
-wait_for_shutdown_signal();
-app.stop();
-listener.join();</code></pre>
-<p>The timeout values are read, write, idle, and graceful-shutdown milliseconds. Limits cover request-body bytes, header bytes, header count, and active connections. Malformed or oversized requests receive controlled HTTP responses.</p>
-<h2>HTTPS server</h2>
-<p><code>listen_tls</code> loads a PEM certificate chain and matching private key before opening the listener. Missing, invalid, unreadable, or mismatched material produces <code>TlsError</code>; Strut never falls back to plaintext. OpenSSL is linked only when this API is used.</p>
-<pre><code class="language-strut">function main(string command, string[] args) -&gt; int : (NetworkError, TlsError) {
-    app := http_server();
-    app.get("/health", (http_request request) =&gt; { return http_text("secure"); });
-    app.listen_tls("127.0.0.1", 8443, args[0], args[1]);
-    return 0;
-}</code></pre>
-<h2>Async handlers</h2>
-<p>Use <code>get_async</code> or <code>post_async</code> when a handler performs async work. The server awaits the returned Strut future before writing the response.</p>
-<pre><code class="language-strut">app.get_async("/api/items", async (http_request req) =&gt; {
-    data := await load_items();
-    return http_json_response(data);
+    "follow_redirects": false,
+    "max_response_body_bytes": 1048576
 });</code></pre>
-<h2>Request data</h2>
-<p><code>http_request</code> exposes <code>method</code>, <code>path</code>, <code>headers</code>, <code>query</code>, <code>params</code>, and <code>body</code>. <code>req.json()</code> parses the request body with JSONIC.</p>
+<p>The strict options object accepts <code>headers</code>, <code>body</code>, <code>timeout_ms</code>, <code>follow_redirects</code>, <code>max_redirects</code>, <code>max_request_body_bytes</code>, <code>max_response_body_bytes</code>, <code>max_response_header_bytes</code>, <code>max_response_header_count</code>, and <code>ca_file</code>. Streaming uploads additionally accept <code>request_body_length</code>. Unknown keys, wrong types, and invalid ranges raise <code>HttpError</code>.</p>
+<p>Defaults are a 30-second total operation deadline, 10 redirects, 16 MiB for each request and response body, 64 KiB for cumulative request and response headers, and 100 request or response fields. The deadline covers name resolution, connection, TLS, redirects, and response receipt. Request methods and metadata are validated; <code>Host</code>, <code>Connection</code>, <code>Content-Length</code>, and <code>Transfer-Encoding</code> are transport-owned. Explicit empty bodies remain distinct from absent bodies and embedded NUL bytes retain their length. Malformed response metadata, case-insensitive duplicate final fields, and trailers fail because the public header map is single-valued.</p>
+<h2>Streaming client (P3)</h2>
+<p><code>http_request_stream</code> and <code>http_request_stream_async</code> take a nullable upload producer and download consumer, and return <code>http_response_head</code> with the final <code>status</code> and lowercase <code>headers</code>. Add a final <code>cancellation_token</code> argument to either form when cancellation is required.</p>
+<!-- strut-example:http-client-streaming:start -->
+<pre><code class="language-strut">function download(string url) -&gt; int_64 : HttpError {
+    int_64 initial := 0;
+    total := new(initial);
+    head := http_request_stream("GET", url,
+        {"max_response_body_bytes": 67108864}, null, (bytes chunk) =&gt; {
+            *total = *total + chunk.length();
+            return true;
+        });
+    if (head.status != 200) { return 0; }
+    return *total;
+}
+function main() -&gt; int {
+    return 0;
+}</code></pre>
+<!-- strut-example:http-client-streaming:end -->
+<p>This marked example is compile-only: it demonstrates the callback types without naming a live endpoint. Upload callbacks receive a positive maximum and must return no more than that many owned bytes; empty bytes signal EOF. Download callbacks receive owned binary chunks and return <code>true</code> to continue or <code>false</code> to stop successfully after that prefix. Callbacks are serial and synchronous, providing the backpressure boundary without a body-sized queue. A null upload sends no streamed body; a null download discards response bytes.</p>
+<p><code>request_body_length</code> declares an exact upload length; early EOF fails. Omitting it selects unknown-length framing. <code>body</code> and an upload callback are mutually exclusive. Only final-response bytes reach the consumer; informational and followed-redirect bodies are discarded. Content decoding is not enabled, so response limits apply to representation bytes. Metadata arrives only when the call or future completes, and late metadata, trailer, TLS, or transport errors can occur after delivered bytes.</p>
+<p>Callbacks run on the calling thread, or on one shared-executor worker for the async form. Async streaming uses blocking libcurl easy handles, not a multi/event-loop reactor. Executor workers and queued jobs are bounded, with saturated or recursively submitted work running inline; this is intended for moderate blocking concurrency rather than very large transfer counts.</p>
+<h2>Redirect and replay policy</h2>
+<p>Only absolute HTTP and HTTPS URLs are accepted. Redirects are followed by default, an initial HTTPS request cannot downgrade to HTTP, and only the final response metadata is exposed. Buffered POST changes to GET for 301, 302, and 303; 307 and 308 preserve and replay its method and buffered body. Automatic 301/302/303 handling for custom methods such as PUT, PATCH, or DELETE fails with <code>HttpError</code> code <code>-105</code> rather than risking a method rewrite.</p>
+<p>A streamed producer is one-shot and is never rewound. A streamed POST may change to GET for 301/302/303 without calling the producer again; custom-method 301/302/303 redirects and every 307/308 or other replay request fail with code <code>-105</code>. Authorization and Cookie are suppressed when the origin changes, but arbitrary custom headers may be replayed. Disable redirects for destination-bound metadata.</p>
+<h2>TLS, proxies, and endpoints</h2>
+<p>Certificate-chain and hostname verification are always enabled; there is no insecure convenience mode. <code>http_get_ca</code> or the HTTPS-only <code>ca_file</code> option selects an explicit PEM CA bundle without disabling verification. The client follows libcurl's environment proxy and no-proxy configuration and keeps origin headers separate from proxy headers. There is no public explicit proxy option.</p>
+<p>Client certificates and HTTP over Unix-domain sockets are not public client features. The server likewise exposes TCP host/port listeners rather than Unix sockets, and <code>listen_tls</code> does not expose mutual-TLS/client-certificate validation. These limitations apply equally to buffered and streaming calls.</p>
+<h2>Errors and trust boundaries</h2>
+<p>Configuration, policy, limit, callback, cancellation, and transport failures raise <code>HttpError</code>. Native libcurl failures retain their numeric <code>CURLcode</code>; cancellation is <code>-103</code>, callback or producer contract failure is <code>-104</code>, and refused replay is <code>-105</code>. Cancellation is cooperative during resolver calls and application callbacks.</p>
+<p>HTTP(S)-only protocol policy is not SSRF protection. Loopback, private, link-local, proxy-routed, and DNS-rebound destinations remain reachable. Applications accepting untrusted URLs should disable redirects, enforce their own destination policy, and validate every Location before issuing another request.</p>
+<h2>Next</h2>
+<ul>
+  <li><a href="@path('docs/http-server')">HTTP and HTTPS server</a></li>
+  <li><a href="@path('docs/websockets')">WebSocket server</a></li>
+</ul>

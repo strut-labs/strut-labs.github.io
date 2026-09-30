@@ -1,37 +1,33 @@
 <h1>Implementation status</h1>
-<p>The documentation describes the implemented language contract unless a page explicitly marks something as deferred. This page is the quick implementation snapshot.</p>
-
-<h2>Strut 0.0.3 implementation</h2>
-<ul>
-  <li>Portable C++20/CMake bootstrap with Linux, macOS, and Windows treated as first-class targets.</li>
-  <li>Lexer, parser, semantic analysis, typed source-mapped IR, and native executable generation behind a backend boundary.</li>
-  <li>Primitive/fixed-width types and aliases, strings, dynamic/fixed arrays, explicit collection modules (<code>vector</code>, <code>deque</code>, <code>list</code>, hash/ordered maps and sets, queue/stack/priority queue), heterogeneous tuples including one-tuples, JSONIC-backed <code>json</code>, structs, enums, generics, nullability, <code>switch</code>, and exhaustive enum <code>match</code>.</li>
-  <li>First-class functions, named/generic functions, closures, inferred and explicitly typed generic lambdas, async functions/lambdas, and futures.</li>
-  <li>Fixed-precedence operator overloading, lambda operator definitions, dereference overloads, and custom <code>=</code>/<code>:=</code> semantics.</li>
-  <li>No-GC memory model with reference-counted <code>T*</code>, non-owning <code>T&amp;</code>, <code>weak_ptr&lt;T&gt;</code>, and explicit <code>unsafe</code>/<code>ptr&lt;T&gt;</code>, including <code>raw-&gt;member</code>.</li>
-  <li>Checked error signatures, <code>throw</code>, typed <code>try</code>/<code>catch</code>, and catch-all handling.</li>
-  <li>Filesystem APIs with scalar/vector/wildcard copy/move/removal, recursive traversal, metadata/path helpers and optimized whole-file text/binary I/O; streams, <code>in</code>/<code>out</code>/<code>err</code>; environment access, clocks/sleeping, argv-safe <code>exec</code>, child processes/pipes, and explicit shell execution.</li>
-  <li>Native threads, mutexes/scoped locking, typed channels, a shared multithreaded async executor, and documented cross-thread safety policy.</li>
-  <li>C ABI FFI, static/dynamic native libraries, and static, dynamic, or mixed final linking with release dead-code elimination/stripping where supported.</li>
-  <li><code>strut.json</code> package manifests, lock/cache handling, local package workflows, explicit angle-bracket standard modules, and <code>include &lt;package&gt;</code> resolution; quoted includes remain local/native dependencies.</li>
-  <li>Cross-platform TCP networking, verified client TLS through libcurl, direct HTTPS serving through OpenSSL, concurrent HTTP routing, bounded graceful shutdown, request limits, JSON requests/responses, and system SQLite integration.</li>
-  <li>Compile-time file/directory embedding and static-asset serving for one-binary applications.</li>
-  <li><code>strut init</code>, persistent <code>.o</code>/<code>.obj</code> files, per-object <code>.info.json</code> dependencies, Nift-style modified-time invalidation, and <code>strut make</code>.</li>
-  <li><code>strut test</code> test discovery/filtering and <code>strut fmt</code>/<code>--check</code> canonical formatting.</li>
-  <li>Built-in <code>strut lsp</code> language server with diagnostics, definition, completion, hover, and formatting, plus syntax-highlighted CLI error snippets and standard-library completions.</li>
-  <li>Named cross-compilation targets and target-partitioned build caches.</li>
-  <li>Frontend fuzzing, sanitizer-backed memory stress, concurrency stress, FFI hardening, and multi-program/package dogfooding.</li>
-</ul>
-
-<h2>Project build state</h2>
-<p><code>.strut/config.json</code> is project configuration. Generated object files live in <code>.strut/obj</code>, generated bootstrap sources in <code>.strut/gen</code>, and dependency/build records in <code>.strut/info</code>. Unchanged objects are reused; changed dependencies rebuild only affected units.</p>
-
-<h2>Current benchmark baseline</h2>
-<p>The CP86 one-binary todo application established a development-host baseline for compile time, stripped executable size, startup, idle RSS, and localhost HTTP throughput. Those numbers are intentionally treated as profiling baselines rather than external performance claims until the dedicated benchmark phase begins.</p>
-
+<p>This website follows current compiler development at baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>. Installation commands install the latest tagged release; APIs marked current-main or unreleased require a compiler built from development <code>main</code>.</p>
+<h2>Stable release and development</h2>
+<table><thead><tr><th>Surface</th><th>Latest release v0.0.3</th><th>Current main</th></tr></thead><tbody>
+<tr><td>Language, ownership, checked errors, packages, CLI/LSP</td><td>Available</td><td>Available</td></tr>
+<tr><td>HTTP server, TLS, SQLite, buffered outbound HTTP</td><td>Available at the v0.0.3 contract</td><td>Expanded and hardened</td></tr>
+<tr><td><code>bytes</code>, Base64/Base64url, crypto</td><td>Not released</td><td>Available</td></tr>
+<tr><td>Outbound HTTP streaming and cancellation</td><td>Not released</td><td>Available</td></tr>
+<tr><td>Streaming server requests/responses, persistence, helpers, ranges, NDJSON</td><td>Not released</td><td>Available</td></tr>
+<tr><td>WebSocket server</td><td>Not released</td><td>Available</td></tr>
+<tr><td>Hardened process ownership and cancellable pipes</td><td>Earlier process API only</td><td>Available</td></tr>
+<tr><td>PTY</td><td>Not released</td><td>Linux/macOS</td></tr>
+<tr><td>Windows ConPTY</td><td>Not available</td><td>Not implemented; planned for P9</td></tr>
+</tbody></table>
+<h2>Current-main backend capability</h2>
+<table><thead><tr><th>Capability</th><th>Runtime/compiler</th><th>Website</th></tr></thead><tbody>
+<tr><td>Secure random, SHA-256, HMAC-SHA-256, constant-time compare</td><td>Yes</td><td><a href="@path('docs/crypto')">Crypto</a></td></tr>
+<tr><td>Strict Base64 and unpadded Base64url</td><td>Yes</td><td><a href="@path('docs/crypto')">Crypto</a></td></tr>
+<tr><td>Outbound arbitrary methods, binary bodies, limits, redirects, custom CA</td><td>Yes</td><td><a href="@path('docs/http')">HTTP client</a></td></tr>
+<tr><td>Outbound streaming upload/download, async, cancellation</td><td>Yes</td><td><a href="@path('docs/http')">HTTP client</a></td></tr>
+<tr><td>Explicit client certificates, proxy options, Unix sockets</td><td>No</td><td>Documented limitations</td></tr>
+<tr><td>Strict HTTP server, TLS, streaming, persistence, files, NDJSON</td><td>Yes</td><td><a href="@path('docs/http-server')">HTTP server</a></td></tr>
+<tr><td>WebSocket server, subprotocols, messages, limits</td><td>Yes</td><td><a href="@path('docs/websockets')">WebSockets</a></td></tr>
+<tr><td>Process cancellation, Unicode Windows spawn, tree ownership</td><td>Yes</td><td><a href="@path('docs/processes')">Processes</a></td></tr>
+<tr><td>PTY read/write, resize, signals, cancellation, cleanup</td><td>POSIX</td><td><a href="@path('docs/pty')">Pseudo-terminals</a></td></tr>
+<tr><td>Windows ConPTY</td><td>No</td><td>Explicitly unsupported before P9</td></tr>
+</tbody></table>
 <h2>Platform certification</h2>
-<p>The compiler and generated C++ are certified in GitHub Actions on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is also green across Ubuntu, macOS, and Windows.</p>
-<h2>Stability work</h2>
-<p>The 0.0.3 release candidate preserves the 0.0.2 language contract while substantially reducing generated runtime code for string-only, plain-thread, and compatible atomic programs. The current baseline contains 155 independently isolated regressions plus compiler unit, fuzz, stress, generated-code, package, and backend dogfood coverage.</p>
+<p>The compiler and generated C++ are certified on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is green on Linux, macOS, and Windows. P7-P8 PTY behavior executes on Linux and macOS; Windows certifies the unsupported API-shaped stub until ConPTY is implemented.</p>
+<h2>Current positioning</h2>
+<p>Current main has concrete building blocks for serious native backend and full-stack work: HTTP/TLS servers, strict request framing, streaming bodies, persistence, NDJSON, outbound HTTP, cancellation, crypto, SQLite, WebSockets, subprocesses, concurrency, and Linux/macOS PTYs. These capabilities have focused compiler, protocol, lifecycle, resource, and cross-platform certification. The project does not yet label the complete backend/runtime stack production-grade; broader production certification remains later campaign work.</p>
 <h2>Still deferred</h2>
-<p>HTTP/2, WebSockets, ACME/certificate automation, reverse-proxy behavior, and a centralized package registry remain deliberately deferred.</p>
+<p>Windows ConPTY (P9), HTTP/2, ACME/certificate automation, reverse-proxy trust automation, outbound WebSocket clients, WebSocket extensions such as <code>permessage-deflate</code>, and a centralized package registry remain unimplemented or deferred. WebSocket-to-PTY integration is intentionally not part of P7-P8 and has not begun.</p>

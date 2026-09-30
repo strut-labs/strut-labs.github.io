@@ -1,5 +1,6 @@
 <h1>API discovery schema</h1>
 <p><code>strut api --json [query]</code> exposes the same callable registry used by semantic analysis, lowering, runtime-component selection, and editor features. It is intended for agents and other tooling that need language knowledge without scraping documentation.</p>
+<p>The website's <a href="/llms.txt"><code>llms.txt</code></a> links the current major API pages and records the current-main versus release boundary. Use the compiler's JSON output for authoritative signatures and this website for lifecycle, policy, and platform semantics.</p>
 
 <h2>Versioning</h2>
 <p>The top-level <code>schema_version</code> is currently <code>1</code>. New optional fields may be added within version 1. Removing a field, changing its type, or changing its meaning requires a new schema version. <code>language_version</code> identifies the Strut release that produced the catalog.</p>

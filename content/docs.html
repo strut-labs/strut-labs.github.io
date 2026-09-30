@@ -1,14 +1,20 @@
 <h1>Documentation</h1>
-<p>Start with the language surface, then move into the systems features you need. Each page explains the relevant model before showing focused examples.</p>
+<p>This site documents current development <code>main</code>. The latest tagged release is <code>v0.0.3</code>; current-main pages visibly label APIs that have not shipped in a release.</p>
 <div class="docs-cards">
   <a class="docs-card" href="@path('docs/syntax')"><strong>Syntax</strong><span>Declarations, control flow, functions, includes, and the basic grammar.</span></a>
   <a class="docs-card" href="@path('docs/types')"><strong>Types</strong><span>Numeric widths, vectors, maps/sets, queues, tuples, JSON, nullability, and pointer types.</span></a>
   <a class="docs-card" href="@path('docs/functions')"><strong>Functions & lambdas</strong><span>Named functions, callable values, closures, and explicit function types.</span></a>
   <a class="docs-card" href="@path('docs/collections')"><strong>Collections</strong><span>Vectors, deques, lists, hash and ordered maps/sets, queues, priority queues, and tuples.</span></a>
   <a class="docs-card" href="@path('docs/system')"><strong>Filesystem & system</strong><span>Fast whole-file IO, paths, wildcards, traversal, environment access, and process execution.</span></a>
+  <a class="docs-card" href="@path('docs/crypto')"><strong>Bytes, encoding &amp; crypto</strong><span>Owned binary values, strict Base64/Base64url, secure randomness, SHA-256, and HMAC.</span></a>
+  <a class="docs-card" href="@path('docs/http')"><strong>HTTP client</strong><span>Buffered and streaming requests, TLS policy, redirects, limits, callbacks, and cancellation.</span></a>
+  <a class="docs-card" href="@path('docs/http-server')"><strong>HTTP server</strong><span>Strict framing, persistence, streaming bodies, files, NDJSON, lifecycle, and TLS.</span></a>
+  <a class="docs-card" href="@path('docs/websockets')"><strong>WebSockets</strong><span>Explicit server upgrades, text/binary messages, limits, backpressure, and shutdown.</span></a>
+  <a class="docs-card" href="@path('docs/processes')"><strong>Processes</strong><span>Argv-safe execution, cancellable pipes, process-tree ownership, pipelines, and cleanup.</span></a>
+  <a class="docs-card" href="@path('docs/pty')"><strong>Pseudo-terminals</strong><span>Linux/macOS binary PTYs, resize, signals, cancellation, and lifecycle ownership.</span></a>
   <a class="docs-card" href="@path('docs/memory')"><strong>Memory</strong><span>Reference counting, safe references, weak pointers, and explicit unsafe raw access.</span></a>
   <a class="docs-card" href="@path('docs/editor')"><strong>Editor & LSP</strong><span>Diagnostics, definition, completion, hover, and formatter integration.</span></a>
   <a class="docs-card" href="@path('docs/cross-compilation')"><strong>Cross compilation</strong><span>Supported target names, toolchains, caches, and native dependencies.</span></a>
 </div>
 <h2>Implementation status</h2>
-<p>The language is under active implementation. The status page distinguishes working compiler behaviour from syntax that is designed but scheduled for a later checkpoint.</p>
+<p><a href="@path('docs/status')">The status page</a> separates the latest release, current development, platform-specific support, and planned work.</p>

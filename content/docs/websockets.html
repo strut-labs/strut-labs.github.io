@@ -1,0 +1,45 @@
+<h1>WebSockets</h1>
+<p><strong>Current main, unreleased:</strong> this page documents compiler HEAD <code>84458dd</code>. The WebSocket APIs do not exist in v0.0.3 and must not be treated as part of that release contract.</p>
+<p>Current main adds synchronous RFC 6455 server upgrades (P4) and bounded frame/message handling (P5) on the built-in <a href="@path('docs/http-server')">HTTP server</a>. It is a server API only: there is no outbound WebSocket client and no extension or compression implementation. Certification covers focused protocol, resource, plaintext, and TLS cases, not production soak or internet-scale long-lived connections.</p>
+<h2>Server example</h2>
+<!-- strut-example:websocket-server:start -->
+<pre><code class="language-strut">function configure() -&gt; void : (NetworkError, WebSocketError) {
+    app := http_server();
+    app.timeouts(30000, 30000, 5000, 5000);
+    app.websocket_limits(1048576, 4194304);
+    app.websocket("/echo", (http_request request, websocket socket) =&gt; {
+        socket.accept();
+        text := socket.read_text();
+        socket.write_text(text ?? "");
+        socket.close(1000, "done");
+        return;
+    });
+}
+function main() -&gt; int {
+    return 0;
+}</code></pre>
+<!-- strut-example:websocket-server:end -->
+<h2>Upgrade ownership (P4)</h2>
+<p><code>app.websocket(route, handler)</code> registers a synchronous <code>(http_request, websocket) -&gt; void</code> handler. It receives the normal route parameters, query values, cookies, headers, and request cancellation token plus a pending request-scoped socket. Inspect Origin, authorization, and offered protocols before acceptance; Strut does not supply an origin or authentication policy.</p>
+<p><code>socket.accept()</code> commits a 101 response without a subprotocol. <code>socket.accept(protocol)</code> selects and echoes exactly one protocol offered by the client. An invalid or unoffered selection raises <code>NetworkError</code>. Repeating the same acceptance after full commitment is harmless; changing it is an error. A failed or possibly partial 101 write is terminal and cannot fall back to an HTTP response.</p>
+<p>Returning without acceptance rejects with 403. An exception before acceptance produces 500. An exception after acceptance attempts a 1011 close, then cleans up the transport.</p>
+<h2>Opening validation</h2>
+<p>An opening must be GET over HTTP/1.1 with a Connection token containing Upgrade, an Upgrade product list containing the bare <code>websocket</code> product, version 13, and a canonical padded Base64 key decoding to 16 bytes. Repeated opening fields, transfer coding, and nonzero content length are rejected. Unsupported versions receive 426 with <code>Sec-WebSocket-Version: 13</code>. Upgrades not claimed by a matched WebSocket route receive 501.</p>
+<p>Offered subprotocols must be a nonempty comma-separated list of unique RFC tokens and remain visible in <code>request.headers["sec-websocket-protocol"]</code>. Syntactically valid extension offers are visible but always declined by omission from the 101 response.</p>
+<h2>Messages and frames (P5)</h2>
+<p><code>socket.read()</code> returns a complete <code>websocket_message?</code>, or null after peer close. Its read-only <code>kind</code> is <code>"text"</code> or <code>"binary"</code>; only the matching nullable <code>text</code> or <code>data</code> field is populated. <code>read_text()</code> and <code>read_bytes()</code> return the matching nullable payload. On a kind mismatch they raise <code>WebSocketError</code> and retain that one message for a later compatible read rather than discarding it.</p>
+<p><code>write_text(string)</code> and <code>write_bytes(bytes)</code> send complete server messages. <code>ping()</code> or <code>ping(bytes)</code> sends up to the RFC control-frame limit. Incoming Ping is answered automatically and Pong is internal. Text and close reasons require valid UTF-8; binary is opaque.</p>
+<p><code>close()</code>, <code>close(code)</code>, and <code>close(code, reason)</code> send one validated close frame and are idempotent once sent. The default code is 1000. Server code 1010 is rejected, other codes must be registered or application-valid, and the UTF-8 reason is limited to 123 bytes. Peer close is answered once and makes later reads return null.</p>
+<h2>Protocol enforcement</h2>
+<p>Client frames must be masked. RSV bits, reserved opcodes, non-minimal or high-bit 64-bit lengths, invalid fragmentation or control transitions, malformed close payloads, and invalid UTF-8 fail closed with <code>WebSocketError</code>. When transport is still usable, the server first attempts an appropriate 1002, 1007, or 1009 close. Disconnect, timeout, TLS failure, and interrupted transport remain <code>NetworkError</code>.</p>
+<h2>Limits and backpressure</h2>
+<p><code>app.websocket_limits(frame_bytes, message_bytes)</code> may be called only while the server is stopped. Defaults are 1 MiB per data-frame payload and 4 MiB per reassembled message. The frame limit must be at least 125 bytes and no greater than the positive message limit. Control frames always retain their independent 125-byte maximum. Declared frame sizes and cumulative fragments are checked before oversized allocation; there are no other WebSocket size knobs.</p>
+<p>Exactly one read may be active; another fails immediately with <code>WebSocketError</code>. Writes are serialized and synchronous against TCP/TLS backpressure without an unbounded frame queue. TCP and TLS transport operations are conservatively one-at-a-time, so a write or close behind a blocked read waits for input, the configured read timeout, or interruption. Set a bounded read timeout for cross-thread use.</p>
+<p>The read timeout applies per transport I/O operation, not as an absolute whole-frame deadline. A peer continuously drip-feeding bytes can therefore retain one bounded server worker until shutdown or an application/network policy closes it.</p>
+<h2>Lifetime and shutdown</h2>
+<p>Socket copies share request-scoped state and become invalid when the handler returns or throws. Teardown stops new operations, interrupts transport I/O, drains already admitted accept/parser/writer operations, and only then releases worker-owned TCP/TLS state. Escaped copies fail safely rather than extending the route lifetime.</p>
+<p>On normal return, explicit close plus return, or a post-accept handler error, the worker sends at most one normal, explicit, or 1011 Close and waits up to one second for peer Close when it can own the parser; Ping is still answered. If another reader owns the parser, graceful waiting is skipped and that reader is interrupted and drained. Server shutdown interrupts either wait immediately.</p>
+<h2>TLS and dependencies</h2>
+<p>Use <code>listen_tls</code> for <code>wss</code>; it has the same certificate, TLS 1.2 minimum, timeout, and no-mTLS limitations documented on the <a href="@path('docs/http-server')">HTTP server page</a>. Plaintext WebSockets use an internal handshake-only SHA-1 implementation and add no OpenSSL dependency. Plain HTTP programs that never reference WebSockets omit the handshake and frame/message runtime.</p>
+<h2>Not provided</h2>
+<p>Current main does not provide a WebSocket client, permessage-deflate or other extensions, HTTP/2 extended CONNECT, application heartbeats, automatic authentication/origin policy, session fan-out, broker semantics, or internet-facing deployment tooling.</p>
