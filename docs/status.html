@@ -165,9 +165,9 @@
     </nav>
   </aside>
   <article class="docs-content">
-    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
+    <p class="status-note"><strong>Documentation channel:</strong> current development <code>main</code> at compiler checkpoint <code>d9e6c47</code>. The latest tagged release is <code>v0.0.3</code>; pages identify APIs that are not yet released.</p>
     <h1>Implementation status</h1>
-    <p>This website describes current development APIs at accepted compiler baseline <code>84458dd</code>. The latest tagged release is <code>v0.0.3</code>. Installation commands install the latest tagged release; APIs marked current-main or unreleased require a compiler built from development <code>main</code>.</p>
+    <p>This website describes current development APIs at compiler checkpoint <code>d9e6c47</code>. The latest tagged release is <code>v0.0.3</code>. Installation commands install the latest tagged release; APIs marked current-main or unreleased require a compiler built from development <code>main</code>.</p>
     <h2>Stable release and development</h2>
     <table><thead><tr><th>Surface</th><th>Latest release v0.0.3</th><th>Current main</th></tr></thead><tbody>
     <tr><td>Language, ownership, checked errors, packages, CLI/LSP</td><td>Available</td><td>Available</td></tr>
@@ -177,8 +177,8 @@
     <tr><td>Streaming server requests/responses, persistence, helpers, ranges, NDJSON</td><td>Not released</td><td>Available</td></tr>
     <tr><td>WebSocket server</td><td>Not released</td><td>Available</td></tr>
     <tr><td>Hardened process ownership and cancellable pipes</td><td>Earlier process API only</td><td>Available</td></tr>
-    <tr><td>PTY</td><td>Not released</td><td>Linux/macOS</td></tr>
-    <tr><td>Windows ConPTY</td><td>Not available</td><td>Not implemented; planned for P9</td></tr>
+    <tr><td>PTY</td><td>Not released</td><td>Linux, macOS, and Windows ConPTY</td></tr>
+    <tr><td>Windows ConPTY</td><td>Not available</td><td>Available on Windows 10 1809 / Server 2019 or newer</td></tr>
     </tbody></table>
     <h2>Current-main backend capability</h2>
     <table><thead><tr><th>Capability</th><th>Runtime/compiler</th><th>Website</th></tr></thead><tbody>
@@ -190,15 +190,15 @@
     <tr><td>Strict HTTP server, TLS, streaming, persistence, files, NDJSON</td><td>Yes</td><td><a href="./http-server.html">HTTP server</a></td></tr>
     <tr><td>WebSocket server, subprotocols, messages, limits</td><td>Yes</td><td><a href="./websockets.html">WebSockets</a></td></tr>
     <tr><td>Process cancellation, Unicode Windows spawn, tree ownership</td><td>Yes</td><td><a href="./processes.html">Processes</a></td></tr>
-    <tr><td>PTY read/write, resize, signals, cancellation, cleanup</td><td>POSIX</td><td><a href="./pty.html">Pseudo-terminals</a></td></tr>
-    <tr><td>Windows ConPTY</td><td>No</td><td>Explicitly unsupported before P9</td></tr>
+    <tr><td>PTY read/write, resize, controls, cancellation, cleanup</td><td>POSIX and Windows ConPTY</td><td><a href="./pty.html">Pseudo-terminals</a></td></tr>
+    <tr><td>Windows ConPTY</td><td>Yes</td><td>Native implementation and executable lifecycle certification</td></tr>
     </tbody></table>
     <h2>Platform certification</h2>
-    <p>The compiler and generated C++ are certified on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is green on Linux, macOS, and Windows. P7-P8 PTY behavior executes on Linux and macOS; Windows certifies the unsupported API-shaped stub until ConPTY is implemented.</p>
+    <p>The compiler and generated C++ are certified on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is green on Linux, macOS, and Windows. PTY behavior executes on Linux and macOS; P9 adds executable Windows ConPTY behavior, lifecycle, descendant, churn, and resource certification.</p>
     <h2>Current positioning</h2>
-    <p>Current main has concrete building blocks for serious native backend and full-stack work: HTTP/TLS servers, strict request framing, streaming bodies, persistence, NDJSON, outbound HTTP, cancellation, crypto, SQLite, WebSockets, subprocesses, concurrency, and Linux/macOS PTYs. These capabilities have focused compiler, protocol, lifecycle, resource, and cross-platform certification. The project does not yet label the complete backend/runtime stack production-grade; broader production certification remains later campaign work.</p>
+    <p>Current main has concrete building blocks for serious native backend and full-stack work: HTTP/TLS servers, strict request framing, streaming bodies, persistence, NDJSON, outbound HTTP, cancellation, crypto, SQLite, WebSockets, subprocesses, concurrency, and cross-platform PTYs. These capabilities have focused compiler, protocol, lifecycle, resource, and cross-platform certification. The project does not yet label the complete backend/runtime stack production-grade; broader production certification remains later campaign work.</p>
     <h2>Still deferred</h2>
-    <p>Windows ConPTY (P9), HTTP/2, ACME/certificate automation, reverse-proxy trust automation, outbound WebSocket clients, WebSocket extensions such as <code>permessage-deflate</code>, and a centralized package registry remain unimplemented or deferred. WebSocket-to-PTY integration is intentionally not part of P7-P8 and has not begun.</p>
+    <p>HTTP/2, ACME/certificate automation, reverse-proxy trust automation, outbound WebSocket clients, WebSocket extensions such as <code>permessage-deflate</code>, and a centralized package registry remain unimplemented or deferred. WebSocket-to-PTY integration is intentionally outside P9 and has not begun.</p>
   </article>
 </main>
 <footer class="site-footer"><span>Strut programming language</span><span>Memory-safe. Native. Concise.</span></footer>
