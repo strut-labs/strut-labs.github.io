@@ -57,3 +57,29 @@ write_file("dist/version.txt", "0.0.3\n");
 for (path : walk("dist")) {
     print(path);
 }</code></pre>
+<h2>WebSocket terminal session</h2>
+<p>P10 composes the public WebSocket and PTY APIs in application code rather than adding a built-in bridge. A route owns the PTY lifetime, uses binary messages for terminal bytes, accepts only validated text controls, and runs a joined bounded output pump:</p>
+<pre><code class="language-strut">function terminal_session(http_request request, websocket socket) -&gt; void
+        : (NetworkError, WebSocketError, PtyError, ThreadError) {
+    socket.accept();
+    terminal := pty_spawn("/bin/sh", [], request.cancellation);
+    output := thread(() =&gt; {
+        try {
+            while (!terminal.eof()) {
+                bytes chunk := terminal.read_bytes(4096);
+                if (!chunk.empty()) { socket.write_bytes(chunk); }
+            }
+        } catch (PtyError caught) {
+        } catch (NetworkError caught) {
+        } catch (WebSocketError caught) {
+        }
+    });
+
+    message := socket.read();
+    if (message != null &amp;&amp; (message?.kind ?? "") == "binary") {
+        terminal.write_bytes(message?.data ?? bytes());
+    }
+    terminal.close();
+    output.join();
+}</code></pre>
+<p>A complete service should loop over messages, implement an explicit control vocabulary, authorize before <code>accept()</code>, and close and join on every error, peer-close, cancellation, and shutdown path. See <a href="@path('docs/websockets')">WebSockets</a> and <a href="@path('docs/pty')">Pseudo-terminals</a> for the certified lifecycle and backpressure contract.</p>

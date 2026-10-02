@@ -1,5 +1,5 @@
 <h1>Cryptography &amp; binary encoding</h1>
-<p class="status-note"><strong>Version:</strong> This page documents <strong>current-main / unreleased</strong> at compiler checkpoint <code>d9e6c47</code>. These APIs are post-release work and are not part of the stable <code>v0.0.3</code> API.</p>
+<p class="status-note"><strong>Version:</strong> This page documents <strong>current-main / unreleased</strong> at compiler checkpoint <code>1d7e15e</code>. These APIs are post-release work and are not part of the stable <code>v0.0.3</code> API.</p>
 <p>Strut provides a deliberately small, binary-first cryptographic surface. Include <code>&lt;crypto&gt;</code> for secure random bytes, SHA-256, HMAC-SHA-256, and constant-time comparison. Include <code>&lt;encoding&gt;</code> for dependency-free Base64 and Base64url conversion.</p>
 <h2>Bytes are the boundary</h2>
 <p><code>bytes</code> is an owned binary value. <code>bytes()</code> creates an empty value, <code>bytes(size)</code> creates a zero-filled value, and a contextually typed literal accepts byte values from 0 through 255. Assignment deep-copies, comparison compares contents, and values support mutable integer indexing, <code>length()</code>, <code>empty()</code>, and the half-open copying operation <code>slice(begin, end)</code>.</p>

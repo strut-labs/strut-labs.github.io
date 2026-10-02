@@ -1,5 +1,5 @@
 <h1>Implementation status</h1>
-<p>This website describes current development APIs at compiler checkpoint <code>d9e6c47</code>. The latest tagged release is <code>v0.0.3</code>. Installation commands install the latest tagged release; APIs marked current-main or unreleased require a compiler built from development <code>main</code>.</p>
+<p>This website describes current development APIs at compiler checkpoint <code>1d7e15e</code>, which supersedes the P9 checkpoint <code>d9e6c47</code>. The latest tagged release is <code>v0.0.3</code>. Installation commands install the latest tagged release; APIs marked current-main or unreleased require a compiler built from development <code>main</code>.</p>
 <h2>Stable release and development</h2>
 <table><thead><tr><th>Surface</th><th>Latest release v0.0.3</th><th>Current main</th></tr></thead><tbody>
 <tr><td>Language, ownership, checked errors, packages, CLI/LSP</td><td>Available</td><td>Available</td></tr>
@@ -8,6 +8,7 @@
 <tr><td>Outbound HTTP streaming and cancellation</td><td>Not released</td><td>Available</td></tr>
 <tr><td>Streaming server requests/responses, persistence, helpers, ranges, NDJSON</td><td>Not released</td><td>Available</td></tr>
 <tr><td>WebSocket server</td><td>Not released</td><td>Available</td></tr>
+<tr><td>WebSocket-to-PTY sessions</td><td>Not released</td><td>Certified as application-level composition; no built-in bridge</td></tr>
 <tr><td>Hardened process ownership and cancellable pipes</td><td>Earlier process API only</td><td>Available</td></tr>
 <tr><td>PTY</td><td>Not released</td><td>Linux, macOS, and Windows ConPTY</td></tr>
 <tr><td>Windows ConPTY</td><td>Not available</td><td>Available on Windows 10 1809 / Server 2019 or newer</td></tr>
@@ -21,13 +22,14 @@
 <tr><td>Explicit client certificates, proxy options, Unix sockets</td><td>No</td><td>Documented limitations</td></tr>
 <tr><td>Strict HTTP server, TLS, streaming, persistence, files, NDJSON</td><td>Yes</td><td><a href="@path('docs/http-server')">HTTP server</a></td></tr>
 <tr><td>WebSocket server, subprotocols, messages, limits</td><td>Yes</td><td><a href="@path('docs/websockets')">WebSockets</a></td></tr>
+<tr><td>Concurrent WebSocket read/write and PTY composition</td><td>Yes</td><td><a href="@path('docs/websockets')">WebSockets</a> and <a href="@path('docs/pty')">Pseudo-terminals</a></td></tr>
 <tr><td>Process cancellation, Unicode Windows spawn, tree ownership</td><td>Yes</td><td><a href="@path('docs/processes')">Processes</a></td></tr>
 <tr><td>PTY read/write, resize, controls, cancellation, cleanup</td><td>POSIX and Windows ConPTY</td><td><a href="@path('docs/pty')">Pseudo-terminals</a></td></tr>
 <tr><td>Windows ConPTY</td><td>Yes</td><td>Native implementation and executable lifecycle certification</td></tr>
 </tbody></table>
 <h2>Platform certification</h2>
-<p>The compiler and generated C++ are certified on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is green on Linux, macOS, and Windows. PTY behavior executes on Linux and macOS; P9 adds executable Windows ConPTY behavior, lifecycle, descendant, churn, and resource certification.</p>
+<p>The compiler and generated C++ at <code>1d7e15e</code> are certified on Linux x64 with GCC and Clang, Linux ARM64 with GCC, macOS ARM64 with AppleClang, and Windows x64 with MSVC. The independent regression suite is green against that exact SHA on Linux, macOS, and Windows. PTY behavior executes on all three operating systems; P9 added Windows ConPTY lifecycle certification, and P10 adds cross-platform WebSocket-to-PTY composition, full-duplex transport, stress, backpressure, shutdown, and resource certification.</p>
 <h2>Current positioning</h2>
-<p>Current main has concrete building blocks for serious native backend and full-stack work: HTTP/TLS servers, strict request framing, streaming bodies, persistence, NDJSON, outbound HTTP, cancellation, crypto, SQLite, WebSockets, subprocesses, concurrency, and cross-platform PTYs. These capabilities have focused compiler, protocol, lifecycle, resource, and cross-platform certification. The project does not yet label the complete backend/runtime stack production-grade; broader production certification remains later campaign work.</p>
+<p>Current main has concrete building blocks for serious native backend and full-stack work: HTTP/TLS servers, strict request framing, streaming bodies, persistence, NDJSON, outbound HTTP, cancellation, crypto, SQLite, full-duplex server WebSockets, subprocesses, concurrency, cross-platform PTYs, and application-owned WebSocket terminal sessions. These capabilities have focused compiler, protocol, lifecycle, resource, and cross-platform certification. The project does not yet label the complete backend/runtime stack production-grade; broader production certification remains later campaign work.</p>
 <h2>Still deferred</h2>
-<p>HTTP/2, ACME/certificate automation, reverse-proxy trust automation, outbound WebSocket clients, WebSocket extensions such as <code>permessage-deflate</code>, and a centralized package registry remain unimplemented or deferred. WebSocket-to-PTY integration is intentionally outside P9 and has not begun.</p>
+<p>HTTP/2, ACME/certificate automation, reverse-proxy trust automation, outbound WebSocket clients, WebSocket extensions such as <code>permessage-deflate</code>, a built-in WebSocket-to-PTY bridge or terminal protocol, authentication/session frameworks, and a centralized package registry remain unimplemented or deferred.</p>
