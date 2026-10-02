@@ -1,6 +1,6 @@
 # Strut
 
-Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler checkpoint d9e6c47. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
+Strut is an experimental memory-safe compiled language that emits native C++20. This website documents current development main at compiler checkpoint 1d7e15e. The latest tagged release is v0.0.3; pages explicitly label APIs that are newer than that release.
 
 ## Start here
 
@@ -19,6 +19,7 @@ Strut is an experimental memory-safe compiled language that emits native C++20. 
 - WebSocket server: https://strut-labs.github.io/docs/websockets.html
 - Processes and lifecycle ownership: https://strut-labs.github.io/docs/processes.html
 - Cross-platform pseudo-terminals, including Windows ConPTY: https://strut-labs.github.io/docs/pty.html
+- WebSocket-to-PTY sessions are certified as application-level composition of those two public APIs; there is no built-in bridge or runtime dependency in either direction.
 - Architecture and dependency boundaries: https://strut-labs.github.io/docs/architecture.html
 - Security model and limits: https://strut-labs.github.io/docs/security.html
 - API discovery schema: https://strut-labs.github.io/docs/api-schema.html
@@ -29,5 +30,7 @@ Strut is an experimental memory-safe compiled language that emits native C++20. 
 - PTY execution is supported on Linux with glibc 2.34+, macOS, and Windows 10 1809 / Windows Server 2019 or newer through native ConPTY. Older Windows fails only `pty_spawn` with a deterministic checked error.
 - ConPTY carries UTF-8/virtual-terminal traffic and its controls are Windows terminal/lifecycle approximations, not POSIX signals or arbitrary binary transparency.
 - WebSockets are server-side only and have no compression/extensions.
+- One WebSocket read and one serialized write may progress concurrently. TLS keeps OpenSSL on one nonblocking owner thread with bounded per-direction requests and terminal deadline/failure handling.
+- WebSocket terminal applications must authorize before upgrade, validate binary input and explicit text controls, pass request cancellation to the PTY, preserve synchronous backpressure, and close and join every session path.
 - The HTTP client has no public client-certificate, explicit-proxy, or Unix-domain-socket option.
 - The certified backend stack is not yet described as production-grade.
