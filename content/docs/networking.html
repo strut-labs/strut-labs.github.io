@@ -1,5 +1,5 @@
 <h1>Networking</h1>
-<p>Strut's networking substrate keeps the core small: TCP connect, listen, accept, reads, writes, explicit close, and executor-backed async connect/accept. Higher-level protocols live in official packages.</p>
+<p>Strut's networking substrate keeps the core small: TCP connect, listen, accept, reads, writes, explicit close, and executor-backed async connect/accept. Higher-level HTTP client/server, TLS, and WebSocket facilities are independently selected runtime components; application protocols and policy remain package or application concerns.</p>
 <h2>TCP client</h2>
 <pre><code class="language-strut">function main() -&gt; int : NetworkError {
     socket := tcp_connect("example.com", 80);
