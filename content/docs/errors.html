@@ -65,4 +65,29 @@ function main() -&gt; int {
 } catch {
     err << "operation failed" << endl;
 }</code></pre>
+<h2>Checked errors in function values</h2>
+<p>A checked-error set is part of a callable's static type, so function and future values preserve it. A named function <code>function risky() -&gt; int : AppError</code> used as a value has type <code>function&lt;() -&gt; int : AppError&gt;</code>.</p>
+<pre><code class="language-strut">function&lt;() -&gt; int : AppError&gt; op := risky;
+function&lt;() -&gt; int : AppError&gt; allowed := op;  // accepted
+function&lt;() -&gt; int&gt; denied := op;               // rejected: AppError is not allowed</code></pre>
+<p>Assigning or passing a callable is accepted only when its actual escaping errors are a subset of the destination's allowed errors (<code>actual ⊆ allowed</code>). A non-throwing callable fits any slot; a throwing callable does not fit a narrower one.</p>
+<p>Method checked errors propagate the same way through <code>obj.method()</code>, <code>ptr-&gt;method()</code>, reference receivers, <code>this.method()</code>, and bare same-owner calls, using the method's declaring owner.</p>
+<h2>Async checked errors</h2>
+<p>For an async function the declared checked errors are await-time effects and live inside the returned future type:</p>
+<pre><code class="language-strut">async function fetch() -&gt; int : HttpError { /* ... */ }
+
+// fetch() itself requires no synchronous HttpError;
+// the returned value has type future&lt;int : HttpError&gt;.
+</code></pre>
+<p>Calling <code>fetch()</code> therefore does not require <code>HttpError</code>, but the resulting <code>future&lt;int : HttpError&gt;</code> does not fit a plain <code>future&lt;int&gt;</code> slot.</p>
+<h2>Overloaded function values</h2>
+<p>When a name has multiple overloads, a function value needs enough expected-type context to select one overload. Without it the value is ambiguous rather than resolved by declaration order.</p>
+<pre><code class="language-strut">function parse(int x) -&gt; int : AppError { /* ... */ }
+function parse(string x) -&gt; string : ParseError { /* ... */ }
+
+function&lt;(int)-&gt;int : AppError&gt; as_int := parse;      // selects the int overload
+function&lt;(string)-&gt;string : ParseError&gt; as_str := parse;  // selects the string overload
+// f := parse;  // rejected: ambiguous, provide an expected function type</code></pre>
+<h2>Extern C function values</h2>
+<p>Taking an <code>extern "C"</code> function as a value requires an <code>unsafe</code> block, the same as calling it directly.</p>
 <p>Strut currently favours explicit handling or explicit propagation in the signature rather than adding a separate terse propagation token before its behaviour is justified by real code.</p>
