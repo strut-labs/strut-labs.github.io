@@ -21,7 +21,28 @@
     return path;
 };</code></pre>
 <h2>Error propagation</h2>
-<p>Errors raised by asynchronous work are retained by the future and surface when the result is awaited.</p>
+<p>Errors raised by asynchronous work are retained by the future and surface when the result is awaited. For an async function that declares checked errors, those errors are await-time effects that live in the returned future type:</p>
+<pre><code class="language-strut">async function fetch() -> int : HttpError {
+    return 1;
+}</code></pre>
+<p>Calling <code>fetch()</code> does <strong>not</strong> itself require <code>HttpError</code>; the returned value has type <code>future&lt;int : HttpError&gt;</code>. Awaiting that future <em>does</em> require <code>HttpError</code> to be declared or caught:</p>
+<pre><code class="language-strut">function main() -> int {
+    pending := fetch();       // no HttpError required here
+    return 0;
+}</code></pre>
+<pre><code class="language-strut">function main() -> int : HttpError {
+    value := await fetch();   // HttpError declared in the signature
+    return value;
+}</code></pre>
+<pre><code class="language-strut">function main() -> int {
+    try {
+        value := await fetch();
+    } catch (HttpError err) {
+        value := 0;
+    }
+    return value;
+}</code></pre>
+<p>Awaiting a <code>future&lt;T&gt;</code> with no declared checked errors requires nothing extra. An async function's own body follows normal checked-error discipline: awaiting an effectful future inside it requires that effect to be declared or caught there, and a declared effect becomes part of the async function's returned <code>future&lt;T : E&gt;</code>.</p>
 
 <h2>Executor behaviour</h2>
 <p>The executor owns a pool of native worker threads and wakes workers as tasks become ready. <code>await</code> retrieves a future result and rethrows asynchronous failures on the awaiting thread.</p>
